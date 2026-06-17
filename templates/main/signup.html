@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WE, SIDE! - 회원가입</title>
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="page-header">
+            <a href="javascript:history.back()" class="back-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </a>
+            <h2>회원가입</h2>
+        </header>
+
+        <form action="{% url 'signup' %}" method="POST" class="auth-form signup-form">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label for="username">아이디</label>
+                <input type="text" id="username" name="username" placeholder="사용하실 ID를 입력하세요..." required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" placeholder="사용하실 Password를 입력하세요..." required>
+            </div>
+
+            <div class="input-group">
+                <label for="nickname">닉네임</label>
+                <input type="text" id="nickname" name="nickname" placeholder="사용하실 닉네임을 입력하세요..." required>
+                <div class="help-text">
+                    <ul class="rules">
+                        <li>• 2~15자 내외</li>
+                        <li>• 특수문자 사용 불가</li>
+                    </ul>
+                    <span class="notice">닉네임은 모든 방에서 동일하게 적용됩니다.</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>프로필</label>
+                <div class="profile-box">
+                    <div class="avatar-preview">
+                        <div class="avatar-circle" id="previewCircle">
+                            <img id="previewImg" src="{% static 'images/wigul_basic_face.png' %}" alt="위굴이"
+                                style="width: 80%; height: auto; object-fit: contain;">
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <p class="setting-title">배경 색상</p>
+                        <div class="color-palette">
+                            <label class="color-option" style="background-color: #ff3b30;">
+                                <input type="radio" name="profile_color" value="#ff3b30" checked
+                                    onclick="changePreviewColor('#ff3b30')">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="color-option" style="background-color: #ff9500;">
+                                <input type="radio" name="profile_color" value="#ff9500"
+                                    onclick="changePreviewColor('#ff9500')">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="color-option" style="background-color: #ffcc00;">
+                                <input type="radio" name="profile_color" value="#ffcc00"
+                                    onclick="changePreviewColor('#ffcc00')">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="color-option" style="background-color: #4cd964;">
+                                <input type="radio" name="profile_color" value="#4cd964"
+                                    onclick="changePreviewColor('#4cd964')">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="color-option" style="background-color: #007aff;">
+                                <input type="radio" name="profile_color" value="#007aff"
+                                    onclick="changePreviewColor('#007aff')">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="color-option" style="background-color: #e546f9;">
+                                <input type="radio" name="profile_color" value="#e546f9"
+                                    onclick="changePreviewColor('#e546f9')">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="color-option" style="background-color: #737373;">
+                                <input type="radio" name="profile_color" value="#737373"
+                                    onclick="changePreviewColor('#737373')">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <p class="setting-title">위굴이</p>
+                        <div class="character-grid">
+
+                            <label class="char-option">
+                                <input type="radio" name="profile_character" value="basic" checked
+                                    data-img="{% static 'images/wigul_basic_face.png' %}"
+                                    onclick="changePreviewImage(this)">
+                                <span class="char-box">
+                                    <img src="{% static 'images/wigul_basic_face.png' %}" alt="기본"
+                                        style="width: 32px; height: 32px;">
+                                </span>
+                            </label>
+
+                            <label class="char-option">
+                                <input type="radio" name="profile_character" value="yellow"
+                                    data-img="{% static 'images/wigul_yellow_face.png' %}"
+                                    onclick="changePreviewImage(this)">
+                                <span class="char-box">
+                                    <img src="{% static 'images/wigul_yellow_face.png' %}" alt="노란색"
+                                        style="width: 32px; height: 32px;">
+                                </span>
+                            </label>
+
+                            <label class="char-option">
+                                <input type="radio" name="profile_character" value="black"
+                                    data-img="{% static 'images/wigul_black_face.png' %}"
+                                    onclick="changePreviewImage(this)">
+                                <span class="char-box">
+                                    <img src="{% static 'images/wigul_black_face.png' %}" alt="흑백"
+                                        style="width: 32px; height: 32px;">
+                                </span>
+                            </label>
+
+                            <label class="char-option">
+                                <input type="radio" name="profile_character" value="surprise"
+                                    data-img="{% static 'images/wigul_surprise_face.png' %}"
+                                    onclick="changePreviewImage(this)">
+                                <span class="char-box">
+                                    <img src="{% static 'images/wigul_surprise_face.png' %}" alt="놀람"
+                                        style="width: 32px; height: 32px;">
+                                </span>
+                            </label>
+
+                            <label class="char-option">
+                                <input type="radio" name="profile_character" value="angry"
+                                    data-img="{% static 'images/wigul_angry_face.png' %}"
+                                    onclick="changePreviewImage(this)">
+                                <span class="char-box">
+                                    <img src="{% static 'images/wigul_angry_face.png' %}" alt="화남"
+                                        style="width: 32px; height: 32px;">
+                                </span>
+                            </label>
+
+                            <label class="char-option">
+                                <input type="radio" name="profile_character" value="smile"
+                                    data-img="{% static 'images/wigul_smile_face.png' %}"
+                                    onclick="changePreviewImage(this)">
+                                <span class="char-box">
+                                    <img src="{% static 'images/wigul_smile_face.png' %}" alt="웃음"
+                                        style="width: 32px; height: 32px;">
+                                </span>
+                            </label>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="primary-btn">설정 완료</button>
+        </form>
+    </div>
+
+    <script>
+        function changePreviewColor(color) {
+            document.getElementById('previewCircle').style.backgroundColor = color;
+        }
+
+        function changePreviewImage(element) {
+            const imageSrc = element.getAttribute('data-img');
+            document.getElementById('previewImg').src = imageSrc;
+        }
+
+        // 초기화 세팅
+        changePreviewColor('#ff3b30');
+    </script>
+</body>
+
+</html>
