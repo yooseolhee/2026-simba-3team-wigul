@@ -1,13 +1,10 @@
-/* 부모 레이아웃 안에서 찌그러지지 않고 내브바/푸터 사이 공간을 꽉 채우도록 설정 */
 .splash-wrapper {
     position: relative;
     width: 100%;
     
-    /* ⚠️ 고정 높이 대신 최소 높이를 주어 버튼들이 삐져나가거나 잘리지 않게 방지 */
     min-height: calc(100vh - 140px); 
     padding: 40px 20px;
     
-    /* 피그마 연두-노랑 대각선 그라데이션 확실하게 적용 */
     background: linear-gradient(135deg, #A8D832 0%, #FFE500 100%) !important; 
     display: flex;
     flex-direction: column;
@@ -17,10 +14,10 @@
     font-family: 'Pretendard', sans-serif;
 }
 
-/* 1번 로딩 화면 & 2번 인증 화면을 감싸는 박스 */
+/* 1번 로딩 화면 & 2번 인증 화면박스 */
 .splash-container, .auth-container {
     width: 100%;
-    max-width: 400px; /* 모바일 뷰 크기로 예쁘게 고정 */
+    max-width: 400px; /* 모바일 뷰 크기 고정 */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,7 +26,7 @@
     box-sizing: border-box;
 }
 
-/* 🐸 개구리 위아래 들썩 애니메이션 */
+/* 위굴이 애니메이션 */
 .wiggle-char-anim {
     width: 120px;
     height: auto;
@@ -53,7 +50,7 @@
 .logo-area { margin-bottom: 40px; text-align: center; }
 .auth-char-small { width: 70px; height: auto; margin-bottom: 12px; }
 
-/* 🎯 피그마 스타일 흰색 카드 버튼 (무조건 보이도록 레이아웃 강제 수정) */
+/* 흰색 카드 버튼 */
 .btn-group {
     width: 100%;
     display: flex;
@@ -67,7 +64,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #ffffff !important; /* 무조건 흰색 배경 */
+    background: #ffffff !important;
     border-radius: 20px;
     padding: 16px 20px;
     width: 100%;
@@ -84,7 +81,7 @@
 .btn-desc { font-size: 11px; color: #6B7280; margin-bottom: 4px; display: block; }
 .btn-title { font-size: 18px; font-weight: 800; color: #111827; display: block; }
 
-/* ⏱️ 자바스크립트용 유틸리티 */
+/* ⏱️ JS 유틸리티 */
 .hidden { display: none !important; }
 .fade-out { opacity: 0; transition: opacity 0.4s ease; }
 .fade-in { opacity: 1; animation: fadeInEffect 0.4s ease; }
