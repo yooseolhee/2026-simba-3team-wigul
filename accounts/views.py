@@ -6,6 +6,9 @@ from .models import UserProfile
 
 # 1. 회원가입 처리
 def signup_view(request):
+    if request.method == 'GET' and request.user.is_authenticated:
+        return redirect('home')
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -17,7 +20,6 @@ def signup_view(request):
             messages.error(request, "이미 존재하는 아이디입니다.")
             return render(request, 'accounts/signup.html')
 
-        # Django 기본 User 생성 (비밀번호 자동 암호화)
         user = User.objects.create_user(username=username, password=password)
 
         UserProfile.objects.create(
@@ -35,6 +37,7 @@ def signup_view(request):
 
 # 2. 로그인 처리
 def login_view(request):
+
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -43,8 +46,20 @@ def login_view(request):
 
         if user is not None:
             auth_login(request, user)
-            messages.success(request, f"{user.userprofile.nickname}님 환영합니다!")
-            return redirect('home') 
+    
+            try:
+                nickname = user.userprofile.nickname
+            except UserProfile.DoesNotExist:
+                new_profile = UserProfile.objects.create(
+                    user=user,
+                    nickname=user.username,
+                    profile_image='default_frog',
+                    background_color='#FFFFFF'
+                )
+                nickname = new_profile.nickname
+
+            messages.success(request, f"{nickname}님 환영합니다!")
+            return redirect('home')
         else:
             messages.error(request, "올바른 아이디 혹은 비밀번호를 입력하세요.")
             return render(request, 'accounts/login.html')
