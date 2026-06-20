@@ -10,7 +10,92 @@
     <div class="room-info">
         <div class="room-name">에스파도 스파다</div>
         <div class="room-temp">
-            <div class="room-temp-title">우리 방 온도</div>
+            <div class="room-temp-title">
+                우리 방 온도
+                <i class="fa-solid fa-circle-info temp-info-btn"></i>
+
+                <div class="temp-info-popup" id="temp-popup">
+                    <div class="temp-popup-title">온도 기능 설명</div>
+
+                    <div class="popup-header">
+                        <div class="header-col">온도 구간</div>
+                        <div class="header-col">온도 범위</div>
+                        <div class="header-col">질문별 출현율</div>
+                    </div>
+
+                    <div class="popup-row green-row">
+                        <div class="level-box box-green">
+                            <span class="dot dot-green"></span> Green Level
+                        </div>
+                        <div class="range-box box-green">10 ~ 33%</div>
+                        <div class="rate-box">
+                            <div class="rate-item">
+                                <span class="mini-dot mini-green"></span>
+                                <div class="progress-bar"><div class="progress progress-green" style="width: 70%;"></div></div>
+                                <span class="percent">70%</span>
+                            </div>
+                            <div class="rate-item">
+                                <span class="mini-dot mini-yellow"></span>
+                                <div class="progress-bar"><div class="progress progress-yellow" style="width: 25%;"></div></div>
+                                <span class="percent">25%</span>
+                            </div>
+                            <div class="rate-item">
+                                <span class="mini-dot mini-pink"></span>
+                                <div class="progress-bar"><div class="progress progress-pink" style="width: 5%;"></div></div>
+                                <span class="percent">5%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="popup-row yellow-row">
+                        <div class="level-box box-yellow">
+                            <span class="dot dot-yellow"></span> Yellow Level
+                        </div>
+                        <div class="range-box box-yellow">34 ~ 66%</div>
+                        <div class="rate-box">
+                            <div class="rate-item">
+                                <span class="mini-dot mini-green"></span>
+                                <div class="progress-bar"><div class="progress progress-green" style="width: 20%;"></div></div>
+                                <span class="percent">20%</span>
+                            </div>
+                            <div class="rate-item">
+                                <span class="mini-dot mini-yellow"></span>
+                                <div class="progress-bar"><div class="progress progress-yellow" style="width: 65%;"></div></div>
+                                <span class="percent">65%</span>
+                            </div>
+                            <div class="rate-item">
+                                <span class="mini-dot mini-pink"></span>
+                                <div class="progress-bar"><div class="progress progress-pink" style="width: 15%;"></div></div>
+                                <span class="percent">15%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="popup-row pink-row">
+                        <div class="level-box box-pink">
+                            <span class="dot dot-pink"></span> Pink Level
+                        </div>
+                        <div class="range-box box-pink">67 ~ 100%</div>
+                        <div class="rate-box">
+                            <div class="rate-item">
+                                <span class="mini-dot mini-green"></span>
+                                <div class="progress-bar"><div class="progress progress-green" style="width: 15%;"></div></div>
+                                <span class="percent">15%</span>
+                            </div>
+                            <div class="rate-item">
+                                <span class="mini-dot mini-yellow"></span>
+                                <div class="progress-bar"><div class="progress progress-yellow" style="width: 15%;"></div></div>
+                                <span class="percent">15%</span>
+                            </div>
+                            <div class="rate-item">
+                                <span class="mini-dot mini-pink"></span>
+                                <div class="progress-bar"><div class="progress progress-pink" style="width: 70%;"></div></div>
+                                <span class="percent">70%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="room-temp-content">
                 <span class="room-temp-subtitle">더 많은 대화가 필요해요!</span>
                 <span class="room-temp-detail">10°C</span>
@@ -95,6 +180,7 @@
 </div>
 
 <script src="{% static 'js/game_toggle.js' %}"></script>
+<script src="{% static 'js/game_temp_info.js' %}"></script>
 
 
 {% endblock %}
