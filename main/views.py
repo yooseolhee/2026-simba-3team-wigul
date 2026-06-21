@@ -11,7 +11,7 @@ def home_view(request):
     if not request.user.is_authenticated:
         return redirect('intro')
         
-    return render(request, 'home/home.html')
+    return render(request, 'main/home/home.html')
 
 def game_view(request):
     if not request.user.is_authenticated:
