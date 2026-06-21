@@ -1,0 +1,169 @@
+@font-face {
+    font-family: 'KblJump';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+.contact-us-container {
+    padding: 20px 20px 40px 20px;
+    background-color: #ffffff;
+}
+.contact-us-page-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 900;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 30px;
+        font-family: 'kblJump', sans-serif;
+    letter-spacing: 2px;
+}
+
+.contact-us-section {
+    margin-bottom: 16px;
+}
+
+.contact-us-section-subtitle {
+    font-size: 11px;
+    color: #888;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+/* =========================================
+자주 묻는 질문 리스트
+   ========================================= */
+.contact-us-faq-list {
+    list-style: none;
+    border-top: 1px solid #f0f0f0;
+}
+
+.contact-us-faq-item {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #444;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.contact-us-faq-item:hover {
+    background-color: #fafafa;
+}
+
+/* =========================================
+        나의 문의 내역 
+   ========================================= */
+.contact-us-history-link {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0 10px 0;
+    cursor: pointer;
+}
+
+.contact-us-history-text {
+    font-size: 15px;
+    font-weight: 800;
+    color: #333;
+}
+
+.contact-us-badge {
+    background-color: #a4e135;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-us-divider-up {
+    height: 8px;
+    background-color: #f1f5f9;
+    margin: 0 -20px;
+}
+
+.contact-us-divider-down {
+    height: 8px;
+    background-color: #f1f5f9;
+    margin: 0 -20px 24px -20px;
+}
+
+/* =========================================
+            직접 문의 폼
+   ========================================= */
+.contact-us-form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-us-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.contact-us-input, 
+.contact-us-textarea {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    outline: none;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.contact-us-input:focus, 
+.contact-us-textarea:focus {
+    border-color: #a4e135;
+}
+
+.contact-us-input::placeholder, 
+.contact-us-textarea::placeholder {
+    color: #999;
+}
+
+.contact-us-textarea-wrapper {
+    position: relative;
+}
+
+.contact-us-textarea {
+    resize: none; 
+    padding-bottom: 30px;
+}
+
+.contact-us-char-count {
+    position: absolute;
+    bottom: 12px;
+    right: 16px;
+    font-size: 11px;
+    color: #999;
+    font-weight: 500;
+}
+
+.contact-us-submit-btn {
+    width: 100%;
+    padding: 18px;
+    background-color: #4a4a4a;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s;
+}
+.contact-us-submit-btn:hover {
+    background-color: #333;
+}
