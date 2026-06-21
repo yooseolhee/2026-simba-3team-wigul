@@ -1,0 +1,191 @@
+@font-face {
+    font-family: 'KBL JUMP TTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+.select-modal{
+    width: 450px;
+    position: fixed;
+    inset: 0;
+
+    background: rgba(128, 128, 128, 0.5);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    gap: 15px;
+}
+
+.select-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 324px;
+
+}
+
+.select-title{
+    width: 278px;
+    height: 43px;
+    border-radius: 10px;
+    background: #FFF;
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
+    color: #444;
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0.6px;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;  
+}
+
+.select-subject{
+    width: 332px;
+height: 240px;
+border-radius: 10px;
+background: #EEE;
+
+/* 위사이드/박스 그림자 */
+box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+gap: 10px;
+}
+
+.select-subject-title{
+    color: #444;
+text-align: center;
+font-family: "KBL Jump TTF";
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+letter-spacing: 0.6px;
+}
+
+.mini-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    flex-shrink: 0;
+    box-shadow: inset 0 -1px 2px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.15);
+}
+.mini-green { background: radial-gradient(circle, #E6FFA3, #A5DC25); }
+.mini-yellow { background: radial-gradient(circle, #FFF0A3, #FCD13B); }
+.mini-pink { background: radial-gradient(circle, #FFA8A8, #E28484); }
+
+.select-subject-temp{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 106px;
+    height: 21px;
+    border-radius: 10px;
+    background: #BBB;
+
+    color: #FFE88A;
+    font-family: Pretendard;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.select-subject-detail{
+    color: var(---, #444);
+text-align: center;
+font-family: Pretendard;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+letter-spacing: 0.48px;
+}
+
+.select-game-balance{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.select-game-balance-a{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 305px;
+    height: 44px;
+    border-radius: 10px;
+    border: none;
+    background: var(--Foundation-Green-Normal, #A8D832);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.select-game-balance-b{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 305px;
+    height: 44px;
+    border-radius: 10px;
+    border: none;
+    background: var(--Foundation-Yellow-Normal, #FFD94A);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.select-game-balance-side{
+    position: absolute;
+    left: 15px;
+
+    color: var(--Foundation-Green-Light, #F6FBEB);
+    text-align: center;
+
+    /* 위사이드/띄움 */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    font-family: "KBL Jump TTF";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.48px;
+}
+
+.select-game-balance-detail{
+    width: 100%;
+
+    color: var(--Foundation-Green-Darker, #3B4C12);
+    text-align: center;
+
+    /* 위사이드/띄움 */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    font-family: "KBL Jump TTF";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.42px;
+}

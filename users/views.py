@@ -41,7 +41,7 @@ def mypage_view(request):
         'total_rounds': total_rounds,
         'penalty_count': penalty_count,
     }
-    return render(request, 'users/mypage.html', context)
+    return render(request, 'main/mypage/mypage.html', context)
 
 
 def profile_view(request):
@@ -52,7 +52,7 @@ def profile_view(request):
         return redirect('login')
         
     profile = get_object_or_404(UserProfile, user=request.user)
-    return render(request, 'users/profile.html', {'profile': profile})
+    return render(request, 'main/mypage/profile.html', {'profile': profile})
 
 
 def info_edit_view(request):
@@ -80,7 +80,7 @@ def info_edit_view(request):
         messages.success(request, "성공적으로 프로필이 수정되었습니다.")
         return redirect('mypage')
         
-    return render(request, 'users/edit_information.html', {'profile': profile})
+    return render(request, 'main/mypage/edit_information.html', {'profile': profile})
 
 
 def password_edit_view(request):
@@ -100,7 +100,7 @@ def password_edit_view(request):
             messages.success(request, "비밀번호가 변경되었습니다.")
             return redirect('mypage')
             
-    return render(request, 'users/edit.html')
+    return render(request, 'main/mypage/edit.html')
 
 
 def logout_view(request):
@@ -120,7 +120,7 @@ def room_history_view(request):
         return redirect('login')
         
     room_history = RoomMember.objects.filter(user=request.user).order_by('-id')
-    return render(request, 'users/room_history.html', {'room_history': room_history})
+    return render(request, 'main/mypage/room_history.html', {'room_history': room_history})
 
 
 def room_history_detail_view(request, room_id):
@@ -138,7 +138,7 @@ def room_history_detail_view(request, room_id):
         'room': room,
         'room_members': room_members,
     }
-    return render(request, 'users/room_history_detail.html', context)
+    return render(request, 'main/mypage/room_history_detail.html', context)
 
 
 def contact_us_view(request):
@@ -162,7 +162,7 @@ def contact_us_view(request):
         return redirect('contact_us')
 
     my_inquiries = Inquiry.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'users/contact_us.html', {'my_inquiries': my_inquiries})
+    return render(request, 'main/mypage/contact_us.html', {'my_inquiries': my_inquiries})
 
 
 def withdraw_view(request):
@@ -180,4 +180,4 @@ def withdraw_view(request):
         messages.success(request, "그동안 서비스를 이용해 주셔서 감사합니다.")
         return redirect('home')
         
-    return render(request, 'users/withdraw.html')
+    return render(request, 'main/mypage/withdraw.html')
