@@ -1,0 +1,108 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<div class="mypage-container">
+    
+    <div class="profile-card">
+        <div class="avatar-container">
+            <div class="avatar {{ user_profile.color }}">{{ user_profile.avatar }}</div>
+            <div class="edit-badge">
+                <i class="fa-solid fa-pencil"></i>
+            </div>
+        </div>
+        
+        <h2 class="nickname">{{ user_profile.nickname }}</h2>
+        
+        <div class="profile-actions">
+            <button class="btn-outline">정보 수정</button>
+            <button class="btn-outline">로그아웃</button>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="stats-section">
+        <h3 class="section-title">내 전적</h3>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-value">{{ stats.total_rounds }}</div>
+                <div class="stat-label">총 라운드</div>
+            </div>
+            <div class="stat-box highlight-yellow">
+                <div class="stat-value">{{ stats.max_temp }}°C</div>
+                <div class="stat-label">최고 온도</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ stats.room_count }}</div>
+                <div class="stat-label">방 개수</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ stats.penalty_count }}</div>
+                <div class="stat-label">벌칙 수</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ stats.play_time }}</div>
+                <div class="stat-label">플레이 타임</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ stats.win_count }}</div>
+                <div class="stat-label">승리 횟수</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="history-section">
+        <div class="section-header-flex">
+            <h3 class="section-title">내 방 히스토리 ({{ history_list|length }})</h3>
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+        
+        <ul class="history-list">
+            {% for history in history_list %}
+            <li class="history-item">
+                <span class="temp-badge 
+                    {% if history.temp >= 67 %}bg-red
+                    {% elif history.temp >= 34 %}bg-yellow
+                    {% else %}bg-green{% endif %}
+                ">
+                    {{ history.temp }}°C
+                </span>
+                
+                <span class="room-name">{{ history.name }}</span>
+            </li>
+            {% empty %}
+            <li class="history-item" style="justify-content: center; color: #999;">
+                최근 참여한 방이 없습니다.
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="section-divider-thin"></div>
+
+    <div class="settings-section">
+        <h3 class="section-title">설정</h3>
+        <ul class="settings-list">
+            <li class="settings-item">
+                <i class="fa-regular fa-circle-question icon"></i>
+                <span>문의하기</span>
+            </li>
+            <li class="settings-item">
+                <i class="fa-regular fa-file-lines icon"></i>
+                <span>이용약관</span>
+            </li>
+            <li class="settings-item text-danger">
+                <i class="fa-regular fa-circle-xmark icon"></i>
+                <span>탈퇴하기</span>
+            </li>
+        </ul>
+    </div>
+
+</div>
+{% endblock %}
