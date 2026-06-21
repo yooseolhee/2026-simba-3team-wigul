@@ -1,0 +1,33 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/room_history.css' %}">
+
+<div class="room-history-container">
+    <h1 class="page-title">나의 방 히스토리</h1>
+
+    <ul class="history-full-list">
+        {% for history in history_list %}
+        <li class="history-list-item">
+            
+            <span class="temp-badge 
+                {% if history.temp >= 67 %}bg-red
+                {% elif history.temp >= 34 %}bg-yellow
+                {% else %}bg-green{% endif %}
+            ">
+                {{ history.temp }}°C
+            </span>
+            
+            <span class="room-name">{{ history.name }}</span>
+            
+            <i class="fa-solid fa-chevron-right chevron-icon"></i>
+        </li>
+        {% empty %}
+        <li class="history-list-item" style="justify-content: center; color: #999;">
+            참여한 방 히스토리가 없습니다.
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
