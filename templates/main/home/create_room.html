@@ -1,1 +1,55 @@
+{% extends 'layouts/default-layout.html' %}
 {% include 'main/home/subject_modal.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/roomcreate.css' %}">
+
+<h1 class="title">새로운 방 만들기</h1>
+
+<input type="text" class="room-input" placeholder="사용하실 방 이름을 입력하세요..." value="{{ room_name }}">
+
+<div class="info-grid">
+    <div class="qr-section">
+        <div class="qr-box">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data={{ room_join_url }}" alt="방 입장 QR코드" class="qr-image">
+        </div>
+        <button class="share-btn">공유하기</button>
+    </div>
+    
+    <div class="temp-section">
+        <div class="temp-box" id="tempBox" data-temp="{{ temperature }}">
+            <span class="temp-info-icon">ⓘ</span>
+            <div class="temp-title">우리 방의 온도는?</div>
+            <div class="temp-value" id="tempValue">🌡️ {{ temperature }}°C</div>
+            <div class="temp-desc" id="tempDesc">로딩 중...</div>
+        </div>
+    </div>
+</div>
+
+<div class="members-section">
+    <div class="members-header">멤버 ({{ members|length }})</div>
+    <ul class="member-list">
+        {% for member in members %}
+        <li class="member-item">
+            <div class="status-dot {% if member.is_online %}online{% else %}offline{% endif %}"></div>
+            <div class="avatar {{ member.color }}">{{ member.avatar }}</div>
+            <div class="nickname">{{ member.nickname }}</div>
+            {% if member.is_host %}
+                <div class="badge-host">방장</div>
+            {% else %}
+                <div class="badge-kick">방출</div>
+            {% endif %}
+        </li>
+        {% empty %}
+        <li class="member-item">
+            <div class="nickname" style="text-align:center; color:#999;">아직 입장한 멤버가 없습니다.</div>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+<button class="start-btn">시작하기!</button>
+
+<script src="{% static 'js/roomcreate_temperature.js' %}"></script>
+{% endblock %}

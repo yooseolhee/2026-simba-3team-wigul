@@ -1,0 +1,245 @@
+@font-face {
+    font-family: 'KblJump';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+/* 마이페이지 전체 컨테이너 패딩 */
+.mypage-container {
+    padding: 20px 20px 40px 20px;
+}
+
+/* =========================================
+   1. 프로필 섹션
+   ========================================= */
+.profile-card {
+    border: 2px solid #bce178; /* 연두색 테두리 */
+    border-radius: 16px;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    margin-bottom: 24px;
+}
+
+.avatar-container {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+}
+.avatar.pink { background-color: #ffb6c1; }
+
+.edit-badge {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 28px;
+    height: 28px;
+    background-color: #a4e135;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.nickname {
+    font-size: 20px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 20px;
+    font-family: 'KblJump', sans-serif;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-outline {
+    flex: 1;
+    max-width: 120px;
+    padding: 12px 0;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    background-color: #f8f8f8;
+    font-size: 13px;
+    font-weight: 600;
+    color: #666;
+    cursor: pointer;
+}
+
+/* =========================================
+   공통 속성 (구분선 & 타이틀)
+   ========================================= */
+.section-divider {
+    height: 8px;
+    background-color: #f1f5f9;
+    margin: 0 -20px 24px -20px; /* 좌우 여백을 무시하고 꽉 차게 */
+}
+
+.section-divider-thin {
+    height: 1px;
+    background-color: #f1f5f9;
+    margin: 0 -20px 24px -20px;
+}
+
+.section-title {
+    font-size: 15px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 16px;
+}
+
+/* =========================================
+   2. 내 전적 섹션
+   ========================================= */
+.stats-section {
+    margin-bottom: 24px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.stat-box {
+    background-color: #f4f4f4;
+    border-radius: 12px;
+    padding: 16px 0;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.stat-box.highlight-yellow {
+    background-color: #fef5d4; /* 최고 온도 강조 배경 */
+}
+
+.stat-value {
+    font-size: 22px;
+    font-weight: 900;
+    color: #333;
+}
+
+.stat-label {
+    font-size: 11px;
+    color: #666;
+    font-weight: 600;
+}
+
+/* =========================================
+   3. 내 방 히스토리 섹션
+   ========================================= */
+.history-section {
+    margin-bottom: 24px;
+}
+
+.section-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    cursor: pointer;
+}
+.section-header-flex .fa-chevron-right {
+    color: #999;
+}
+
+.history-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.history-item {
+    background-color: #f4f4f4;
+    border-radius: 12px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
+}
+
+/* 온도 뱃지 색상 */
+.temp-badge {
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #333;
+    min-width: 65px;
+    text-align: center;
+}
+.bg-red { background-color: #ffd6d6; }
+.bg-yellow { background-color: #fef5d4; }
+.bg-green { background-color: #dcf2b5; }
+
+.room-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    flex-grow: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 긴 글자 ... 처리 */
+}
+
+/* =========================================
+   4. 설정 섹션
+   ========================================= */
+.settings-section {
+    margin-bottom: 20px;
+}
+
+.settings-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings-item {
+    display: flex;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid #f0f0f0;
+    font-size: 15px;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+    gap: 12px;
+}
+.settings-item:last-child {
+    border-bottom: none;
+}
+
+.settings-item.text-danger {
+    color: #ff4d4d; /* 탈퇴하기 빨간 글씨 */
+}
+
+.settings-item .icon {
+    font-size: 18px;
+    width: 24px;
+    text-align: center;
+}
