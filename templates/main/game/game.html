@@ -3,7 +3,6 @@
 {% block content %}
 
 <link rel="stylesheet" href="{% static 'css/game.css' %}">
-
 <script src="https://kit.fontawesome.com/f7691a6795.js" crossorigin="anonymous"></script>
 
 <div class="body">
@@ -13,89 +12,7 @@
             <div class="room-temp-title">
                 우리 방 온도
                 <i class="fa-solid fa-circle-info temp-info-btn"></i>
-
-                <div class="temp-info-popup" id="temp-popup">
-                    <div class="temp-popup-title">온도 기능 설명</div>
-
-                    <div class="popup-header">
-                        <div class="header-col">온도 구간</div>
-                        <div class="header-col">온도 범위</div>
-                        <div class="header-col">질문별 출현율</div>
-                    </div>
-
-                    <div class="popup-row green-row">
-                        <div class="level-box box-green">
-                            <span class="dot dot-green"></span> Green Level
-                        </div>
-                        <div class="range-box box-green">10 ~ 33%</div>
-                        <div class="rate-box">
-                            <div class="rate-item">
-                                <span class="mini-dot mini-green"></span>
-                                <div class="progress-bar"><div class="progress progress-green" style="width: 70%;"></div></div>
-                                <span class="percent">70%</span>
-                            </div>
-                            <div class="rate-item">
-                                <span class="mini-dot mini-yellow"></span>
-                                <div class="progress-bar"><div class="progress progress-yellow" style="width: 25%;"></div></div>
-                                <span class="percent">25%</span>
-                            </div>
-                            <div class="rate-item">
-                                <span class="mini-dot mini-pink"></span>
-                                <div class="progress-bar"><div class="progress progress-pink" style="width: 5%;"></div></div>
-                                <span class="percent">5%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="popup-row yellow-row">
-                        <div class="level-box box-yellow">
-                            <span class="dot dot-yellow"></span> Yellow Level
-                        </div>
-                        <div class="range-box box-yellow">34 ~ 66%</div>
-                        <div class="rate-box">
-                            <div class="rate-item">
-                                <span class="mini-dot mini-green"></span>
-                                <div class="progress-bar"><div class="progress progress-green" style="width: 20%;"></div></div>
-                                <span class="percent">20%</span>
-                            </div>
-                            <div class="rate-item">
-                                <span class="mini-dot mini-yellow"></span>
-                                <div class="progress-bar"><div class="progress progress-yellow" style="width: 65%;"></div></div>
-                                <span class="percent">65%</span>
-                            </div>
-                            <div class="rate-item">
-                                <span class="mini-dot mini-pink"></span>
-                                <div class="progress-bar"><div class="progress progress-pink" style="width: 15%;"></div></div>
-                                <span class="percent">15%</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="popup-row pink-row">
-                        <div class="level-box box-pink">
-                            <span class="dot dot-pink"></span> Pink Level
-                        </div>
-                        <div class="range-box box-pink">67 ~ 100%</div>
-                        <div class="rate-box">
-                            <div class="rate-item">
-                                <span class="mini-dot mini-green"></span>
-                                <div class="progress-bar"><div class="progress progress-green" style="width: 15%;"></div></div>
-                                <span class="percent">15%</span>
-                            </div>
-                            <div class="rate-item">
-                                <span class="mini-dot mini-yellow"></span>
-                                <div class="progress-bar"><div class="progress progress-yellow" style="width: 15%;"></div></div>
-                                <span class="percent">15%</span>
-                            </div>
-                            <div class="rate-item">
-                                <span class="mini-dot mini-pink"></span>
-                                <div class="progress-bar"><div class="progress progress-pink" style="width: 70%;"></div></div>
-                                <span class="percent">70%</span>
-                            </div>
-                        </div>
-                    </div>
                 </div>
-            </div>
             <div class="room-temp-content">
                 <span class="room-temp-subtitle">{{ temp_message }}</span>
                 <span class="room-temp-detail">{{ current_temp|floatformat:1 }}°C</span>
@@ -130,7 +47,7 @@
         <div class="game-timer">
             <div class="game-time">
                 <i class="fa-regular fa-alarm-clock"></i>
-                <div class="game-time-detail">05:00</div>
+                <div class="game-time-detail" id="timer-display">05:00</div>
             </div>
             <div class="game-time-btn">
                 <button class="game-time-vote">바로 투표하기</button>
@@ -139,7 +56,7 @@
         </div>
 
         <div class="current-side">
-            <div class="current-mem-num">총 4명</div>
+            <div class="current-mem-num">총 {{ member_count }}명</div>
             <div class="current-side-dsc">지금은 무승부에요!</div>
             <div class="current-side-score">
                 <span class="side-a-score">2</span>
@@ -147,69 +64,27 @@
                 <span class="side-b-score">2</span>
             </div>
             <div class="current-side-more">자세히 보기 <i class="fa-solid fa-angle-down detail-arrow"></i></div>
+            
             <div class="current-side-detail">
-                <div class="game_profile_me">
-                    <img 
-                    src="{% static 'images/logo_wigul.png' %}"
-                    alt=""
-                    class="game_profile_img"
-                    id="game_profile_img"
-                    >
-                    <div class="game_profile_name">굿모닝도 닝이다</div>
-                    <div class="game_profile_side-A">A</div>
-                </div>
-                <div class="game_profile">
-                    <img 
-                    src="{% static 'images/logo_wigul.png' %}"
-                    alt=""
-                    class="game_profile_img"
-                    id="game_profile_img"
-                    >
-                    <div class="game_profile_name">윈터는 아마도 멘터</div>
-                    <div class="game_profile_side-A">A</div>
-                </div>
-                <div class="game_profile">
-                    <img 
-                    src="{% static 'images/logo_wigul.png' %}"
-                    alt=""
-                    class="game_profile_img"
-                    id="game_profile_img"
-                    >
-                    <div class="game_profile_name">지젤마미력</div>
-                    <div class="game_profile_side-B">B</div>
-                </div>
-                <div class="game_profile">
-                    <img 
-                    src="{% static 'images/logo_wigul.png' %}"
-                    alt=""
-                    class="game_profile_img"
-                    id="game_profile_img"
-                    >
-                    <div class="game_profile_name">칼있으마</div>
-                    <div class="game_profile_side-B">B</div>
-                </div>
+                {% for member in room_members %}
+                    <div class="{% if member == my_member %}game_profile_me{% else %}game_profile{% endif %}">
+                        <img src="{% static 'images/logo_wigul.png' %}" alt="개굴" class="game_profile_img">
+                        <div class="game_profile_name">
+                            {{ member.user.username }}
+                            {% if member.is_host %}<small style="color: #62c111; font-weight:bold;">(방장)</small>{% endif %}
+                        </div>
+                        <div class="game_profile_side-A">A</div>
+                    </div>
+                {% endfor %}
             </div>
         </div>
 
         <div class="my-side toggle-container">
             <div class="my-side-dsc">당신은 A SIDE!</div>
             <div class="my-side-toggle-wrapper">
-
-                <img
-                    src="{% static 'images/logo_wigul.png' %}"
-                    alt=""
-                    class="frog"
-
-                    data-sit="{% static 'images/logo_wigul.png' %}"
-                    data-jump="{% static 'images/logo_wigul.png' %}"
-                    data-land="{% static 'images/logo_wigul.png' %}"
-                >
-
+                <img src="{% static 'images/logo_wigul.png' %}" alt="" class="frog" id="frog">
                 <label class="my-side-toggle">
-                    <input
-                        class="my-side-toggle-input"
-                        type="checkbox"
-                    >
+                    <input class="my-side-toggle-input" id="toggle" type="checkbox">
                     <span class="slider">
                         <span class="slider-text" id="slider-text">A</span>
                     </span>
@@ -218,14 +93,44 @@
         </div>
     </div>
 </div>
+
 <script src="{% static 'js/game_toggle.js' %}"></script>
 <script src="{% static 'js/game_temp_info.js' %}"></script>
 <script src="{% static 'js/game_view_more.js' %}"></script>
 
-<script src="{% static 'js/game.js' %}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const expiresAtStr = "{{ expires_at_iso }}";
+    const timerDisplay = document.getElementById('timer-display');
+    
+    if (!expiresAtStr) {
+        timerDisplay.textContent = "05:00";
+        return;
+    }
 
-{% include 'main/game/midterm_vote.html' %}
+    const targetTime = new Date(expiresAtStr).getTime();
 
+    function runCountdown() {
+        const now = new Date().getTime();
+        const gap = targetTime - now;
 
+        if (gap <= 0) {
+            timerDisplay.textContent = "00:00";
+            clearInterval(countdownInterval);
+            return;
+        }
+
+        const minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((gap % (1000 * 60)) / 1000);
+
+        const formatMin = minutes < 10 ? '0' + minutes : minutes;
+        const formatSec = seconds < 10 ? '0' + seconds : seconds;
+
+        timerDisplay.textContent = formatMin + ":" + formatSec;
+    }
+
+    runCountdown();
+    const countdownInterval = setInterval(runCountdown, 1000);
+});
+</script>
 {% endblock content %}
-
