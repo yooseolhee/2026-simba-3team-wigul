@@ -1,0 +1,11 @@
+# Django
+db.sqlite3
+*.sqlite3
+
+# env
+venv/
+.env
+
+# python
+__pycache__/
+*.pyc
