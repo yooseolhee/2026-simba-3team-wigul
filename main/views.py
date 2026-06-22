@@ -47,7 +47,7 @@ def create_room_view(request):
         )
         
         # 주소 매핑 규칙에 맞게 리다이렉트 경로 확인 (game 뷰로 바로 쏘거나 subject_select로 전송)
-        return redirect('game', room_id=new_room.id)
+        return redirect('subject_select', room_id=new_room.id)
 
     return render(request, 'main/home/create_room.html')
 
@@ -180,3 +180,24 @@ def game_view(request, room_id):
     }
     
     return render(request, 'main/game/game.html', context)
+
+@login_required
+def ranking_list(request):
+    sort_by = request.GET.get('sort', 'temperature')
+    
+    if sort_by == 'rounds':
+        rooms = Room.objects.all().order_by('-rounds', '-temperature')
+        active_filter = 'rounds'
+    elif sort_by == 'change_rate':
+        rooms = Room.objects.all().order_by('-change_rate', '-temperature')
+        active_filter = 'change_rate'
+    else:
+        rooms = Room.objects.all().order_by('-temperature', '-created_at')
+        active_filter = 'temperature'
+        
+    context = {
+        'rooms': rooms,
+        'active_filter': active_filter,
+    }
+
+    return render(request, 'main/ranking/ranking.html', context)

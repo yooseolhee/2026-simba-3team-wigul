@@ -53,6 +53,7 @@ class RoomMember(models.Model):
     # 방장 여부 = 권한. 주제 선택은 is_host=True 만 가능.
     is_host = models.BooleanField(default=False)
     joined_at = models.DateTimeField(auto_now_add=True)
+    
 
     class Meta:
         # 같은 사람이 같은 방에 두 번 들어가지 못하게 막음
