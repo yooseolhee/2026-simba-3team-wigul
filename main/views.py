@@ -85,7 +85,6 @@ def subject_select_modal_view(request, room_id):
 def game_view(request, room_id):
     if not request.user.is_authenticated:
         return redirect('intro')
-        
     # 1. 주소창에서 넘어온 room_id(UUID)로 방 객체 조회
     room = get_object_or_404(Room, id=room_id)
     
@@ -158,4 +157,3 @@ def game_view(request, room_id):
     }
     
     return render(request, 'main/game/game.html', context)
-

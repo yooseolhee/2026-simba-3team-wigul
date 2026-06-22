@@ -1,38 +1,50 @@
-const toggle = document.getElementById("toggle");
-const frog = document.getElementById("frog");
-const sliderText = document.getElementById("slider-text");
-const sideText = document.querySelector(".my-side-dsc");
+function initializeToggle(container) {
 
-toggle.addEventListener("change", () => {
+    const toggle = container.querySelector(".my-side-toggle-input");
+    const frog = container.querySelector(".frog");
+    const sliderText = container.querySelector(".slider-text");
+    const sideText = container.querySelector(".my-side-dsc");
+    const slider = container.querySelector(".slider");
 
-    // 점프 이미지
-    frog.src = frog.dataset.jump;
+    toggle.addEventListener("change", () => {
 
-    setTimeout(() => {
+        frog.src = frog.dataset.jump;
 
-        if (toggle.checked) {
-        frog.style.left = "140px"; // B 위치
-    } else {
-        frog.style.left = "25px";  // A 위치
-    }
+        setTimeout(() => {
 
-    document.querySelector(".my-side-dsc").innerText =
-        toggle.checked ? "당신은 B SIDE!" : "당신은 A SIDE!";
+            if (toggle.checked) {
+                frog.style.left = "140px";
 
-    sliderText.innerText = 
-        toggle.checked ? "B" : "A";
+                container.classList.add("b-side");
+                slider.classList.add("b-side");
+            }
+            else {
+                frog.style.left = "25px";
 
+                container.classList.remove("b-side");
+                slider.classList.remove("b-side");
+            }
 
-    }, 150);
+            sideText.innerText =
+                toggle.checked ? "당신은 B SIDE!" : "당신은 A SIDE!";
 
-    // 착지 이미지
-    setTimeout(() => {
-        frog.src =  frog.dataset.land;
-    }, 350);
+            sliderText.innerText =
+                toggle.checked ? "B" : "A";
 
-    // 다시 앉은 상태
-    setTimeout(() => {
-        frog.src = frog.dataset.sit;
-    }, 600);
+        }, 150);
 
+        setTimeout(() => {
+            frog.src = frog.dataset.land;
+        }, 350);
+
+        setTimeout(() => {
+            frog.src = frog.dataset.sit;
+        }, 600);
+
+    });
+
+}
+
+document.querySelectorAll(".toggle-container").forEach(container => {
+    initializeToggle(container);
 });

@@ -191,7 +191,7 @@
             </div>
         </div>
 
-        <div class="my-side">
+        <div class="my-side toggle-container">
             <div class="my-side-dsc">당신은 A SIDE!</div>
             <div class="my-side-toggle-wrapper">
 
@@ -199,7 +199,6 @@
                     src="{% static 'images/logo_wigul.png' %}"
                     alt=""
                     class="frog"
-                    id="frog"
 
                     data-sit="{% static 'images/logo_wigul.png' %}"
                     data-jump="{% static 'images/logo_wigul.png' %}"
@@ -209,7 +208,6 @@
                 <label class="my-side-toggle">
                     <input
                         class="my-side-toggle-input"
-                        id="toggle"
                         type="checkbox"
                     >
                     <span class="slider">
@@ -223,4 +221,11 @@
 <script src="{% static 'js/game_toggle.js' %}"></script>
 <script src="{% static 'js/game_temp_info.js' %}"></script>
 <script src="{% static 'js/game_view_more.js' %}"></script>
+
+<script src="{% static 'js/game.js' %}"></script>
+
+{% include 'main/game/midterm_vote.html' %}
+
+
 {% endblock content %}
+
