@@ -118,7 +118,7 @@ body {
 }
 
 /* ------------ 미디어쿼리 ------------ */
-@media (min-width: 577px) {
+@media (min-width: 375px) {
     body {background-color: #e2e8f0;
     }
     .app-layout {
