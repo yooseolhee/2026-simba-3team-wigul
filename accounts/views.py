@@ -85,7 +85,6 @@ def login_view(request):
         
     return render(request, 'accounts/login.html')
 
-
 # 3. 로그아웃 처리
 def logout_view(request):
     auth_logout(request)

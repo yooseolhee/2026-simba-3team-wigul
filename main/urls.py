@@ -16,8 +16,8 @@ urlpatterns = [
 
     path('mypage/', user_views.mypage_view, name='mypage'),
     path('mypage/profile/', user_views.profile_view, name='profile'),
-    path('mypage/edit-info/', user_views.info_edit_view, name='edit'),
-    path('mypage/edit-pw/', user_views.password_edit_view, name='edit_information'),
+    path('mypage/edit-info/', user_views.info_edit_view, name='edit_information'),
+    path('mypage/edit-pw/', user_views.password_edit_view, name='edit'),
     path('mypage/logout/', user_views.logout_view, name='mypage_logout'),
     path('mypage/history/', user_views.room_history_view, name='room_history'),
     path('mypage/history/<int:room_id>/', user_views.room_history_detail_view, name='room_history_detail'),

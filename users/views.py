@@ -85,22 +85,37 @@ def info_edit_view(request):
 
 def password_edit_view(request):
     """
-    4. 비밀번호 변경 분리 페이지 (edit.html)
-    - 닉네임 변경 폼과 분리되거나 패스워드 전용 단독 처리 시 사용
+    4. 비밀번호 변경 처리 페이지 (edit_information.html)
+    - 현재 비밀번호가 일치할 때만 새 비밀번호를 암호화해서 DB에 덮어씁니다.
     """
     if not request.user.is_authenticated:
         return redirect('login')
+    
+    template_name = 'main/mypage/edit_information.html'
         
     if request.method == 'POST':
-        new_password = request.POST.get('password')
+        current_password = request.POST.get('current_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        
+        if not request.user.check_password(current_password):
+            messages.error(request, "현재 비밀번호가 일치하지 않습니다.")
+            return render(request, template_name)
+            
+        if new_password != confirm_password:
+            messages.error(request, "새 비밀번호와 새 비밀번호 확인이 일치하지 않습니다.")
+            return render(request, template_name)
+            
         if new_password:
-            request.user.set_password(new_password)
+            request.user.set_password(new_password) 
             request.user.save()
-            update_session_auth_hash(request, request.user)  # 비밀번호 변경 후 로그아웃 방지
-            messages.success(request, "비밀번호가 변경되었습니다.")
+
+            update_session_auth_hash(request, request.user)  
+            
+            messages.success(request, "비밀번호가 성공적으로 변경되었습니다.")
             return redirect('mypage')
             
-    return render(request, 'main/mypage/edit.html')
+    return render(request, template_name)
 
 
 def logout_view(request):
@@ -188,6 +203,7 @@ def withdraw_view(request):
         auth_logout(request)
         user.delete()
         messages.success(request, "그동안 서비스를 이용해 주셔서 감사합니다.")
-        return redirect('home')
+        
+        return redirect('intro') 
         
     return render(request, 'main/mypage/withdraw.html')
