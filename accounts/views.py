@@ -19,7 +19,7 @@ def signup_view(request):
         if User.objects.filter(username=username).exists():
             messages.error(request, "이미 존재하는 아이디입니다.")
             return render(request, 'accounts/signup.html')
-
+        
         user = User.objects.create_user(username=username, password=password)
 
         UserProfile.objects.create(
