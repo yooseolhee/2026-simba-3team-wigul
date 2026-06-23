@@ -319,3 +319,8 @@ def ranking_list(request):
     }
 
     return render(request, 'main/ranking/ranking.html', context)
+
+def myroom_view(request):
+    return render(request, 'main/myroom/myroom_list.html')
+def myroom_detail_view(request):
+    return render(request, 'main/myroom/myroom_detail.html')

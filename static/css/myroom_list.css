@@ -1,0 +1,94 @@
+@font-face {
+    font-family: 'KBL JUMP TTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+
+.myroom-list-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+}
+
+.myroom-list-title{
+    display: inline-flex;
+align-items: flex-end;
+gap: 5px;
+}
+
+.myroom{
+    color: var(--Foundation-Green-Darker, #3B4C12);
+text-align: center;
+font-family: "KBL Jump TTF";
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0.72px;
+}
+
+.myroom-num{
+    color: var(--foundation-green-dark-active, #4C6116);
+text-align: center;
+
+/* 위사이드/KBO 최소 */
+font-family: "KBL Jump TTF";
+font-size: 10px;
+font-style: normal;
+font-weight: 400;
+line-height: 12px; /* 120% */
+letter-spacing: 0.3px;
+}
+
+.myroom-list{
+    background-color: #f6faef;
+    border-radius: 16px;
+    padding: 16px;
+    flex-grow: 1;
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.myroom-item {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #E0E0E0;
+}
+.myroom-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #333;
+}
+.mymember-stack {
+    display: flex;
+}
+.mymember-stack img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    margin-left: -10px;
+}
+.mymember-stack img:first-child { margin-left: 0; }
+
+.myroom-empty {
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+    font-weight: 600;
+    
+}
+.myroom-empty p {
+    margin: 0;
+    margin-left: 5px;
+    font-weight: 500;
+}

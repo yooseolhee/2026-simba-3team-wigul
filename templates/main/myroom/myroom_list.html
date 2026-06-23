@@ -1,0 +1,36 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/myroom_list.css' %}">
+
+<div class="myroom-list-body">
+
+    <div class="myroom-list-title">
+        <span class="myroom">MY ROOM</span>
+        <span class="myroom-num">(4)</span>
+    </div>
+
+    <div class="myroom-list">
+        {% for room in rooms %}
+            <div class="myroom-item">
+                <div class="myroom-title">{{ room.name }}</div>
+                <div class="mymember-stack">
+                    {% for member in room.members.all %}
+                        {% if member.profile.image %}
+                            <img src="{{ member.profile.image.url }}" alt="{{ member.username }}">
+                        {% else %}
+                            <img src="{% static 'images/default_char.png' %}" alt="{{ member.username }}">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="myroom-empty">
+                <p>아직 속한 방이 없습니다.</p>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

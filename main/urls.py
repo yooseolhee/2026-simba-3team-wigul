@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import create_room_view, game_view, home_view, intro_view ,subject_select_modal_view, result_view,extend_timer_view
+from .views import create_room_view, game_view, home_view, intro_view, myroom_detail_view, myroom_view ,subject_select_modal_view, result_view,extend_timer_view
 from users import views as user_views
 from . import views
 
@@ -27,4 +27,6 @@ urlpatterns = [
     path('mypage/withdraw/', user_views.withdraw_view, name='withdraw'),
     
     path('ranking/', views.ranking_list, name='ranking'),
+    path('room/', myroom_view, name='myroom'),
+    path('room/detail', myroom_detail_view, name='myroom-detail'),
 ]
