@@ -12,7 +12,7 @@
             <div class="room-temp-title">
                 우리 방 온도
                 <i class="fa-solid fa-circle-info temp-info-btn"></i>
-                </div>
+            </div>
             <div class="room-temp-content">
                 <span class="room-temp-subtitle">{{ temp_message }}</span>
                 <span class="room-temp-detail">{{ current_temp|floatformat:1 }}°C</span>
@@ -50,7 +50,7 @@
                 <div class="game-time-detail" id="timer-display">05:00</div>
             </div>
             <div class="game-time-btn">
-                <button class="game-time-vote">바로 투표하기</button>
+                <button class="game-time-vote" id="voteNowBtn">바로 투표하기</button>
                 <button class="game-time-extention">5분 연장하기</button>
             </div>
         </div>
@@ -59,12 +59,12 @@
             <div class="current-mem-num">총 {{ member_count }}명</div>
             <div class="current-side-dsc">지금은 무승부에요!</div>
             <div class="current-side-score">
-                <span class="side-a-score">2</span>
+                <span class="side-a-score">{{ a_count|default:0 }}</span>
                 <span class="side-colon">:</span>
-                <span class="side-b-score">2</span>
+                <span class="side-b-score">{{ b_count|default:0 }}</span>
             </div>
             <div class="current-side-more">자세히 보기 <i class="fa-solid fa-angle-down detail-arrow"></i></div>
-            
+
             <div class="current-side-detail">
                 {% for member in room_members %}
                     <div class="{% if member == my_member %}game_profile_me{% else %}game_profile{% endif %}">
@@ -80,38 +80,58 @@
         </div>
 
         <div class="my-side toggle-container">
-            <div class="my-side-dsc">당신은 A SIDE!</div>
+            <div class="my-side-dsc">당신은 {{ my_side|default:'A' }} SIDE!</div>
             <div class="my-side-toggle-wrapper">
-                <img src="{% static 'images/logo_wigul.png' %}" alt="" class="frog" id="frog">
+                <img src="{% static 'images/logo_wigul.png' %}" alt="" class="frog" id="frog"
+                    data-sit="{% static 'images/logo_wigul.png' %}"
+                    data-jump="{% static 'images/logo_wigul.png' %}"
+                    data-land="{% static 'images/logo_wigul.png' %}">
                 <label class="my-side-toggle">
-                    <input class="my-side-toggle-input" id="toggle" type="checkbox">
+                    <input class="my-side-toggle-input" id="toggle" type="checkbox"
+                        {% if my_side == 'B' %}checked{% endif %}>
                     <span class="slider">
-                        <span class="slider-text" id="slider-text">A</span>
+                        <span class="slider-text" id="slider-text">{{ my_side|default:'A' }}</span>
                     </span>
                 </label>
             </div>
         </div>
     </div>
-    {% include 'main/game/midterm_vote.html' %}
+
+    
+    {% include 'main/game/final_vote.html' %}
 </div>
 
 <script src="{% static 'js/game_toggle.js' %}"></script>
 <script src="{% static 'js/game_temp_info.js' %}"></script>
 <script src="{% static 'js/game_view_more.js' %}"></script>
-<script src="{% static 'js/game.js' %}"></script> 
-
+<script src="{% static 'js/game.js' %}"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const expiresAtStr = "{{ expires_at_iso }}";
     const timerDisplay = document.getElementById('timer-display');
-    
+    const finalModal = document.getElementById('finalModal');
+    const voteNowBtn = document.getElementById('voteNowBtn');
+
+    function openFinalModal() {
+        if (finalModal) {
+            finalModal.style.display = 'flex';  // CSS에 맞게 'block'일 수도 있음
+        }
+    }
+
+    // 트리거 1: 바로 투표하기 클릭
+    if (voteNowBtn) {
+        voteNowBtn.addEventListener('click', openFinalModal);
+    }
+
+    // 카운트다운
     if (!expiresAtStr) {
         timerDisplay.textContent = "05:00";
         return;
     }
 
     const targetTime = new Date(expiresAtStr).getTime();
+    let countdownInterval;
 
     function runCountdown() {
         const now = new Date().getTime();
@@ -120,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (gap <= 0) {
             timerDisplay.textContent = "00:00";
             clearInterval(countdownInterval);
+            openFinalModal();   // 트리거 2: 타이머 종료
             return;
         }
 
@@ -133,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     runCountdown();
-    const countdownInterval = setInterval(runCountdown, 1000);
+    countdownInterval = setInterval(runCountdown, 1000);
 });
 </script>
 {% endblock content %}
