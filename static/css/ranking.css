@@ -209,23 +209,28 @@ margin-left: auto;
 
 .my-rank-btn{
     border-radius: 10px;
-border: 1px solid #717171;
-background: #444;
-width: 332px;
-height: 64px;
-color: #FFF;
-text-align: center;
+    border: 1px solid #717171;
+    background: #444;
+    width: 332px;
+    height: 64px;
+    color: #FFF;
+    text-align: center;
 
-/* 위사이드/KBO 제목 */
-font-family: "KBL Jump TTF";
-font-size: 20px;
-font-style: normal;
-font-weight: 400;
-line-height: 24px; /* 120% */
-letter-spacing: 0.6px;
-margin-top: 60px;
+    /* 위사이드/KBO 제목 */
+    font-family: "KBL Jump TTF";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.6px;
+
+    /* 추가 */
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 120px;      /* 네비게이션 바 위 */
+    z-index: 999;
 }
-
 .my-rank-modal-overlay{
     position: absolute;
     left: 0;
@@ -415,4 +420,7 @@ font-weight: 700;
 line-height: 24px; /* 120% */
 letter-spacing: 0.6px;
 margin-left: auto;
+}
+.my-rank-btn.hidden{
+    display: none;
 }

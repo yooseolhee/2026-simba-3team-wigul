@@ -515,7 +515,17 @@ def ranking_view(request):
     
     # 3. 내 방 순위 계산 (온도 기준 예시)
     my_room_ranking = None
-    my_room_ids = RoomMember.objects.filter(user=request.user).values_list('room_id', flat=True)
+    my_room_ids = RoomMember.objects.filter(
+        user=request.user
+        ).values_list('room_id', flat=True)
+    
+    my_rooms_qs = rooms_qs.filter(id__in=my_room_ids)
+
+    my_temp_ranking = my_rooms_qs.order_by('-temperature')
+    my_round_ranking = my_rooms_qs.order_by('-round_count')
+    my_time_ranking = my_rooms_qs.order_by('-total_duration')
+    my_change_ranking = my_rooms_qs.order_by('-sum_changes')
+    
     
     all_temp_rooms = list(rooms_qs.order_by('-temperature'))
     
@@ -534,6 +544,10 @@ def ranking_view(request):
         'time_ranking': time_ranking,
         'change_ranking': change_ranking,
         'my_room_ranking': my_room_ranking,
+        'my_temp_ranking': my_temp_ranking,
+        'my_round_ranking': my_round_ranking,
+        'my_time_ranking': my_time_ranking,
+        'my_change_ranking': my_change_ranking,
         'tabs_config': [
             ('temp', temp_ranking, '°C', 'ranking-temp'),
             ('round', round_ranking, '회', 'ranking-max-round'),

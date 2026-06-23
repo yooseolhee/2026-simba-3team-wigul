@@ -10,6 +10,7 @@
 
         <div class="ranking-category">
             <span class="ranking-name">랭킹</span>
+
             <div class="ranking-tab">
                 <button class="active" data-target="my-temp-ranking">
                     <i class="fa-solid fa-temperature-three-quarters"></i>
@@ -32,171 +33,157 @@
                 </button>
             </div>
         </div>
+
+
+        <!-- 최고 온도 -->
         <div class="ranking-list" id="my-temp-ranking">
+
+            {% for room in my_temp_ranking %}
             <div class="ranking-list-item">
+
                 <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/gold_medal.png' %}" alt="gold">
+                    {% if forloop.counter == 1 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/gold_medal.png' %}">
+                    {% elif forloop.counter == 2 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/silver_medal.png' %}">
+                    {% elif forloop.counter == 3 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/bronze_medal.png' %}">
+                    {% else %}
+                        <span class="ranking-num">{{ forloop.counter }}</span>
+                    {% endif %}
                 </div>
+
                 <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
+                    <span class="ranking-room-name">{{ room.title }}</span>
+                    <span class="ranking-leader">
+                        팀장 {{ room.host.user.username|default:"방장 없음" }}
+                    </span>
                 </div>
-                <span class="ranking-temp">91°C</span>
+
+                <span class="ranking-temp">
+                    {{ room.temperature }}°C
+                </span>
+
             </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/silver_medal.png' %}" alt="silver">
-                </div>                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-temp">91°C</span>
-            </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/bronze_medal.png' %}" alt="bronze">
-                </div>
-                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-temp">91°C</span>
-            </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <span class="ranking-num">1</span>
-                </div>
-                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-temp">91°C</span>
-            </div>
+            {% endfor %}
+
         </div>
+
+
+        <!-- 최다 라운드 -->
         <div class="ranking-list" id="my-round-ranking" style="display:none">
+
+            {% for room in my_round_ranking %}
             <div class="ranking-list-item">
+
                 <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/gold_medal.png' %}" alt="gold">
+                    {% if forloop.counter == 1 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/gold_medal.png' %}">
+                    {% elif forloop.counter == 2 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/silver_medal.png' %}">
+                    {% elif forloop.counter == 3 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/bronze_medal.png' %}">
+                    {% else %}
+                        <span class="ranking-num">{{ forloop.counter }}</span>
+                    {% endif %}
                 </div>
+
                 <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
+                    <span class="ranking-room-name">{{ room.title }}</span>
+                    <span class="ranking-leader">
+                        팀장 {{ room.host.user.username|default:"방장 없음" }}
+                    </span>
                 </div>
-                <span class="ranking-max-round">34회</span>
+
+                <span class="ranking-max-round">
+                    {{ room.round_count }}회
+                </span>
+
             </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/silver_medal.png' %}" alt="silver">
-                </div>                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-max-round">34회</span>
-            </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/bronze_medal.png' %}" alt="bronze">
-                </div>
-                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-max-round">34회</span>
-            </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <span class="ranking-num">1</span>
-                </div>
-                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-max-round">34회</span>
-            </div>
+            {% endfor %}
+
         </div>
 
+
+        <!-- 최장 라운드 -->
         <div class="ranking-list" id="my-time-ranking" style="display:none">
+
+            {% for room in my_time_ranking %}
             <div class="ranking-list-item">
+
                 <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/gold_medal.png' %}" alt="gold">
+                    {% if forloop.counter == 1 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/gold_medal.png' %}">
+                    {% elif forloop.counter == 2 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/silver_medal.png' %}">
+                    {% elif forloop.counter == 3 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/bronze_medal.png' %}">
+                    {% else %}
+                        <span class="ranking-num">{{ forloop.counter }}</span>
+                    {% endif %}
                 </div>
+
                 <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
+                    <span class="ranking-room-name">{{ room.title }}</span>
+                    <span class="ranking-leader">
+                        팀장 {{ room.host.user.username|default:"방장 없음" }}
+                    </span>
                 </div>
-                <span class="ranking-max-time">14:30</span>
+
+                <span class="ranking-max-time">
+                    {{ room.duration_display }}
+                </span>
+
             </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/silver_medal.png' %}" alt="silver">
-                </div>                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-max-time">14:30</span>
-            </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/bronze_medal.png' %}" alt="bronze">
-                </div>
-                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-max-time">14:30</span>
-            </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <span class="ranking-num">1</span>
-                </div>
-                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-max-time">14:30</span>
-            </div>
+            {% endfor %}
+
         </div>
 
+
+        <!-- 최고 변화 횟수 -->
         <div class="ranking-list" id="my-change-ranking" style="display:none">
+
+            {% for room in my_change_ranking %}
             <div class="ranking-list-item">
+
                 <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/gold_medal.png' %}" alt="gold">
+                    {% if forloop.counter == 1 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/gold_medal.png' %}">
+                    {% elif forloop.counter == 2 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/silver_medal.png' %}">
+                    {% elif forloop.counter == 3 %}
+                        <img class="ranking-medal-img"
+                             src="{% static 'images/bronze_medal.png' %}">
+                    {% else %}
+                        <span class="ranking-num">{{ forloop.counter }}</span>
+                    {% endif %}
                 </div>
+
                 <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
+                    <span class="ranking-room-name">{{ room.title }}</span>
+                    <span class="ranking-leader">
+                        팀장 {{ room.host.user.username|default:"방장 없음" }}
+                    </span>
                 </div>
-                <span class="ranking-max-change">14회</span>
+
+                <span class="ranking-max-change">
+                    {{ room.sum_changes|default:0 }}회
+                </span>
+
             </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/silver_medal.png' %}" alt="silver">
-                </div>                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-max-change">14회</span>
-            </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <img class="ranking-medal-img" src="{% static 'images/bronze_medal.png' %}" alt="bronze">
-                </div>
-                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-max-change">14회</span>
-            </div>
-            <div class="ranking-list-item">
-                <div class="ranking-rank">
-                    <span class="ranking-num">1</span>
-                </div>
-                <div class="ranking-room-info">
-                    <span class="ranking-room-name">가나다라마바사</span>
-                    <span class="ranking-leader">팀장 오도독</span>
-                </div>
-                <span class="ranking-max-change">14회</span>
-            </div>
+            {% endfor %}
+
         </div>
 
     </div>

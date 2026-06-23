@@ -22,13 +22,24 @@ const openBtns = document.querySelectorAll(".my-rank-btn");
 const modalOverlay = document.querySelector(".my-rank-modal-overlay");
 const closeBtn = document.querySelector(".my-rank-close-btn");
 
-if(openBtns) {
+if (openBtns) {
     openBtns.forEach(btn => {
-        btn.addEventListener("click", () => modalOverlay.classList.add("show"));
+        btn.addEventListener("click", () => {
+            modalOverlay.classList.add("show");
+
+            // 버튼 숨기기
+            openBtns.forEach(b => b.classList.add("hidden"));
+        });
     });
 }
-if(closeBtn) {
-    closeBtn.addEventListener("click", () => modalOverlay.classList.remove("show"));
+
+if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+        modalOverlay.classList.remove("show");
+
+        // 버튼 다시 보이기
+        openBtns.forEach(b => b.classList.remove("hidden"));
+    });
 }
 
 // 3. 내 방 순위 모달 내부 탭 전환
