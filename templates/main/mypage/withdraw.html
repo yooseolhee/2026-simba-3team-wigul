@@ -27,7 +27,7 @@
 
     <div class="button-group">
         <button type="button" class="btn-dark disabled" id="btn-withdraw" disabled>탈퇴하기</button>
-        <a href="/user/mypage" class="btn-red text-center">취소</a>
+        <a href="{% url 'mypage' %}" class="btn-red text-center">취소</a>
     </div>
 </div>
 
@@ -37,7 +37,7 @@
         <h3 class="modal-title">정말 탈퇴하시나요?</h3>
         <p class="modal-desc">탈퇴하면 위굴이와 더이상 함께 하지 못해요...<br>또한 모든 기록이 삭제되고 복구할 수 없어요.</p>
         
-        <form action="/user/withdraw" method="POST" class="modal-button-group">
+        <form action="{% url 'withdraw' %}" method="POST" class="modal-button-group">
             {% csrf_token %}
             <button type="submit" class="btn-dark">네, 탈퇴할게요</button>
             <button type="button" class="btn-red" id="btn-cancel-modal">아니요, 남을게요</button>

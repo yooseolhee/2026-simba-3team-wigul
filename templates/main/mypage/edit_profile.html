@@ -8,8 +8,8 @@
     {% csrf_token %} <h1 class="page-title">프로필 수정</h1>
 
     <div class="input-section">
-        <label class="section-label">닉네임</label>
-        <input type="text" name="nickname" class="nickname-input" placeholder="수정할 닉네임을 입력해주세요." value="{{ profile.nickname }}">        
+        <label class="section-label" for="nicknameInput">닉네임</label>
+        <input type="text" name="nickname" id="nicknameInput" class="nickname-input" placeholder="수정할 닉네임을 입력해주세요." value="{{ profile.nickname }}">        
         
         <div class="help-text-row">
             <div class="help-text-left">
@@ -23,6 +23,9 @@
         <label class="section-label">프로필</label>
         
         <div class="profile-selection-box">
+            <input type="hidden" name="profile_color" id="selectedColor" value="bg-red">
+            <input type="hidden" name="profile_image" id="selectedCharacter" value="{% static 'images/wigul_1.png' %}">
+
             <div class="preview-container">
                 <div class="avatar-preview bg-red" id="avatarPreview">
                     <img src="{% static 'images/wigul_1.png' %}" alt="현재 캐릭터" id="previewImg">
