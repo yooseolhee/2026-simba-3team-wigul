@@ -1,10 +1,8 @@
 import random
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST
 from django.utils import timezone
 from .models import Room, RoomMember, GameRound, Question, TempEngine, Vote
-
 
 
 def intro_view(request):
@@ -47,8 +45,8 @@ def create_room_view(request):
             room=new_room,
             is_host=True
         )
-        
-        # 주소 매핑 규칙에 맞게 리다이렉트 경로 확인 (game 뷰로 바로 쏘거나 subject_select로 전송)
+
+        # 방 생성 후 select 모달 페이지로
         return redirect('subject_select', room_id=new_room.id)
 
     return render(request, 'main/home/create_room.html')
@@ -69,7 +67,7 @@ def subject_select_modal_view(request, room_id):
 
     current_round = room.rounds.order_by('-round_number').first()
 
-    # 라운드가 없으면 1라운드 생성
+    # 라운드 없으면 1라운드 생성
     if current_round is None:
         current_zone = TempEngine.zone_for(room.temperature)
         target_zone = TempEngine.pick_question_zone(current_zone)
@@ -96,21 +94,25 @@ def subject_select_modal_view(request, room_id):
             )
             current_round.start_timer(minutes=5)
 
-    # ★ POST: A/B 선택 저장 후 game으로
+    # ★★★ POST: INITIAL / FINAL 둘 다 여기서 처리 (다른 분기보다 먼저!) ★★★
     if request.method == 'POST' and current_round:
         side = request.POST.get('side')
-        if side in {Vote.Side.A, Vote.Side.B}:
+        phase = request.POST.get('phase', Vote.Phase.INITIAL)
+
+        valid_sides = {Vote.Side.A, Vote.Side.B}
+        valid_phases = {Vote.Phase.INITIAL, Vote.Phase.FINAL}  # MID 제거
+
+        if side in valid_sides and phase in valid_phases:
             Vote.objects.update_or_create(
                 round=current_round,
                 member=my_member,
-                phase=Vote.Phase.INITIAL,
+                phase=phase,
                 defaults={'side': side},
             )
             return redirect('game', room_id=room.id)
-        # 잘못된 값이면 다시 모달 보여주기 (아래 render로 떨어짐)
 
-    # 이미 INITIAL 투표를 한 사람은 모달 다시 안 보여주고 game으로
-    if current_round and Vote.objects.filter(
+    # GET: 이미 INITIAL 투표한 사람은 select 모달 건너뛰고 game으로
+    if request.method == 'GET' and current_round and Vote.objects.filter(
         round=current_round, member=my_member, phase=Vote.Phase.INITIAL
     ).exists():
         return redirect('game', room_id=room.id)
@@ -121,6 +123,7 @@ def subject_select_modal_view(request, room_id):
         'temp_message': TempEngine.message_for(room.temperature),
     }
     return render(request, 'main/home/subject_select_modal.html', context)
+
 
 @login_required
 def game_view(request, room_id):
@@ -143,7 +146,7 @@ def game_view(request, room_id):
     latest_round = room.rounds.order_by('-round_number').first()
     force_next = request.GET.get('next') == '1'
 
-    current_round = None  # 안전 초기화
+    current_round = None
 
     if not latest_round:
         current_temp = TempEngine.START
@@ -188,15 +191,22 @@ def game_view(request, room_id):
     if current_round and current_round.expires_at:
         expires_at_iso = current_round.expires_at.isoformat()
 
-    # 현재 라운드 투표 집계 (INITIAL 기준)
+    # 현재 라운드 투표 집계
     a_count = 0
     b_count = 0
     my_side = None
     if current_round:
-        round_votes = current_round.votes.filter(phase=Vote.Phase.INITIAL)
-        a_count = round_votes.filter(side=Vote.Side.A).count()
-        b_count = round_votes.filter(side=Vote.Side.B).count()
-        my_vote = round_votes.filter(member=my_member).first()
+        round_votes = current_round.votes.all()
+
+        # 점수는 INITIAL 기준
+        initial_votes = round_votes.filter(phase=Vote.Phase.INITIAL)
+        a_count = initial_votes.filter(side=Vote.Side.A).count()
+        b_count = initial_votes.filter(side=Vote.Side.B).count()
+
+        # 내 표는 FINAL 우선, 없으면 INITIAL
+        my_final = round_votes.filter(member=my_member, phase=Vote.Phase.FINAL).first()
+        my_initial = round_votes.filter(member=my_member, phase=Vote.Phase.INITIAL).first()
+        my_vote = my_final or my_initial
         if my_vote:
             my_side = my_vote.side
 
