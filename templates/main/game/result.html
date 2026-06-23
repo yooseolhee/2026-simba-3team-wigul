@@ -69,7 +69,33 @@
         </div>
     </div>
 
-    <a href="{% url 'game' room.id %}?next=1" class="result-next-btn">다음 라운드</a>
+    <div class="result-actions" style="display:flex; gap:10px; justify-content:center; margin-top:8px;">
+        {% if is_host %}
+            <a href="{% url 'subject_select' room.id %}" class="result-next-btn">다음 라운드</a>
+        {% endif %}
+        <a href="{% url 'home' %}" class="result-exit-btn">나가기</a>
+    </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const NEXT_API = "{% url 'next_round_api' room.id current_round.round_number %}";
+    const SUBJECT_URL = "{% url 'subject_select' room.id %}";
+
+    // 방장이 '다음 라운드'를 눌러 새 라운드가 생기면, 팀원도 함께 초기투표 화면으로 이동
+    function pollNextRound() {
+        fetch(NEXT_API)
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                if (data.advanced) {
+                    window.location.href = SUBJECT_URL;
+                }
+            })
+            .catch(function() {});
+    }
+
+    setInterval(pollNextRound, 2000);
+});
+</script>
 
 {% endblock content %}

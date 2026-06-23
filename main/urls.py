@@ -15,6 +15,9 @@ urlpatterns = [
     # 🎮 게임 진행 및 결과 플로우
     path('game/<uuid:room_id>/', views.game_view, name='game'),
     path('subject-select/<uuid:room_id>/', views.subject_select_modal_view, name='subject_select'),
+    path('game/<uuid:room_id>/<int:round_number>/initial-vote/', views.initial_vote_view, name='initial_vote'),
+    path('game/<uuid:room_id>/<int:round_number>/initial-status/', views.initial_status_api, name='initial_status'),
+    path('game/<uuid:room_id>/<int:round_number>/next-round/', views.next_round_api, name='next_round_api'),
     path('game/<uuid:room_id>/<int:round_number>/state/', views.round_state_api, name='round_state'),
     path('game/<uuid:room_id>/<int:round_number>/start-voting/', views.start_voting_view, name='start_voting'),
     path('game/<uuid:room_id>/<int:round_number>/final-vote/', views.final_vote_view, name='final_vote'),

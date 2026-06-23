@@ -7,7 +7,7 @@
 <div class="select-modal" id="subjectSelectModal" style="display:flex;">
     <div class="select-content">
         {% if current_round %}
-        <div class="select-title">1라운드 주제</div>
+        <div class="select-title">{{ current_round.round_number }}라운드 주제</div>
         <div class="select-subject">
             <div class="select-subject-title">{{ current_round.question.get_topic_display }}</div>
 
@@ -23,19 +23,26 @@
 
             <div class="select-subject-detail">{{ current_round.question_text }}</div>
 
-            <form method="post"
-                action="{% url 'subject_select' room.id %}"
-                class="select-game-balance">
+            <div class="select-game-balance"
+                 data-vote-url="{% url 'initial_vote' room.id current_round.round_number %}"
+                 data-status-url="{% url 'initial_status' room.id current_round.round_number %}"
+                 data-game-url="{% url 'game' room.id %}"
+                 data-already="{{ already_voted|yesno:'true,false' }}">
                 {% csrf_token %}
-                <button type="submit" name="side" value="A" class="select-game-balance-a">
+                <button type="button" data-side="A" class="select-game-balance-a">
                     <span class="select-game-balance-side">A</span>
                     <span class="select-game-balance-detail">{{ current_round.option_a }}</span>
                 </button>
-                <button type="submit" name="side" value="B" class="select-game-balance-b">
+                <button type="button" data-side="B" class="select-game-balance-b">
                     <span class="select-game-balance-side">B</span>
                     <span class="select-game-balance-detail">{{ current_round.option_b }}</span>
                 </button>
-            </form>
+            </div>
+
+            <div class="select-waiting" id="selectWaiting" style="display:none; text-align:center; margin-top:14px; font-weight:600;">
+                다른 참여자를 기다리는 중...
+                (<span id="selectProgress">{{ voted_count }}/{{ member_count }}</span>)
+            </div>
         </div>
         {% else %}
         <div class="select-title">질문을 불러올 수 없어요</div>
@@ -43,5 +50,85 @@
         {% endif %}
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const box = document.querySelector('.select-game-balance');
+    if (!box) return;
+
+    const VOTE_URL = box.dataset.voteUrl;
+    const STATUS_URL = box.dataset.statusUrl;
+    const GAME_URL = box.dataset.gameUrl;
+    const already = box.dataset.already === 'true';
+
+    const buttons = box.querySelectorAll('button[data-side]');
+    const waiting = document.getElementById('selectWaiting');
+    const progress = document.getElementById('selectProgress');
+
+    function getCookie(name) {
+        const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return m ? m.pop() : '';
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    let statusInterval = null;
+
+    function pollStatus() {
+        fetch(STATUS_URL)
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                progress.textContent = data.voted + '/' + data.total;
+                if (data.all_done) {
+                    clearInterval(statusInterval);
+                    window.location.href = GAME_URL;   // 전원 선택 완료 → 함께 게임으로
+                }
+            })
+            .catch(function(e) { console.error('상태 확인 실패', e); });
+    }
+
+    // 선택 완료 후 대기 상태로 전환
+    function enterWaiting() {
+        buttons.forEach(function(b) { b.disabled = true; });
+        waiting.style.display = 'block';
+        pollStatus();
+        statusInterval = setInterval(pollStatus, 2000);
+    }
+
+    // A / B 선택 → 초기 투표 저장
+    buttons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            const side = this.dataset.side;
+            this.classList.add('selected');
+
+            const body = new URLSearchParams();
+            body.append('side', side);
+
+            fetch(VOTE_URL, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken,
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: body.toString(),
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                progress.textContent = data.voted + '/' + data.total;
+                if (data.all_done) {
+                    window.location.href = GAME_URL;
+                } else {
+                    enterWaiting();
+                }
+            })
+            .catch(function(err) { console.error('초기 투표 실패:', err); });
+        });
+    });
+
+    // 이미 투표한 채로 이 화면에 돌아온 경우 바로 대기 + polling
+    if (already) {
+        enterWaiting();
+    }
+});
+</script>
 
 {% endblock %}

@@ -68,21 +68,21 @@
             <div class="current-mem-num">총 {{ member_count }}명</div>
             <div class="current-side-dsc">지금은 무승부에요!</div>
             <div class="current-side-score">
-                <span class="side-a-score">{{ a_count|default:0 }}</span>
+                <span class="side-a-score" id="aCount">{{ a_count|default:0 }}</span>
                 <span class="side-colon">:</span>
-                <span class="side-b-score">{{ b_count|default:0 }}</span>
+                <span class="side-b-score" id="bCount">{{ b_count|default:0 }}</span>
             </div>
             <div class="current-side-more">자세히 보기 <i class="fa-solid fa-angle-down detail-arrow"></i></div>
 
             <div class="current-side-detail">
                 {% for member in room_members %}
-                    <div class="{% if member == my_member %}game_profile_me{% else %}game_profile{% endif %}">
+                    <div class="{% if member == my_member %}game_profile_me{% else %}game_profile{% endif %}" data-member-id="{{ member.id }}">
                         <img src="{% static 'images/logo_wigul.png' %}" alt="개굴" class="game_profile_img">
                         <div class="game_profile_name">
                             {{ member.user.username }}
                             {% if member.is_host %}<small style="color: #62c111; font-weight:bold;">(방장)</small>{% endif %}
                         </div>
-                        <div class="game_profile_side-A">A</div>
+                        <div class="game_profile_side-{{ member.side }}" data-side-label>{{ member.side }}</div>
                     </div>
                 {% endfor %}
             </div>
@@ -126,6 +126,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const finalModal = document.getElementById('finalModal');
     const voteNowBtn = document.getElementById('voteNowBtn');
     const extendBtn = document.getElementById('extendBtn');
+    const aCountEl = document.getElementById('aCount');
+    const bCountEl = document.getElementById('bCount');
 
     let targetTime = new Date("{{ expires_at_iso }}").getTime();
     let countdownInterval = null;
@@ -205,11 +207,31 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // 멤버 프로필의 A/B 선택을 실시간으로 갱신
+    function renderSides(members) {
+        if (!members) return;
+        members.forEach(function(m) {
+            const el = document.querySelector('[data-member-id="' + m.id + '"] [data-side-label]');
+            if (el) {
+                el.textContent = m.side;
+                el.className = 'game_profile_side-' + m.side;
+                el.setAttribute('data-side-label', '');
+            }
+        });
+    }
+
     // ===== polling: 방장/팀원 화면 공통 동기화 =====
     function poll() {
         fetch(STATE_URL)
             .then(res => res.json())
             .then(data => {
+                // 표수 갱신
+                if (aCountEl) aCountEl.textContent = data.a_count;
+                if (bCountEl) bCountEl.textContent = data.b_count;
+
+                // 멤버별 선택(A/B) 프로필 갱신
+                renderSides(data.members);
+
                 // 연장으로 만료 시각이 바뀌면 타이머 재동기화
                 if (data.expires_at) {
                     const newTarget = new Date(data.expires_at).getTime();

@@ -7,6 +7,7 @@ from django.http import JsonResponse
 from django.utils import timezone
 from django.templatetags.static import static
 from .models import Room, RoomMember, GameRound, Question, TempEngine, Vote, RoundPhase
+from django.db import IntegrityError
 from django.db.models import Count, Sum, Max, Value
 from django.db.models.functions import Coalesce
 
@@ -148,9 +149,43 @@ def room_detail_view(request, room_id):
     return render(request, 'main/room/detail.html', context)
 
 
+def _create_round(room, round_number, temp_before):
+    """주어진 번호로 라운드를 생성한다. 동시 생성 충돌 시 기존 라운드를 반환."""
+    current_zone = TempEngine.zone_for(temp_before)
+    target_zone = TempEngine.pick_question_zone(current_zone)
+
+    questions = Question.objects.filter(
+        topic=room.current_topic, zone=target_zone, is_active=True
+    )
+    if not questions.exists():
+        questions = Question.objects.filter(topic=room.current_topic, is_active=True)
+    if not questions.exists():
+        return None
+
+    selected_q = random.choice(list(questions))
+    try:
+        new_round = GameRound.objects.create(
+            room=room,
+            round_number=round_number,
+            question=selected_q,
+            question_text=selected_q.text,
+            question_zone=target_zone,
+            option_a=selected_q.option_a,
+            option_b=selected_q.option_b,
+            temp_before=temp_before,
+        )
+        new_round.start_timer(minutes=5)
+        return new_round
+    except IntegrityError:
+        # 다른 멤버가 먼저 같은 번호의 라운드를 만든 경우 그것을 사용
+        return room.rounds.filter(round_number=round_number).first()
+
+
 @login_required
 def subject_select_modal_view(request, room_id):
-    """라운드 진입 전 투표 단계입니다. 최초 투표(INITIAL) 여부에 따라 유기적으로 흐름을 제어합니다."""
+    """라운드 진입 전 초기 투표(INITIAL) 단계.
+    모두가 선택을 마치면 함께 game 으로 이동하기 위해 투표는 AJAX(initial_vote)로 처리하고,
+    이 뷰는 라운드를 준비하고 대기 화면을 렌더링하는 역할만 한다."""
     room = get_object_or_404(Room, id=room_id)
 
     my_member, _ = RoomMember.objects.get_or_create(
@@ -161,65 +196,76 @@ def subject_select_modal_view(request, room_id):
 
     current_round = room.rounds.order_by('-round_number').first()
 
-    # 방에 첫 라운드가 없는 경우 1라운드를 동적으로 자동 생성합니다.
+    # 라운드 결정: 없으면 1라운드, 직전 라운드가 끝났으면(다음 라운드 진입) 새 라운드 생성
     if current_round is None:
-        current_zone = TempEngine.zone_for(room.temperature)
-        target_zone = TempEngine.pick_question_zone(current_zone)
-
-        questions = Question.objects.filter(
-            topic=room.current_topic, zone=target_zone, is_active=True
+        current_round = _create_round(room, 1, room.temperature)
+    elif current_round.phase == RoundPhase.FINISHED:
+        current_round = _create_round(
+            room, current_round.round_number + 1, room.temperature
         )
-        if not questions.exists():
-            questions = Question.objects.filter(
-                topic=room.current_topic, is_active=True
-            )
 
-        if questions.exists():
-            selected_q = random.choice(questions)
-            current_round = GameRound.objects.create(
-                room=room,
-                round_number=1,
-                question=selected_q,
-                question_text=selected_q.text,
-                question_zone=selected_q.zone,
-                option_a=selected_q.option_a,
-                option_b=selected_q.option_b,
-                temp_before=room.temperature,
-            )
-            current_round.start_timer(minutes=5)
-
-    # POST 요청: INITIAL 또는 FINAL 단계 투표 처리
-    if request.method == 'POST' and current_round:
-        side = request.POST.get('side')
-        phase = request.POST.get('phase', Vote.Phase.INITIAL)
-
-        valid_sides = {Vote.Side.A, Vote.Side.B}
-        valid_phases = {Vote.Phase.INITIAL, Vote.Phase.FINAL}
-
-        if side in valid_sides and phase in valid_phases:
-            Vote.objects.update_or_create(
-                round=current_round,
-                member=my_member,
-                phase=phase,
-                defaults={'side': side},
-            )
-
-            if phase == Vote.Phase.FINAL:
-                return redirect('result', room_id=room.id, round_number=current_round.round_number)
-            return redirect('game', room_id=room.id)
-
-    # GET 요청: 이미 INITIAL 투표를 마친 인원은 모달을 생략하고 게임방으로 리다이렉트합니다.
-    if request.method == 'GET' and current_round and Vote.objects.filter(
-        round=current_round, member=my_member, phase=Vote.Phase.INITIAL
-    ).exists():
-        return redirect('game', room_id=room.id)
+    already_voted = False
+    voted_count = 0
+    if current_round:
+        already_voted = Vote.objects.filter(
+            round=current_round, member=my_member, phase=Vote.Phase.INITIAL
+        ).exists()
+        voted_count = current_round.votes.filter(phase=Vote.Phase.INITIAL).count()
 
     context = {
         'room': room,
         'current_round': current_round,
         'temp_message': TempEngine.message_for(room.temperature),
+        'already_voted': already_voted,
+        'voted_count': voted_count,
+        'member_count': room.members.count(),
     }
     return render(request, 'main/home/subject_select_modal.html', context)
+
+
+@login_required
+@require_POST
+def initial_vote_view(request, room_id, round_number):
+    """[AJAX] 초기 투표를 DB에 저장한다. 화면 전환은 polling(initial_status)이 판단."""
+    room = get_object_or_404(Room, id=room_id)
+    game_round = get_object_or_404(GameRound, room=room, round_number=round_number)
+    my_member = room.members.filter(user=request.user).first()
+
+    side = request.POST.get('side')
+    if side in {Vote.Side.A, Vote.Side.B} and my_member:
+        Vote.objects.update_or_create(
+            round=game_round,
+            member=my_member,
+            phase=Vote.Phase.INITIAL,
+            defaults={'side': side},
+        )
+
+    voted = game_round.votes.filter(phase=Vote.Phase.INITIAL).count()
+    total = room.members.count()
+    return JsonResponse({'voted': voted, 'total': total, 'all_done': voted >= total})
+
+
+@login_required
+def initial_status_api(request, room_id, round_number):
+    """[polling] 모두 INITIAL 투표를 마쳤는지 확인."""
+    room = get_object_or_404(Room, id=room_id)
+    game_round = get_object_or_404(GameRound, room=room, round_number=round_number)
+
+    voted = game_round.votes.filter(phase=Vote.Phase.INITIAL).count()
+    total = room.members.count()
+    return JsonResponse({'voted': voted, 'total': total, 'all_done': voted >= total})
+
+
+@login_required
+def next_round_api(request, room_id, round_number):
+    """[polling] 결과 화면에서 방장이 다음 라운드를 시작했는지 감지."""
+    room = get_object_or_404(Room, id=room_id)
+    latest = room.rounds.order_by('-round_number').first()
+    latest_num = latest.round_number if latest else round_number
+    return JsonResponse({
+        'latest_round': latest_num,
+        'advanced': latest_num > round_number,
+    })
 
 
 # ==========================================
@@ -276,6 +322,13 @@ def round_state_api(request, room_id, round_number):
     a_count = initial_votes.filter(side=Vote.Side.A).count()
     b_count = initial_votes.filter(side=Vote.Side.B).count()
 
+    # 멤버별 현재 선택(FINAL > MID > INITIAL 우선)을 함께 내려보내 프로필 A/B를 실시간 갱신
+    sides = game_round.live_sides()
+    members = [
+        {'id': m.id, 'side': sides.get(m.id, '-')}
+        for m in room.members.all()
+    ]
+
     return JsonResponse({
         'phase': game_round.phase,
         'remaining': game_round.get_remaining_seconds(),
@@ -284,6 +337,7 @@ def round_state_api(request, room_id, round_number):
         'a_count': a_count,
         'b_count': b_count,
         'member_count': room.members.count(),
+        'members': members,
     })
 
 @login_required
@@ -404,11 +458,14 @@ def game_view(request, room_id):
         expires_at_iso = current_round.expires_at.isoformat()
 
     a_count, b_count, my_side = 0, 0, None
+    sides = {}
     if current_round:
         round_votes = current_round.votes.all()
         initial_votes = round_votes.filter(phase=Vote.Phase.INITIAL)
         a_count = initial_votes.filter(side=Vote.Side.A).count()
         b_count = initial_votes.filter(side=Vote.Side.B).count()
+
+        sides = current_round.live_sides()
 
         my_final = round_votes.filter(member=my_member, phase=Vote.Phase.FINAL).first()
         my_initial = round_votes.filter(member=my_member, phase=Vote.Phase.INITIAL).first()
@@ -416,13 +473,19 @@ def game_view(request, room_id):
         if my_vote:
             my_side = my_vote.side
 
+    # 각 멤버에 현재 선택(side)을 붙여 프로필에 A/B 를 표시
+    members_with_side = []
+    for m in room_members:
+        m.side = sides.get(m.id, '-')
+        members_with_side.append(m)
+
     context = {
         'room': room,
         'current_temp': current_temp,
         'temp_message': TempEngine.message_for(current_temp),
         'current_round': current_round,
         'expires_at_iso': expires_at_iso,
-        'room_members': room_members,
+        'room_members': members_with_side,
         'my_member': my_member,
         'is_host': my_member.is_host,
         'member_count': room_members.count(),
@@ -474,11 +537,15 @@ def result_view(request, room_id, round_number):
         m.final_side = final_map.get(m.id, '-')
         members_with_side.append(m)
 
+    my_member = room_members.filter(user=request.user).first()
+    is_host = bool(my_member and my_member.is_host)
+
     context = {
         'room': room,
         'current_round': game_round,
         'room_members': members_with_side,
         'member_count': member_count,
+        'is_host': is_host,
         'score_a': score_a,
         'score_b': score_b,
         'changes': changes,
