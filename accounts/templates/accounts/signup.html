@@ -1,28 +1,27 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="ko">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WE, SIDE! - 회원가입</title>
     <link rel="stylesheet" href="{% static 'css/auth.css' %}">
 </head>
-
 <body>
     <div class="app-container">
         <header class="page-header">
             <a href="javascript:history.back()" class="back-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                    stroke-linecap="round" stroke-linejoin="round">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </a>
             <h2>회원가입</h2>
         </header>
 
-        <form action="{% url 'signup' %}" method="POST" class="auth-form signup-form">
+        <form method="POST" class="auth-form signup-form">
             {% csrf_token %}
+
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
 
             <div class="input-group">
                 <label for="username">아이디</label>
@@ -49,7 +48,6 @@
             <div class="input-group">
                 <label>프로필</label>
                 <div class="profile-box">
-
                     <div class="avatar-preview">
                         <div class="avatar-circle bg-red" id="avatarPreview">
                             <img id="previewImg" src="{% static 'images/wigul_1.png' %}" alt="위굴이">
@@ -144,15 +142,17 @@
                             <div class="char-item" data-img="{% static 'images/wigul_70.png' %}"><img src="{% static 'images/wigul_70.png' %}" alt="위굴이70"></div>
                         </div>
                     </div>
+                </div>
+            </div>
 
             <input type="hidden" name="profile_color" id="selectedColor" value="bg-red">
-                    <input type="hidden" name="profile_character" id="selectedCharacter" value="{% static 'images/wigul_1.png' %}">
+            <input type="hidden" name="profile_character" id="selectedCharacter" value="wigul_1">
  
             <button type="submit" class="primary-btn">설정 완료</button>
         </form>
     </div>
     <script>
-// 색상 버튼
+        // 색상 버튼
         document.querySelectorAll('.color-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
@@ -174,10 +174,13 @@
                 item.classList.add('active');
  
                 document.getElementById('previewImg').src = item.dataset.img;
-                document.getElementById('selectedCharacter').value = item.dataset.img;
+                
+                // ⭐ 정교한 저장을 위해 경로에서 파일의 순수 키값만 추출하여 저장합니다 (ex: wigul_1)
+                const imgUrl = item.dataset.img;
+                const match = imgUrl.match(/wigul_\d+/);
+                document.getElementById('selectedCharacter').value = match ? match[0] : 'wigul_1';
             });
         });
     </script>
 </body>
- 
 </html>

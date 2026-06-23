@@ -24,11 +24,11 @@
             </div>
         </div>
 
-        <form method="post"
-            action="{% url 'subject_select' room.id %}"
-            id="finalForm">
+        <form id="finalForm"
+              data-vote-url="{% url 'final_vote' room.id current_round.round_number %}"
+              data-status-url="{% url 'final_status' room.id current_round.round_number %}"
+              data-result-url="{% url 'result' room.id current_round.round_number %}">
             {% csrf_token %}
-            <input type="hidden" name="phase" value="FINAL">
             <input type="hidden" name="side" id="finalSideInput" value="{{ my_side|default:'A' }}">
 
             <div class="my-side toggle-container">
@@ -49,7 +49,11 @@
                 </div>
             </div>
 
-            <button type="submit" class="final-check">확인하기</button>
+            <button type="button" class="final-check" id="finalSubmitBtn">확인하기</button>
+
+            <div class="final-waiting" id="finalWaiting" style="display:none; text-align:center; margin-top:12px;">
+                다른 참여자를 기다리는 중... (<span id="voteProgress">0/0</span>)
+            </div>
         </form>
     </div>
 </div>
@@ -58,11 +62,70 @@
 document.addEventListener('DOMContentLoaded', function() {
     const toggle = document.getElementById('finalToggle');
     const sideInput = document.getElementById('finalSideInput');
+    const form = document.getElementById('finalForm');
+    const submitBtn = document.getElementById('finalSubmitBtn');
+    const waiting = document.getElementById('finalWaiting');
+    const progress = document.getElementById('voteProgress');
 
+    const VOTE_URL = form.dataset.voteUrl;
+    const STATUS_URL = form.dataset.statusUrl;
+    const RESULT_URL = form.dataset.resultUrl;
+
+    function getCookie(name) {
+        const m = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
+        return m ? m.pop() : '';
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    // 토글로 A/B 선택값 갱신
     if (toggle && sideInput) {
         toggle.addEventListener('change', function() {
             sideInput.value = this.checked ? 'B' : 'A';
         });
     }
+
+    let statusInterval = null;
+
+    function pollStatus() {
+        fetch(STATUS_URL)
+            .then(function(res) { return res.json(); })
+            .then(function(data) {
+                progress.textContent = data.voted + '/' + data.total;
+                if (data.all_done) {
+                    clearInterval(statusInterval);
+                    window.location.href = RESULT_URL;   // 전원 완료 → 함께 결과로
+                }
+            });
+    }
+
+    // 확인하기: FINAL 투표 저장 후 대기 polling 시작
+    submitBtn.addEventListener('click', function() {
+        const body = new URLSearchParams();
+        body.append('side', sideInput.value);
+
+        fetch(VOTE_URL, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrftoken,
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: body.toString(),
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = '투표 완료';
+            waiting.style.display = 'block';
+            progress.textContent = data.voted + '/' + data.total;
+
+            if (data.all_done) {
+                window.location.href = RESULT_URL;
+            } else {
+                pollStatus();
+                statusInterval = setInterval(pollStatus, 2000);
+            }
+        })
+        .catch(function(err) { console.error('최종 투표 실패:', err); });
+    });
 });
 </script>

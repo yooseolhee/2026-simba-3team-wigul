@@ -5,7 +5,11 @@
 <link rel="stylesheet" href="{% static 'css/game.css' %}">
 <script src="https://kit.fontawesome.com/f7691a6795.js" crossorigin="anonymous"></script>
 
-<div class="body">
+<div class="body"
+     data-is-host="{{ is_host|yesno:'true,false' }}"
+     data-state-url="{% url 'round_state' room.id current_round.round_number %}"
+     data-vote-url="{% url 'start_voting' room.id current_round.round_number %}"
+     data-extend-url="{% url 'extend_timer' room.id current_round.round_number %}">
     <div class="room-info">
         <div class="room-name">{{ room.title }}</div>
         <div class="room-temp">
@@ -50,8 +54,13 @@
                 <div class="game-time-detail" id="timer-display">05:00</div>
             </div>
             <div class="game-time-btn">
-                <button class="game-time-vote" id="voteNowBtn">바로 투표하기</button>
-                <button class="game-time-extention" id="extendBtn">5분 연장하기</button>
+                {% if is_host %}
+                    <button class="game-time-vote" id="voteNowBtn">바로 투표하기</button>
+                    <button class="game-time-extention" id="extendBtn">5분 연장하기</button>
+                {% else %}
+                    <button class="game-time-vote" id="voteNowBtn" disabled>바로 투표하기</button>
+                    <button class="game-time-extention" id="extendBtn" disabled>방장이 진행합니다</button>
+                {% endif %}
             </div>
         </div>
 
@@ -107,6 +116,12 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    const bodyEl = document.querySelector('.body');
+    const isHost = bodyEl.dataset.isHost === 'true';
+    const STATE_URL = bodyEl.dataset.stateUrl;
+    const VOTE_URL = bodyEl.dataset.voteUrl;
+    const EXTEND_URL = bodyEl.dataset.extendUrl;
+
     const timerDisplay = document.getElementById('timer-display');
     const finalModal = document.getElementById('finalModal');
     const voteNowBtn = document.getElementById('voteNowBtn');
@@ -114,62 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let targetTime = new Date("{{ expires_at_iso }}").getTime();
     let countdownInterval = null;
-
-    function openFinalModal() {
-        if (finalModal) finalModal.style.display = 'flex';
-    }
-
-    function runCountdown() {
-        const gap = targetTime - new Date().getTime();
-
-        if (gap <= 0) {
-            timerDisplay.textContent = "00:00";
-            clearInterval(countdownInterval);
-            openFinalModal();
-            return;
-        }
-
-        const minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((gap % (1000 * 60)) / 1000);
-        timerDisplay.textContent =
-            (minutes < 10 ? '0' + minutes : minutes) + ":" +
-            (seconds < 10 ? '0' + seconds : seconds);
-    }
-
-    function startCountdown() {
-        if (countdownInterval) clearInterval(countdownInterval);
-        runCountdown();
-        countdownInterval = setInterval(runCountdown, 1000);
-    }
-
-    if ("{{ expires_at_iso }}") {
-        startCountdown();
-    } else {
-        timerDisplay.textContent = "05:00";
-    }
-
-    // 바로 투표하기
-    if (voteNowBtn) {
-        voteNowBtn.addEventListener('click', openFinalModal);
-    }
-
-    // 5분 연장하기
-    if (extendBtn) {
-        extendBtn.addEventListener('click', function() {
-            fetch("{% url 'extend_timer' room.id current_round.round_number %}", {
-                method: "POST",
-                headers: {
-                    "X-CSRFToken": getCookie('csrftoken'),
-                },
-            })
-            .then(res => res.json())
-            .then(data => {
-                targetTime = new Date(data.expires_at).getTime();
-                startCountdown();
-            })
-            .catch(err => console.error('연장 실패:', err));
-        });
-    }
+    let modalOpened = false;
 
     function getCookie(name) {
         let cookieValue = null;
@@ -185,6 +145,90 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         return cookieValue;
     }
+    const csrftoken = getCookie('csrftoken');
+
+    function openFinalModal() {
+        if (finalModal && !modalOpened) {
+            finalModal.style.display = 'flex';
+            modalOpened = true;
+        }
+    }
+
+    function fmt(gap) {
+        if (gap <= 0) return "00:00";
+        const minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((gap % (1000 * 60)) / 1000);
+        return (minutes < 10 ? '0' + minutes : minutes) + ":" +
+               (seconds < 10 ? '0' + seconds : seconds);
+    }
+
+    function runCountdown() {
+        const gap = targetTime - new Date().getTime();
+        timerDisplay.textContent = fmt(gap);
+        if (gap <= 0) {
+            clearInterval(countdownInterval);
+            openFinalModal();
+        }
+    }
+
+    function startCountdown() {
+        if (countdownInterval) clearInterval(countdownInterval);
+        runCountdown();
+        countdownInterval = setInterval(runCountdown, 1000);
+    }
+
+    if ("{{ expires_at_iso }}") {
+        startCountdown();
+    } else {
+        timerDisplay.textContent = "05:00";
+    }
+
+    // ===== 방장 버튼: DB에 상태 저장 (화면 전환은 polling이 담당) =====
+    if (isHost && voteNowBtn) {
+        voteNowBtn.addEventListener('click', function() {
+            fetch(VOTE_URL, { method: "POST", headers: { "X-CSRFToken": csrftoken } })
+                .catch(err => console.error('투표 전환 실패:', err));
+        });
+    }
+
+    if (isHost && extendBtn) {
+        extendBtn.addEventListener('click', function() {
+            fetch(EXTEND_URL, { method: "POST", headers: { "X-CSRFToken": csrftoken } })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.expires_at) {
+                        targetTime = new Date(data.expires_at).getTime();
+                        startCountdown();
+                    }
+                })
+                .catch(err => console.error('연장 실패:', err));
+        });
+    }
+
+    // ===== polling: 방장/팀원 화면 공통 동기화 =====
+    function poll() {
+        fetch(STATE_URL)
+            .then(res => res.json())
+            .then(data => {
+                // 연장으로 만료 시각이 바뀌면 타이머 재동기화
+                if (data.expires_at) {
+                    const newTarget = new Date(data.expires_at).getTime();
+                    if (Math.abs(newTarget - targetTime) > 1500) {
+                        targetTime = newTarget;
+                        startCountdown();
+                    }
+                }
+
+                // 방장이 '바로 투표하기'를 누르거나 시간이 다 되면 모두 모달 오픈
+                if (data.phase === 'VOTING' || data.remaining <= 0) {
+                    openFinalModal();
+                }
+            })
+            .catch(err => console.error('polling 실패:', err));
+    }
+
+    poll();
+    setInterval(poll, 2000);
 });
 </script>
 {% endblock content %}

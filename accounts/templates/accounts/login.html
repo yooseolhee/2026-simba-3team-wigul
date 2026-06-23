@@ -16,8 +16,12 @@
             <h2>로그인</h2>
         </header>
 
-        <form action="{% url 'login' %}" method="POST" class="auth-form login-form">
+        <form method="POST" class="auth-form login-form">
             {% csrf_token %}
+            
+            {% if next %}
+                <input type="hidden" name="next" value="{{ next }}">
+            {% endif %}
             
             <div class="input-wrapper">
                 <div class="input-group">
@@ -31,21 +35,17 @@
                     <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요..."
                         class="{% if error %}error-border{% endif %}" required>
                 
-                {% if error %}
-                    <div class="error-text">
-                        <!-- 경고 아이콘  -->
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <line x1="12" y1="8" x2="12" y2="12"></line>
-                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                        </svg>
-                        올바른 아이디 혹은 비밀번호를 입력하세요
+                    {% if error %}
+                        <div class="error-text">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            올바른 아이디 혹은 비밀번호를 입력하세요
+                        </div>
+                    {% endif %}
                 </div>
-                {% endif %}
             </div>
 
-            </div> <div class="bottom-btn-group">
-                <a href="{% url 'signup' %}" class="signup-link-btn">계정이 없다면? - 회원가입</a>
+            <div class="bottom-btn-group">
+                <a href="{% url 'signup' %}{% if next %}?next={{ next }}{% endif %}" class="signup-link-btn">계정이 없다면? - 회원가입</a>
                 <button type="submit" class="primary-btn bottom-btn">로그인</button>
             </div>
         </form>
