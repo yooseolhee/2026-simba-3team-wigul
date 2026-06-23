@@ -117,19 +117,9 @@ def waiting_room_members_api(request, room_id):
 
     members_data = []
     for member in room.members.select_related('user__userprofile'):
-        profile = getattr(member.user, 'userprofile', None)
-        nickname = profile.nickname if profile else member.user.username
-        color = getattr(profile, 'background_color', 'bg-red') if profile else 'bg-red'
-        char_key = getattr(profile, 'profile_character', 'wigul_1') if profile else 'wigul_1'
-
-        members_data.append({
-            'id': member.id,
-            'nickname': nickname,
-            'color': color,
-            'avatar': static(f'images/{char_key}.png'),
-            'is_host': member.is_host,
-            'is_me': member.user_id == request.user.id,
-        })
+        data = _member_profile_data(member)
+        data['is_me'] = (member.user_id == request.user.id)
+        members_data.append(data)
 
     return JsonResponse({
         'members': members_data,
@@ -638,13 +628,13 @@ def _member_profile_data(member):
     """RoomMember → 회원가입 때 저장한 프로필(닉네임/아바타/배경색)을 dict 로 변환."""
     profile = getattr(member.user, 'userprofile', None)
     nickname = profile.nickname if profile and profile.nickname else member.user.username
-    char_key = (profile.profile_character if profile and profile.profile_character else 'wigul_1')
     color = (profile.background_color if profile and profile.background_color else 'bg-red')
+    avatar = profile.avatar_url if profile else static('images/wigul_1.png')
     return {
         'id': member.id,
         'nickname': nickname,
         'color': color,
-        'avatar': static(f'images/{char_key}.png'),
+        'avatar': avatar,
         'is_host': member.is_host,
     }
 

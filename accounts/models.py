@@ -9,3 +9,13 @@ class UserProfile(models.Model):
 
     def __str__(self):
         return self.nickname
+
+    @property
+    def avatar_url(self):
+        """profile_character 가 'wigul_1' 또는 'wigul_1.png' 어느 형식이든
+        올바른 정적 이미지 URL을 돌려준다. (저장 형식 불일치 방어)"""
+        from django.templatetags.static import static
+        char = (self.profile_character or 'wigul_1').strip()
+        if not char.lower().endswith('.png'):
+            char = f'{char}.png'
+        return static(f'images/{char}')

@@ -40,10 +40,12 @@ def mypage_view(request):
         if room.temperature > highest_temp:
             highest_temp = room.temperature
 
-    db_color = getattr(profile, 'background_color', 'bg-red')
-    db_avatar_file = getattr(profile, 'profile_character', 'wigul_1.png')
+    db_color = profile.background_color or 'bg-red'
 
-    avatar_html = mark_safe(f'<img src="/static/images/{db_avatar_file}" alt="위굴이" style="width:100%; height:100%; object-fit:contain;">')
+    avatar_html = mark_safe(
+        f'<img src="{profile.avatar_url}" alt="위굴이" '
+        f'style="width:100%; height:100%; object-fit:contain;">'
+    )
 
     context = {
         'user_profile': {
@@ -203,7 +205,7 @@ def room_history_detail_view(request, room_id):
         profile = m.user.userprofile
 
         avatar_html = mark_safe(
-            f'<img src="/static/images/{profile.profile_character}" '
+            f'<img src="{profile.avatar_url}" '
             f'style="width:100%;height:100%;object-fit:contain;">'
         )
 
