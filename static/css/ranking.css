@@ -1,0 +1,418 @@
+@font-face {
+    font-family: "KBL Jump TTF";
+    src: url("../fonts/KBLJump_B.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+.ranking-body{
+    position: relative;
+}
+
+.ranking-content{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.ranking-category{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    border-bottom: 0.5px solid #D3D3D3;
+    border-top: 0.5px solid #D3D3D3;
+
+    overflow-x: auto;   /* 가로 스크롤 */
+    overflow-y: hidden;
+    white-space: nowrap;
+}
+
+.ranking-category::-webkit-scrollbar{
+    display: none;      /* 스크롤바 숨기기 */
+}
+
+.ranking-name{
+    color: #666;
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 120% */
+    letter-spacing: 0.6px;
+}
+
+.ranking-tab{
+    display: flex;
+    gap: 10px;
+}
+.ranking-tab button{
+    display: flex;
+height: 44px;
+padding: 10px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+color: #666;
+text-align: center;
+font-family: "KBL Jump TTF";
+font-size: 16px;
+font-style: normal;
+font-weight: 100;
+line-height: 20px; /* 125% */
+letter-spacing: 0.48px;
+border: none;
+background-color: none;
+border-radius: 10px;
+border: 1px solid #A8D832;
+background: #FFF;
+
+/* 위사이드/원 박스 그림자 */
+box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.30);
+}
+
+.ranking-tab button.active{
+    border-radius: 10px;
+    background: #A8D832;
+    color: #FFF;
+    box-shadow: 0 0 1px 0 rgba(0, 0, 0, 0.30);
+}
+
+.ranking-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.ranking-list-item{
+    width: 332px;
+    height: 72px;
+    border-radius: 10px;
+    background: #EEE;
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 15px;
+}
+
+.ranking-medal-img{
+    display: block;
+    width: 20px;
+    height: 30px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.ranking-room-info{
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid #969696;
+    padding-left: 10px;
+    gap: 5px;
+}
+
+.ranking-room-name{
+    align-self: stretch;
+    overflow: hidden;
+    color: #444;
+    text-overflow: ellipsis;
+
+    /* 위사이드/KBO 소제목 */
+    font-family: "KBL Jump TTF";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px; /* 125% */
+    letter-spacing: 0.48px;
+}
+
+.ranking-leader{
+align-self: stretch;
+overflow: hidden;
+color: #444;
+text-overflow: ellipsis;
+
+/* 위사이드/프 10 텍스트 */
+font-family: Pretendard;
+font-size: 10px;
+font-style: normal;
+font-weight: 300;
+line-height: 12px; /* 120% */
+letter-spacing: 0.1px;
+}
+
+.ranking-temp{
+    display: flex;
+height: 39px;
+padding: 10px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 10px;
+background: var(---, #FF9C9C);
+color: #FFF;
+text-align: center;
+margin-left: auto;
+/* 위사이드/프 제목 */
+font-family: Pretendard;
+font-size: 20px;
+font-style: normal;
+font-weight: 700;
+line-height: 24px; /* 120% */
+letter-spacing: 0.6px;
+}
+
+.ranking-num{
+    align-self: stretch;
+    color: #444;
+text-align: center;
+
+
+font-family: "KBL Jump TTF";
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; 
+letter-spacing: 0.48px;
+
+align-self: center;
+}
+
+.ranking-rank{
+    width: 30px; 
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.ranking-max-round{
+    color: #A8D832;
+text-align: center;
+
+/* 위사이드/프 제목 */
+font-family: Pretendard;
+font-size: 20px;
+font-style: normal;
+font-weight: 700;
+line-height: 24px; /* 120% */
+letter-spacing: 0.6px;
+margin-left: auto;
+}
+
+.my-rank-btn{
+    border-radius: 10px;
+border: 1px solid #717171;
+background: #444;
+width: 332px;
+height: 64px;
+color: #FFF;
+text-align: center;
+
+/* 위사이드/KBO 제목 */
+font-family: "KBL Jump TTF";
+font-size: 20px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 120% */
+letter-spacing: 0.6px;
+margin-top: 60px;
+}
+
+.my-rank-modal-overlay{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100vh;
+
+    background: rgba(0,0,0,0.3);
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 50px;
+
+    opacity: 0;
+    visibility: hidden;
+    transition: 0.3s;
+}
+
+.my-rank-modal-overlay.show{
+    opacity: 1;
+    visibility: visible;
+}
+
+.my-rank-modal{
+    width: 100%;
+    max-width: 390px;
+    padding: 20px;
+
+    border-radius: 20px 20px 0 0;
+    background: white;
+
+    transform: translateY(100%);
+    transition: 0.3s;
+}
+
+.my-rank-modal-overlay.show .my-rank-modal{
+    transform: translateY(0);
+}
+.my-rank-close-btn{
+    width: 100%;
+    height: 40px;
+
+    border-radius: 10px;
+    border: none;
+    color: #444;
+    background-color: white;
+
+    font-family: "KBL Jump TTF";
+    font-size: 20px;
+
+    margin-bottom: 20px;
+}
+
+.time-detail-modal-overlay{
+    position: fixed;
+    inset: 0;
+
+    background: rgba(0,0,0,0.3);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition: .3s;
+}
+
+.time-detail-modal-overlay.show{
+    opacity: 1;
+    visibility: visible;
+}
+
+.time-detail-modal{
+    width: 332px;
+    height: 300px;
+    border-radius: 10px;
+background: #D9D9D9;
+display: flex;
+flex-direction: column;
+gap: 15px;
+padding: 10px;
+align-items: center;
+
+}
+
+.time-detail-rank{
+    color: #444;
+text-align: center;
+font-family: "KBL Jump TTF";
+font-size: 30px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0.9px;
+}
+
+.time-detail-room-name{
+    overflow: hidden;
+color: #444;
+text-align: center;
+text-overflow: ellipsis;
+
+/* 위사이드/KBO 대제목 */
+font-family: "KBL Jump TTF";
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0.72px;
+}
+
+.time-detail-leader{
+    overflow: hidden;
+color: #444;
+text-align: center;
+text-overflow: ellipsis;
+
+/* 위사이드/프 12 텍스트 */
+font-family: Pretendard;
+font-size: 12px;
+font-style: normal;
+font-weight: 300;
+line-height: 15px; /* 125% */
+letter-spacing: 0.12px;
+}
+
+.time-detail-time{
+    display: inline-flex;
+height: 70px;
+padding: 20px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 10px;
+border: 1px solid var(--Foundation-Green-Normal, #A8D832);
+background: #FFF;
+
+/* 위사이드/박스 그림자 */
+box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+color: var(--Foundation-Green-Normal, #A8D832);
+text-align: center;
+font-family: "KBL Jump TTF";
+font-size: 30px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 1.08px;
+}
+
+.time-detail-close-btn{
+    width: 163px;
+height: 43px;
+border-radius: 10px;
+background: #444;
+color: #FFF;
+text-align: center;
+
+/* 위사이드/프 박스 16 세미볼드 */
+font-family: Pretendard;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: 20px; /* 125% */
+letter-spacing: 0.16px;
+}
+
+.ranking-max-time, .ranking-max-change{
+    display: flex;
+height: 39px;
+padding: 10px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+border-radius: 10px;
+background: var(--Foundation-Green-Normal, #A8D832);
+color: #FFF;
+text-align: center;
+
+/* 위사이드/프 제목 */
+font-family: Pretendard;
+font-size: 20px;
+font-style: normal;
+font-weight: 700;
+line-height: 24px; /* 120% */
+letter-spacing: 0.6px;
+margin-left: auto;
+}

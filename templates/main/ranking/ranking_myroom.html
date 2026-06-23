@@ -1,0 +1,203 @@
+{% load static %}
+
+<div class="my-rank-modal-overlay">
+    <div class="my-rank-modal">
+
+        <button class="my-rank-close-btn">
+            <i class="fa-solid fa-angle-down"></i>
+            내 방 순위 살펴보기
+        </button>
+
+        <div class="ranking-category">
+            <span class="ranking-name">랭킹</span>
+            <div class="ranking-tab">
+                <button class="active" data-target="my-temp-ranking">
+                    <i class="fa-solid fa-temperature-three-quarters"></i>
+                    최고 온도
+                </button>
+
+                <button data-target="my-round-ranking">
+                    <i class="fa-solid fa-layer-group"></i>
+                    최다 라운드
+                </button>
+
+                <button data-target="my-time-ranking">
+                    <i class="fa-solid fa-stopwatch"></i>
+                    최장 라운드
+                </button>
+
+                <button data-target="my-change-ranking">
+                    <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                    최고 변화율
+                </button>
+            </div>
+        </div>
+        <div class="ranking-list" id="my-temp-ranking">
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/gold_medal.png' %}" alt="gold">
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-temp">91°C</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/silver_medal.png' %}" alt="silver">
+                </div>                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-temp">91°C</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/bronze_medal.png' %}" alt="bronze">
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-temp">91°C</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <span class="ranking-num">1</span>
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-temp">91°C</span>
+            </div>
+        </div>
+        <div class="ranking-list" id="my-round-ranking" style="display:none">
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/gold_medal.png' %}" alt="gold">
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-round">34회</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/silver_medal.png' %}" alt="silver">
+                </div>                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-round">34회</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/bronze_medal.png' %}" alt="bronze">
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-round">34회</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <span class="ranking-num">1</span>
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-round">34회</span>
+            </div>
+        </div>
+
+        <div class="ranking-list" id="my-time-ranking" style="display:none">
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/gold_medal.png' %}" alt="gold">
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-time">14:30</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/silver_medal.png' %}" alt="silver">
+                </div>                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-time">14:30</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/bronze_medal.png' %}" alt="bronze">
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-time">14:30</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <span class="ranking-num">1</span>
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-time">14:30</span>
+            </div>
+        </div>
+
+        <div class="ranking-list" id="my-change-ranking" style="display:none">
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/gold_medal.png' %}" alt="gold">
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-change">14회</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/silver_medal.png' %}" alt="silver">
+                </div>                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-change">14회</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <img class="ranking-medal-img" src="{% static 'images/bronze_medal.png' %}" alt="bronze">
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-change">14회</span>
+            </div>
+            <div class="ranking-list-item">
+                <div class="ranking-rank">
+                    <span class="ranking-num">1</span>
+                </div>
+                <div class="ranking-room-info">
+                    <span class="ranking-room-name">가나다라마바사</span>
+                    <span class="ranking-leader">팀장 오도독</span>
+                </div>
+                <span class="ranking-max-change">14회</span>
+            </div>
+        </div>
+
+    </div>
+</div>

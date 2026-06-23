@@ -1,0 +1,47 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/subject_select_modal.css' %}">
+
+<div class="select-modal" id="subjectSelectModal" style="display:flex;">
+    <div class="select-content">
+        {% if current_round %}
+        <div class="select-title">1라운드 주제</div>
+        <div class="select-subject">
+            <div class="select-subject-title">{{ current_round.question.get_topic_display }}</div>
+
+            <div class="select-subject-temp">
+                {% if current_round.question_zone == 'GREEN' %}
+                    <span class="mini-dot mini-green"></span>Green Level
+                {% elif current_round.question_zone == 'YELLOW' %}
+                    <span class="mini-dot mini-yellow"></span>Yellow Level
+                {% else %}
+                    <span class="mini-dot mini-pink"></span>Pink Level
+                {% endif %}
+            </div>
+
+            <div class="select-subject-detail">{{ current_round.question_text }}</div>
+
+            <form method="post"
+                action="{% url 'subject_select' room.id %}"
+                class="select-game-balance">
+                {% csrf_token %}
+                <button type="submit" name="side" value="A" class="select-game-balance-a">
+                    <span class="select-game-balance-side">A</span>
+                    <span class="select-game-balance-detail">{{ current_round.option_a }}</span>
+                </button>
+                <button type="submit" name="side" value="B" class="select-game-balance-b">
+                    <span class="select-game-balance-side">B</span>
+                    <span class="select-game-balance-detail">{{ current_round.option_b }}</span>
+                </button>
+            </form>
+        </div>
+        {% else %}
+        <div class="select-title">질문을 불러올 수 없어요</div>
+        <div class="select-subject-detail">선택한 주제에 등록된 질문이 없습니다.</div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,101 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/roomcreate.css' %}">
+
+<form id="roomCreateForm" method="POST" action="">
+    {% csrf_token %} 
+    <h1 class="roomcreate-title">새로운 방 만들기</h1>
+    
+    <input type="text" name="title" class="room-input" placeholder="사용하실 방 이름을 입력하세요..." value="{{ room_name }}" required>
+    
+    <input type="hidden" name="topic" id="selectedTopicInput" value="">
+
+    <div class="info-grid">
+        <div class="qr-section">
+            <div class="qr-box">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data={{ room_join_url }}" alt="방 입장 QR코드" class="qr-image">
+            </div>
+            <button type="button" class="share-btn">공유하기</button>
+        </div>
+        
+        <div class="temp-section">
+            <div class="temp-box" id="tempBox" data-temp="{{ temperature }}">
+                <span class="temp-info-icon">ⓘ</span>
+                <div class="temp-title">우리 방의 온도는?</div>
+                <div class="temp-value" id="tempValue">🌡️ {{ temperature }}°C</div>
+                <div class="temp-desc" id="tempDesc">로딩 중...</div>
+            </div>
+        </div>
+    </div>
+
+        <div class="members-section">
+        <div class="members-header">멤버 ({{ room_members|length|default:"1" }})</div>
+        <ul class="member-list">
+            {% for member in room_members %}
+            <li class="member-item">
+                <div class="status-dot online"></div>
+                <div class="avatar"><img src="{{ member.user.userprofile.profile_image }}" style="width:100%; height:100%; object-fit:contain;"></div>
+                <div class="nickname">{{ member.user.userprofile.nickname }}</div>
+                {% if member.is_host %}
+                    <div class="badge-host">방장</div>
+                {% endif %}
+            </li>
+            {% empty %}
+            <li class="member-item">
+                <div class="status-dot online"></div>
+                <div class="avatar"><img src="{{ user.userprofile.profile_image }}" style="width:100%; height:100%; object-fit:contain;"></div>
+                <div class="nickname">{{ user.userprofile.nickname }}</div>
+                <div class="badge-host">방장</div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <button type="button" class="start-btn" id="openSubjectModalBtn">시작하기!</button>
+
+    {% include 'main/home/subject_modal.html' %}
+</form>
+
+<script src="{% static 'js/select_modal.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const shareBtn = document.querySelector('.share-btn');
+
+    if (shareBtn) {
+        shareBtn.addEventListener('click', async function() {
+
+            // 1. 공유할 URL 설정
+            const shareUrl = window.location.origin + "{{ room_join_url }}"; 
+            const shareTitle = "새로운 방에 초대합니다!";
+            const shareText = "링크를 눌러 방에 참여해보세요.";
+
+            // 2. Web Share API
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: shareTitle,
+                        text: shareText,
+                        url: shareUrl
+                    });
+                    console.log('공유 성공!');
+                } catch (error) {
+                    console.log('공유 취소 또는 실패:', error);
+                }
+            } 
+            // 3. Web Share API를 지원하지 않는 경우
+            else {
+                try {
+                    await navigator.clipboard.writeText(shareUrl);
+                    alert('초대 링크가 클립보드에 복사되었습니다!\n원하는 곳에 붙여넣기(Ctrl+V) 해주세요.');
+                } catch (err) {
+                    alert('아래 링크를 복사하여 공유해주세요.\n' + shareUrl);
+                }
+            }
+        });
+    }
+});
+</script>
+
+{% endblock %}

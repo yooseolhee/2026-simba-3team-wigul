@@ -1,0 +1,219 @@
+@font-face {
+    font-family: 'KblJump';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+.profile-edit-container {
+    padding: 20px 20px 40px 20px;
+    background-color: #ffffff;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 900;
+    color: #333;
+    margin-bottom: 24px;
+    font-family: 'kblJump', sans-serif;
+    letter-spacing: 0.72px;
+}
+
+/* =========================================
+    닉네임
+   ========================================= */
+.input-section {
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.section-label {
+    font-size: 14px;
+    font-weight: 800;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.nickname-input {
+    width: 100%;
+    padding: 16px;
+    border: 1px solid #bce178;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #333;
+    outline: none;
+    margin-bottom: 8px;
+}
+.nickname-input:focus {
+    border-color: #a4e135;
+    box-shadow: 0 0 0 2px rgba(164, 225, 53, 0.2);
+}
+
+.help-text-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #999;
+    line-height: 1.4;
+}
+
+.help-text-left {
+    flex: 1;
+    font-size: 9px;
+}
+
+.help-text-right {
+    flex: 1;
+    text-align: right;
+    font-size: 7px;
+}
+
+/* =========================================
+    프로필 수정
+   ========================================= */
+.profile-selection-box {
+    border: 1px solid #bce178;
+    border-radius: 12px;
+    padding: 24px 20px;
+}
+
+.sub-label {
+    display: block;
+    font-size: 13px;
+    font-weight: 800;
+    color: #555;
+    margin-bottom: 12px;
+}
+
+.preview-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.avatar-preview {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-color: #ff4d4d; 
+}
+.avatar-preview img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+}
+
+.color-palette {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.color-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+.color-btn.active {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 2px #fff, 0 0 0 4px #ccc;
+}
+
+.bg-red { background-color: #EF152E; }
+.bg-orange { background-color: #FF8C00; }
+.bg-yellow { background-color: #FFE500; }
+.bg-green { background-color: #74FD34; }
+.bg-blue { background-color: #1E69FF; }
+.bg-purple { background-color: #F433F7; }
+.bg-gray { background-color: #717171; }
+
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-height: 280px; 
+    overflow-y: auto;  
+    padding-right: 8px; 
+}
+
+.character-grid::-webkit-scrollbar {
+    width: 6px;
+}
+.character-grid::-webkit-scrollbar-thumb {
+    background-color: #d1d5db;
+    border-radius: 10px;
+}
+.character-grid::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.char-item {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s;
+}
+.char-item img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+.char-item.active {
+    background-color: #f1f5f9;
+}
+
+.profile-edit-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+    min-height: 100%; 
+    position: relative;
+}
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 8px; 
+}
+.bottom-btn-group {
+    margin-top: auto; 
+    
+    width: 100%;
+    padding-top: 20px; 
+    background-color: #ffffff;
+}
+
+.bottom-btn-group .primary-btn {
+    display: block;
+    width: 100%;
+    background-color: #aed942;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 0;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 12px rgba(174, 217, 66, 0.2);
+}
+
+.bottom-btn-group .primary-btn:hover {
+    opacity: 0.9;
+}

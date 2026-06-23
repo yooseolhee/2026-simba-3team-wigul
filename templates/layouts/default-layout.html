@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeSide</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="app-layout">
+        
+        <header class="main-header">
+            <img src="{% static 'images/logo_wigul.png' %}" alt="위굴이" class="header-char">
+            <h1 class="header-logo">WE, SIDE!</h1>
+        </header>
+        <main class="main-content">
+            {% block content %}
+            
+            {% endblock %}
+        </main>
+
+        <nav class="bottom-tab-bar">
+            <a href="/home" class="tab-item active">
+                <i class="fa-solid fa-house"></i>
+                <span>HOME</span>
+            </a>
+
+            <a href="/room" class="tab-item">
+                <i class="fa-solid fa-cubes"></i>
+                <span>MY ROOM</span>
+            </a>
+
+            <a href="/ranking" class="tab-item">
+                <i class="fa-solid fa-trophy"></i>
+                <span>RANKING</span>
+            </a>
+
+            <a href="/mypage" class="tab-item">
+                <i class="fa-solid fa-user"></i>
+                <span>MY PAGE</span>
+            </a>
+        </nav>
+    </div>
+
+</body>
+</html>

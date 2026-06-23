@@ -1,0 +1,68 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/contact_us.css' %}">
+
+<div class="contact-us-container">
+    <h1 class="contact-us-page-title">문의하기</h1>
+
+    <div class="contact-us-section">
+        <h3 class="contact-us-section-subtitle">자주 묻는 질문</h3>
+        <ul class="contact-us-faq-list">
+            <li class="contact-us-faq-item">QR코드가 인식이 안돼요</li>
+            <li class="contact-us-faq-item">방이 갑자기 사라졌어요</li>
+            <li class="contact-us-faq-item">회원 탈퇴는 어떻게 하나요?</li>
+        </ul>
+    </div>
+
+    <div class="contact-us-divider-up"></div>
+
+    <a href="#" class="contact-us-history-link" style="display: flex; text-decoration: none;">
+        <span class="contact-us-history-text">나의 문의 내역 확인하기</span>
+
+        {% if unread_inquiry_count > 0 %}
+            <div class="contact-us-badge">{{ unread_inquiry_count }}</div>
+        {% endif %}
+    </a>
+
+
+    <div class="contact-us-divider-down"></div>
+
+    <div class="contact-us-section">
+        <h3 class="contact-us-section-subtitle">직접 문의</h3>
+        
+        <form action="{% url 'contact_us' %}" method="POST" class="contact-us-form">
+            {% csrf_token %}
+            
+            <div class="contact-us-form-group">
+                <label class="contact-us-label" for="inquiryTitle">제목</label>
+                <input type="text" name="title" id="inquiryTitle" class="contact-us-input" placeholder="제목을 입력하세요...">
+            </div>
+
+            <div class="contact-us-form-group">
+                <label class="contact-us-label" for="inquiryContent">문의 내용</label>
+                <div class="contact-us-textarea-wrapper">
+                    <textarea name="content" id="inquiryContent" class="contact-us-textarea" rows="6" placeholder="내용을 입력하세요..." maxlength="500" required></textarea>
+                    
+                    <div class="contact-us-char-count">0 / 500</div>
+                </div>
+            </div>
+
+            <button type="submit" class="contact-us-submit-btn">제출하기</button>
+        </form>
+    </div>
+
+</div>
+
+<script>
+    const textarea = document.getElementById('inquiryContent');
+    const charCount = document.getElementById('charCount');
+
+    textarea.addEventListener('input', function () {
+        charCount.textContent = this.value.length;
+    });
+</script>
+
+
+{% endblock %}

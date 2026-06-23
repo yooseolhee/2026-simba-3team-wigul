@@ -1,0 +1,75 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/withdraw.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<div class="withdraw-container">
+    <h2 class="page-title">탈퇴하기</h2>
+
+    <div class="warning-box">
+        <div class="warning-title">
+            <i class="fa-solid fa-triangle-exclamation"></i> 회원 탈퇴 전 꼭 확인해주세요.
+        </div>
+        <ul class="warning-list">
+            <li>탈퇴 시, 모든 전적 기록과 팀 히스토리가 삭제됩니다.</li>
+            <li>위굴이 커스터마이징도 함께 사라집니다.</li>
+            <li>삭제된 데이터는 복구되지 않습니다.</li>
+        </ul>
+    </div>
+
+    <label class="checkbox-container">
+        <input type="checkbox" id="agree-checkbox">
+        <span class="checkmark"></span>
+        모든 안내 사항을 확인했습니다.
+    </label>
+
+    <div class="button-group">
+        <button type="button" class="btn-dark disabled" id="btn-withdraw" disabled>탈퇴하기</button>
+        <a href="{% url 'mypage' %}" class="btn-red text-center">취소</a>
+    </div>
+</div>
+
+<div class="modal-overlay" id="withdraw-modal">
+    <div class="modal-content">
+        <img src="{% static 'images/crying_wigul.png' %}" alt="우는 위굴이" class="modal-char">
+        <h3 class="modal-title">정말 탈퇴하시나요?</h3>
+        <p class="modal-desc">탈퇴하면 위굴이와 더이상 함께 하지 못해요...<br>또한 모든 기록이 삭제되고 복구할 수 없어요.</p>
+        
+        <form action="{% url 'withdraw' %}" method="POST" class="modal-button-group">
+            {% csrf_token %}
+            <button type="submit" class="btn-dark">네, 탈퇴할게요</button>
+            <button type="button" class="btn-red" id="btn-cancel-modal">아니요, 남을게요</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    const checkbox = document.getElementById('agree-checkbox');
+    const btnWithdraw = document.getElementById('btn-withdraw');
+    const modal = document.getElementById('withdraw-modal');
+    const btnCancelModal = document.getElementById('btn-cancel-modal');
+
+    // 1. 체크박스 클릭 시 버튼 활성화/비활성화
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            btnWithdraw.disabled = false;
+            btnWithdraw.classList.remove('disabled');
+        } else {
+            btnWithdraw.disabled = true;
+            btnWithdraw.classList.add('disabled');
+        }
+    });
+
+    // 2. 탈퇴하기 버튼 누르면 모달 띄우기
+    btnWithdraw.addEventListener('click', function() {
+        modal.style.display = 'flex';
+    });
+
+    // 3. 아니요 버튼 누르면 모달 닫기
+    btnCancelModal.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+<div class="page-wrapper">
+    <div class="home-container">
+        <section class="welcome-box">
+            <div class="welcome-text">
+                <strong>{{ user.username|default:"게스트" }}</strong> <span class="nim-text">님!</span>
+            </div>
+            <div class="character-bubble">
+                <img src="{% static 'images/waiting_wigul.png' %}" alt="회색위굴" class="char-thumb">
+                <div class="bubble">왔개굴? 엄청 기다렸다굴~</div>
+            </div>
+        </section>
+
+        <section class="action-grid">
+            <a href="/create-room" class="btn-box green">
+                <img src="{% static 'images/wigul_builder.png' %}" alt="방만들기" class="btn-icon">
+                    <div class="text-content">
+                        <span class="sub-text">지금 바로 방을 만들어 우리의 이야기를 시작하세요!</span>
+                        <span class="main-text">방 만들기</span>
+                    </div>
+            </a>
+        </section>
+
+        <section class="room-list">
+            <div class="list-header">
+                <h3>나의 방 <span>({{ rooms|length }})</span></h3>
+                <a href="/rooms" class="view-all">전체 보기 ></a>
+            </div>
+
+
+            {% for room in rooms %}
+            <div class="room-item">
+                <div class="room-title">{{ room.name }}</div>
+                <div class="member-stack">
+                    {% for member in room.members.all %}
+                        {% if member.profile.image %}
+                            <img src="{{ member.profile.image.url }}" alt="{{ member.username }}">
+                        {% else %}
+                            <img src="{% static 'images/default_char.png' %}" alt="{{ member.username }}">
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="room-empty">
+                <p>아직 속한 방이 없습니다.</p>
+            </div>
+            {% endfor %}
+        </section>
+    </div>
+</div>
+{% endblock %}

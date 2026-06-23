@@ -1,0 +1,58 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/subject_modal.css' %}">
+<script src="https://kit.fontawesome.com/f7691a6795.js" crossorigin="anonymous"></script>
+
+
+<div class="modal" id="subjectModal">
+
+    <div class="subject">
+    <button type="button" class="topic-btn" data-topic="1">사랑과 연애</button>
+    <button type="button" class="topic-btn" data-topic="2">취향과 라이프 스타일</button>
+    <button type="button" class="topic-btn" data-topic="3">최악의 상황은?</button>
+    <button type="button" class="topic-btn" data-topic="4">갓생과 일</button>
+    </div>
+<a href="/subject-select" class="skip">건너뛰기<i class="fa-solid fa-angle-right"></i></a>
+<button type="button" class="start" id="finalStartBtn">시작하기</button>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const topicBtns = document.querySelectorAll('.topic-btn');
+    const hiddenTopicInput = document.getElementById('selectedTopicInput');
+    const finalStartBtn = document.getElementById('finalStartBtn');
+    const form = document.getElementById('roomCreateForm');
+
+    // 1. 대주제 버튼 클릭 시 값 세팅 및 시각 효과
+    topicBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            // 다른 버튼들의 선택 표시(배경색) 초기화 (본인 CSS 스타일에 맞게 커스텀 가능)
+            topicBtns.forEach(b => b.style.backgroundColor = ""); 
+            
+            // 클릭한 버튼 배경색 변경 (선택되었다는 표시)
+            this.style.backgroundColor = "#cce5ff"; 
+            
+            // 핵심: 선택한 번호(1~4)를 부모 HTML(create_room.html)에 있는 hidden input에 주입
+            if (hiddenTopicInput) {
+                hiddenTopicInput.value = this.getAttribute('data-topic');
+            }
+        });
+    });
+
+    // 2. 최종 시작하기 버튼 클릭 시 유효성 검사 후 장고로 전송(Submit)
+    if (finalStartBtn) {
+        finalStartBtn.addEventListener('click', function() {
+            if (!hiddenTopicInput || !hiddenTopicInput.value) {
+                alert("대주제를 선택해주세요!");
+                return;
+            }
+            
+            // 부모 폼(id="roomCreateForm")을 완전히 제출하여 views.py의 POST 로직을 실행시킵니다.
+            if (form) {
+                form.submit(); 
+            }
+        });
+    }
+});
+</script>

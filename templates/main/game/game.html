@@ -1,0 +1,160 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/game.css' %}">
+<script src="https://kit.fontawesome.com/f7691a6795.js" crossorigin="anonymous"></script>
+
+<div class="body">
+    <div class="room-info">
+        <div class="room-name">{{ room.title }}</div>
+        <div class="room-temp">
+            <div class="room-temp-title">
+                우리 방 온도
+                <i class="fa-solid fa-circle-info temp-info-btn"></i>
+            </div>
+            <div class="room-temp-content">
+                <span class="room-temp-subtitle">{{ temp_message }}</span>
+                <span class="room-temp-detail">{{ current_temp|floatformat:1 }}°C</span>
+            </div>
+        </div>
+    </div>
+
+    <hr class="line">
+
+    <div class="game">
+        <div class="round">{{ current_round.round_number }}라운드</div>
+        <div class="game-body">
+            <div class="game-subject">주제</div>
+            <div class="game-subject-detail">
+                {{ current_round.question_text|linebreaksbr }}
+            </div>
+            <div class="game-balance">
+                <div class="game-balance">
+                    <button class="game-balance-a">
+                        <span class="game-balance-side">A</span>
+                        <span class="game-balance-detail">{{ current_round.option_a }}</span>
+                    </button>
+
+                    <button class="game-balance-b">
+                        <span class="game-balance-side">B</span>
+                        <span class="game-balance-detail">{{ current_round.option_b }}</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="game-timer">
+            <div class="game-time">
+                <i class="fa-regular fa-alarm-clock"></i>
+                <div class="game-time-detail" id="timer-display">05:00</div>
+            </div>
+            <div class="game-time-btn">
+                <button class="game-time-vote" id="voteNowBtn">바로 투표하기</button>
+                <button class="game-time-extention">5분 연장하기</button>
+            </div>
+        </div>
+
+        <div class="current-side">
+            <div class="current-mem-num">총 {{ member_count }}명</div>
+            <div class="current-side-dsc">지금은 무승부에요!</div>
+            <div class="current-side-score">
+                <span class="side-a-score">{{ a_count|default:0 }}</span>
+                <span class="side-colon">:</span>
+                <span class="side-b-score">{{ b_count|default:0 }}</span>
+            </div>
+            <div class="current-side-more">자세히 보기 <i class="fa-solid fa-angle-down detail-arrow"></i></div>
+
+            <div class="current-side-detail">
+                {% for member in room_members %}
+                    <div class="{% if member == my_member %}game_profile_me{% else %}game_profile{% endif %}">
+                        <img src="{% static 'images/logo_wigul.png' %}" alt="개굴" class="game_profile_img">
+                        <div class="game_profile_name">
+                            {{ member.user.username }}
+                            {% if member.is_host %}<small style="color: #62c111; font-weight:bold;">(방장)</small>{% endif %}
+                        </div>
+                        <div class="game_profile_side-A">A</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="my-side toggle-container">
+            <div class="my-side-dsc">당신은 {{ my_side|default:'A' }} SIDE!</div>
+            <div class="my-side-toggle-wrapper">
+                <img src="{% static 'images/logo_wigul.png' %}" alt="" class="frog" id="frog"
+                    data-sit="{% static 'images/logo_wigul.png' %}"
+                    data-jump="{% static 'images/logo_wigul.png' %}"
+                    data-land="{% static 'images/logo_wigul.png' %}">
+                <label class="my-side-toggle">
+                    <input class="my-side-toggle-input" id="toggle" type="checkbox"
+                        {% if my_side == 'B' %}checked{% endif %}>
+                    <span class="slider">
+                        <span class="slider-text" id="slider-text">{{ my_side|default:'A' }}</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    
+    {% include 'main/game/final_vote.html' %}
+</div>
+
+<script src="{% static 'js/game_toggle.js' %}"></script>
+<script src="{% static 'js/game_temp_info.js' %}"></script>
+<script src="{% static 'js/game_view_more.js' %}"></script>
+<script src="{% static 'js/game.js' %}"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const expiresAtStr = "{{ expires_at_iso }}";
+    const timerDisplay = document.getElementById('timer-display');
+    const finalModal = document.getElementById('finalModal');
+    const voteNowBtn = document.getElementById('voteNowBtn');
+
+    function openFinalModal() {
+        if (finalModal) {
+            finalModal.style.display = 'flex';  // CSS에 맞게 'block'일 수도 있음
+        }
+    }
+
+    // 트리거 1: 바로 투표하기 클릭
+    if (voteNowBtn) {
+        voteNowBtn.addEventListener('click', openFinalModal);
+    }
+
+    // 카운트다운
+    if (!expiresAtStr) {
+        timerDisplay.textContent = "05:00";
+        return;
+    }
+
+    const targetTime = new Date(expiresAtStr).getTime();
+    let countdownInterval;
+
+    function runCountdown() {
+        const now = new Date().getTime();
+        const gap = targetTime - now;
+
+        if (gap <= 0) {
+            timerDisplay.textContent = "00:00";
+            clearInterval(countdownInterval);
+            openFinalModal();   // 트리거 2: 타이머 종료
+            return;
+        }
+
+        const minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((gap % (1000 * 60)) / 1000);
+
+        const formatMin = minutes < 10 ? '0' + minutes : minutes;
+        const formatSec = seconds < 10 ? '0' + seconds : seconds;
+
+        timerDisplay.textContent = formatMin + ":" + formatSec;
+    }
+
+    runCountdown();
+    countdownInterval = setInterval(runCountdown, 1000);
+});
+</script>
+{% endblock content %}

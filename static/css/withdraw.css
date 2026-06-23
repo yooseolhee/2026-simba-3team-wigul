@@ -1,0 +1,207 @@
+@font-face {
+    font-family: 'KblJump';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+.withdraw-container {
+    background-color: #ffffff;
+    min-height: 100%;
+    padding: 0 20px 40px 20px;
+    font-family: 'Pretendard', sans-serif;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 800;
+    color: #4b4b4b;
+    padding: 30px 0;
+    margin: 0;
+    font-family: 'kblJump', sans-serif;
+    letter-spacing: 2px;
+}
+
+.warning-box {
+    background-color: #FFF5F5;
+    border: 1px solid #FFCDCD;
+    border-radius: 12px;
+    padding: 24px 20px;
+    margin-bottom: 24px;
+}
+
+.warning-title {
+    color: #D34343;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.warning-list {
+    margin: 0;
+    padding-left: 20px;
+    color: #333;
+    font-size: 13px;
+    line-height: 1.8;
+    font-weight: 500;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 50px;
+    cursor: pointer;
+}
+
+.checkbox-container input {
+    width: 18px;
+    height: 18px;
+    accent-color: #A8D832;
+    cursor: pointer;
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.btn-dark, .btn-red {
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+.btn-dark { background-color: #4b4b4b; color: #ffffff; }
+.btn-red { background-color: #D34343; color: #ffffff; }
+.text-center { display: block; } 
+
+.btn-dark.disabled {
+    background-color: #C4C4C4;
+    cursor: not-allowed;
+}
+
+/* ---------------- 모달 ---------------- */
+.modal-overlay {
+    display: none;
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 35px 20px 25px 20px;
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.modal-char {
+    width: 70px;
+    margin-bottom: 15px;
+}
+
+.modal-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+.modal-desc {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+.modal-button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+/* ------------------- 탈퇴 완료 시 css ----------- */
+.withdraw-complete-container {
+    background-color: #ffffff;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px 40px 20px;
+    font-family: 'kblJump', sans-serif;
+    box-sizing: border-box;
+}
+
+.complete-content {
+    width: 100%;
+    text-align: center;
+    margin-top: -60px;
+}
+
+.complete-title {
+    font-size: 24px;
+    font-weight: 800;
+    color: #333333;
+    margin: 0 0 12px 0;
+    letter-spacing: 2px;
+}
+
+.complete-desc {
+    font-size: 14px;
+    font-weight: 500;
+    color: #666666;
+    margin: 0 0 54px 0;
+    font-family: pretendard;
+}
+
+.btn-home {
+    display: block;
+    width: 100%;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #A8D832;
+    background-color: #ffffff;
+    color: #333333;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    transition: background-color 0.2s;
+}
+
+.btn-home:active, .btn-home:hover {
+    background-color: #F4F9F1;
+}

@@ -1,0 +1,68 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/final_vote.css' %}">
+
+<div class="final-body" id="finalModal" style="display:none;">
+    <div class="final-content">
+        <div class="final-title">최종 투표</div>
+        <div class="final-subtitle">당신의 SIDE를 정해주세요!</div>
+        <div class="final-dsc">위굴이와 함께 당신의 SIDE를<br>표현해보세요!</div>
+
+        <div class="final-subject">
+            <div class="final-subject-title">{{ current_round.question.get_topic_display }}</div>
+            <div class="final-subject-detail">{{ current_round.question_text|linebreaksbr }}</div>
+
+            <div class="final-game-balance">
+                <div class="final-game-balance-a">
+                    <span class="final-game-balance-side">A</span>
+                    <span class="final-game-balance-detail">{{ current_round.option_a }}</span>
+                </div>
+                <div class="final-game-balance-b">
+                    <span class="final-game-balance-side">B</span>
+                    <span class="final-game-balance-detail">{{ current_round.option_b }}</span>
+                </div>
+            </div>
+        </div>
+
+        <form method="post"
+            action="{% url 'subject_select' room.id %}"
+            id="finalForm">
+            {% csrf_token %}
+            <input type="hidden" name="phase" value="FINAL">
+            <input type="hidden" name="side" id="finalSideInput" value="{{ my_side|default:'A' }}">
+
+            <div class="my-side toggle-container">
+                <div class="my-side-dsc">당신은 {{ my_side|default:'A' }} SIDE!</div>
+                <div class="my-side-toggle-wrapper">
+                    <img src="{% static 'images/logo_wigul.png' %}" alt="" class="frog"
+                        data-sit="{% static 'images/logo_wigul.png' %}"
+                        data-jump="{% static 'images/logo_wigul.png' %}"
+                        data-land="{% static 'images/logo_wigul.png' %}">
+                    <label class="my-side-toggle">
+                        <input class="my-side-toggle-input" type="checkbox"
+                            id="finalToggle"
+                            {% if my_side == 'B' %}checked{% endif %}>
+                        <span class="slider">
+                            <span class="slider-text">{{ my_side|default:'A' }}</span>
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="final-check">확인하기</button>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const toggle = document.getElementById('finalToggle');
+    const sideInput = document.getElementById('finalSideInput');
+
+    if (toggle && sideInput) {
+        toggle.addEventListener('change', function() {
+            sideInput.value = this.checked ? 'B' : 'A';
+        });
+    }
+});
+</script>

@@ -1,0 +1,69 @@
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/main.css' %}">
+
+<div class="splash-wrapper">
+
+    <div id="splash-screen" class="splash-container">
+        <div class="splash-content">
+            <div class="character-box">
+                <img src="{% static 'images/runningwigul.png' %}" alt="위굴이" class="wiggle-char-anim">
+            </div>
+<<<<<<< HEAD
+            
+=======
+>>>>>>> 658a8a5c91a8b4f1137940509267b7f37dee9631
+            <p class="splash-loading-text">위굴이가 달려가고 있어요!</p>
+            <h1 class="splash-logo">WE, SIDE!</h1>
+            <p class="splash-sub">각자의 SIDE를 넘어 WE가 되는 시간</p>
+        </div>
+    </div>
+
+    <div id="main-auth-screen" class="auth-container hidden">
+        <div class="auth-content">
+            <div class="logo-area">
+<<<<<<< HEAD
+                <div class="logo-row">
+                    <img src="{% static 'images/originalwigul.png' %}" alt="위굴이" class="auth-char-small">
+                    <h1 class="auth-logo">WE, SIDE!</h1>
+                </div>
+=======
+                <img src="{% static 'images/originalwigul.png' %}" alt="위굴이" class="auth-char-small">
+                <h1 class="auth-logo">WE, SIDE!</h1>
+>>>>>>> 658a8a5c91a8b4f1137940509267b7f37dee9631
+                <p class="auth-sub">각자의 SIDE를 넘어 WE가 되는 시간</p>
+            </div>
+            
+            <div class="btn-group">
+                <a href="{% url 'login' %}" class="white-card-btn">
+                    <span class="btn-desc">이미 위사이드 계정이 있다면?</span>
+                    <span class="btn-title">로그인하기</span>
+                </a>
+                
+                <a href="{% url 'signup' %}" class="white-card-btn">
+                    <span class="btn-desc">위사이드가 처음이라면?</span>
+                    <span class="btn-title">회원가입하기</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    setTimeout(() => {
+        const splash = document.getElementById('splash-screen');
+        const auth = document.getElementById('main-auth-screen');
+        
+        if (splash && auth) {
+            splash.classList.add('fade-out');
+            
+            setTimeout(() => {
+                splash.style.display = 'none';
+                auth.classList.remove('hidden');
+                auth.classList.add('fade-in');
+            }, 500); 
+        }
+    },2500); 
+</script>
+{% endblock %}

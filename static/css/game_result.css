@@ -1,0 +1,427 @@
+@font-face {
+    font-family: 'KBL JUMP TTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+.result-modal{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.result-modal-title{
+    color: var(---, #444);
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.9px;
+    padding: 10px;
+}
+
+.result-subject{
+    border-radius: 10px;
+    background: rgba(238, 238, 238, 0.93);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 345px;
+    height: 155px;
+    gap: 5px;
+}
+
+.result-subject-title{
+    color: var(---, #444);
+text-align: center;
+font-family: Pretendard;
+font-size: 12px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+letter-spacing: 0.12px;
+}
+
+.result-subject-subtitle{
+    color: var(---, #444);
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.36px;
+}
+
+.result-subject-detail{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.result-balance-a{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 312px;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    background: var(--Foundation-Green-Normal, #A8D832);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    cursor: pointer;
+}
+
+.result-balance-b{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 312px;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    background: var(--Foundation-Yellow-Normal, #FFD94A);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    cursor: pointer;
+}
+
+.result-balance-side{
+    position: absolute;
+    left: 15px;
+
+    color: var(--Foundation-Green-Light, #F6FBEB);
+    text-align: center;
+
+    /* 위사이드/띄움 */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    font-family: "KBL Jump TTF";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.48px;
+}
+
+.result-balance-detail{
+    width: 100%;
+
+    color: var(--Foundation-Green-Darker, #3B4C12);
+    text-align: center;
+
+    /* 위사이드/띄움 */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    font-family: "KBL Jump TTF";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.42px;
+}
+
+.result-score{
+    width: 345px;
+    height: 150px;
+    border-radius: 10px;
+    background: rgba(238, 238, 238, 0.93);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+
+    padding: 15px 0;
+}
+
+.result-score-title{
+    color: var(---, #444);
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.48px;
+}
+
+.result-score-detail{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(---, #444);
+    font-family: "KBL Jump TTF";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.9px;
+    gap: 10px;
+}
+
+.result-score-a{
+    color: var(--Foundation-Green-Normal, #A8D832);
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.9px;
+}
+
+.result-score-b{
+    color: var(--Foundation-Yellow-Normal, #FFD94A);
+    font-family: "KBL Jump TTF";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.9px;
+}
+
+.result-score-detail{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    padding: 0 20px;
+}
+
+.result-report{
+    width: 345px;
+    height: 180px;
+    border-radius: 10px;
+    background: rgba(238, 238, 238, 0.93);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.result-report-title{
+    color: var(---, #444);
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.48px;
+}
+
+.result-report-detail{
+    display: flex;
+    width: 276px;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.result-report-detail span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.result-report-detail span{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result-report-detail span:nth-child(1),
+.result-report-detail span:nth-child(3){
+    width: 100px;
+}
+
+.result-report-detail span:nth-child(2){
+    width: 40px;
+}
+
+.result-report-detail span:nth-child(1){
+    color: var(--Foundation-Green-Normal, #A8D832);
+text-align: center;
+font-family: "KBL Jump TTF";
+font-size: 30px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0.9px;
+}
+
+.fa-arrow-right{
+    font-size: 30px;
+    flex-shrink: 0;
+    stroke-width: 3px;
+    stroke: var(---, #444);
+}
+
+.result-report-detail span:nth-child(3){
+    color: var(---, #CDFF52);
+text-align: center;
+
+/* 위사이드/작은 텍스트 그림자 */
+text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.10);
+-webkit-text-stroke-width: 0.5px;
+-webkit-text-stroke-color: var(--foundation-green-normal-hover, #97C22D);
+font-family: "KBL Jump TTF";
+font-size: 30px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0.9px;
+}
+
+.result-side-detail{
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+
+    transition: max-height 0.4s ease;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.result-side.active .result-side-detail{
+    max-height: 500px; /* 충분히 큰 값 */
+    padding: 20px;
+}
+
+.result_profile_me{
+    display: flex;
+    align-items: center;
+
+    width: 315px;
+    height: 70px;
+    padding: 11px 14px;
+    box-sizing: border-box;
+
+    border-radius: 10px;
+    background: var(--foundation-green-light-hover, #F2F9E0);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.result_profile{
+    display: flex;
+    align-items: center;
+
+    width: 315px;
+    height: 70px;
+    padding: 11px 14px;
+    box-sizing: border-box;
+
+    border-radius: 10px;
+    background: #fff;
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.result_profile_img{
+    width: 48px;
+    height: 48px;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: rgba(247, 9, 9, 0.40);
+
+    flex-shrink: 0;
+}
+
+.result_profile_name{
+    margin-left: 10px;
+
+    color: var(--Foundation-Green-Darker, #3B4C12);
+    font-family: "KBL Jump TTF";
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.14px;
+}
+
+.result_profile_side-A{
+    margin-left: auto; /* 오른쪽 끝으로 밀기 */
+
+    color: var(--Foundation-Green-Normal, #A8D832);
+    font-family: Pretendard;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.6px;
+}
+
+.result_profile_side-B{
+    margin-left: auto; /* 오른쪽 끝으로 밀기 */
+
+    color: var(--Foundation-Yellow-Normal, #FFD94A);
+    font-family: Pretendard;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.6px;
+}
+
+.result-report-data{
+    width: 100%;
+    padding: 0 25px;
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.result-report-data-left{
+    display: flex;
+    justify-content: space-between; /* 양 끝으로 */
+    align-items: center;
+
+    width: 100%;
+
+    color: #444;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.48px;
+}
+
+.result-report-data-right{
+    color: #FF9C9C;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    letter-spacing: 0.48px;
+}

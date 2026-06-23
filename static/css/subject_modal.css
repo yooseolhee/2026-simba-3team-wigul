@@ -1,0 +1,130 @@
+@font-face {
+    font-family: 'KBL JUMP TTF';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+.modal{
+    width: 450px;
+    position: fixed;
+    inset: 0;
+
+    background: rgba(128, 128, 128, 0.5);
+
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    justify-self: center;
+    gap: 15px;
+}
+
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 324px;
+
+}
+
+.title{
+    width: 278px;
+    height: 43px;
+    border-radius: 10px;
+    background: #FFF;
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
+    color: #444;
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 20px;
+    font-weight: 400;
+    letter-spacing: 0.6px;
+
+    display: flex;
+    justify-content: center; 
+    align-items: center;  
+}
+
+.subject{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+
+    width: 324px;
+}
+
+.subject button{
+    width: 155px;
+    height: 129px;
+    border-radius: 10px;
+    color: var(--Foundation-Green-Darker, #3B4C12);
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.48px;
+    border: none;
+    outline: none;
+    padding: 0;
+    cursor: pointer;
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+.subject button:nth-child(1), .subject button:nth-child(4){
+    background: var(--Foundation-Green-Light, #F6FBEB);
+}
+.subject button:nth-child(2), .subject button:nth-child(3){
+    background: var(--Foundation-Yellow-Light, #FFFBED);
+}
+
+.subject button.selected{
+    background: var(--Foundation-Green-Normal, #A8D832);
+    color: var(--Foundation-Green-Light, #F6FBEB);
+}
+
+
+.skip{
+    color: #FFF;
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.36px;
+    text-decoration: none;
+    align-self: flex-end;
+}
+
+.start{
+    width: 332px;
+    height: 67px;
+    border-radius: 10px;
+    border: none;
+    background: #D9D9D9;
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    color: var(---, #444);
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.6px;
+    cursor: not-allowed;
+}
+
+.start.active{
+    background: var(---, linear-gradient(90deg, #A8D832 1.33%, #FFD94A 103.28%));
+    color: white;
+    cursor: pointer;
+}

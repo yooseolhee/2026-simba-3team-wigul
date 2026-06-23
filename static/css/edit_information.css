@@ -1,0 +1,138 @@
+@font-face {
+    font-family: 'KblJump';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+.edit-info-container {
+    padding: 20px 20px 40px 20px;
+    background-color: #ffffff;
+}
+
+.edit-info-page-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 900;
+    color: #333;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-family: 'kblJump', sans-serif;
+}
+
+.edit-info-section {
+    margin-bottom: 24px;
+}
+
+.edit-info-section-title {
+    font-size: 14px;
+    font-weight: 800;
+    color: #333;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.edit-info-form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.edit-info-label {
+    font-size: 13px;
+    font-weight: 800;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+.edit-info-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bce178;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.edit-info-input:focus {
+    border-color: #a4e135;
+    box-shadow: 0 0 0 2px rgba(164, 225, 53, 0.2);
+}
+
+.edit-info-input::placeholder {
+    color: #999;
+    font-weight: 400;
+    font-size: 10px;
+    letter-spacing: 0.36px;
+}
+
+.edit-info-input.readonly {
+    color: #555;
+}
+.edit-info-input.readonly:focus {
+    border-color: #bce178;
+    box-shadow: none;
+}
+
+.edit-info-help-text {
+    font-size: 11px;
+    color: #999;
+    text-align: right;
+    margin-top: 6px;
+}
+
+/* 굵은 구분선 */
+.edit-info-divider {
+    height: 8px;
+    background-color: #f1f5f9;
+    margin: 0 -20px 24px -20px;
+}
+
+
+.profile-edit-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+    min-height: 100%; 
+    position: relative;
+}
+.character-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-height: 250px;
+    overflow-y: auto;
+    padding-right: 8px; 
+}
+.bottom-btn-group {
+    margin-top: auto; 
+    
+    width: 100%;
+    padding-top: 20px; 
+    background-color: #ffffff;
+}
+
+.bottom-btn-group .primary-btn {
+    display: block;
+    width: 100%;
+    background-color: #aed942;
+    color: #ffffff;
+    border: none;
+    border-radius: 12px;
+    padding: 16px 0;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    text-align: center;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 12px rgba(174, 217, 66, 0.2);
+        margin-top: 100px;
+}
+
+.bottom-btn-group .primary-btn:hover {
+    opacity: 0.9;
+}

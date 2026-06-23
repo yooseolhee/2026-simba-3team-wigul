@@ -1,0 +1,101 @@
+{% extends 'layouts/default-layout.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/room_history_detail.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+
+<div class="detail-container">
+    <h1 class="detail-page-title">나의 방 히스토리</h1>
+
+    <div class="detail-header-card">
+        <div class="detail-temp-box">
+            <span class="detail-temp-num">{{ room.temp }}</span>
+            <span class="detail-temp-unit">°C</span>
+        </div>
+        
+        <div class="detail-room-info">
+            <h2 class="detail-room-name">{{ room.name }}</h2>
+            <div class="detail-badges">
+                <span class="detail-badge-item">{{ room.rounds }}라운드</span>
+                <span class="detail-badge-item">멤버 {{ members|length }}명</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-divider"></div>
+
+    <div class="detail-section">
+        <h3 class="detail-section-title">활동 요약</h3>
+        <div class="detail-stats-grid">
+            <div class="detail-stat-box">
+                <div class="detail-stat-val">{{ summary.total_rounds }}</div>
+                <div class="detail-stat-lbl">총 라운드</div>
+            </div>
+            <div class="detail-stat-box">
+                <div class="detail-stat-val">{{ summary.votes }}</div>
+                <div class="detail-stat-lbl">연장 투표</div>
+            </div>
+            <div class="detail-stat-box">
+                <div class="detail-stat-val">{{ summary.avg_change }}%</div>
+                <div class="detail-stat-lbl">평균 변화율</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="detail-divider"></div>
+
+    <div class="detail-section">
+        <h3 class="detail-section-title">소속 멤버</h3>
+        <div class="detail-members-row">
+            
+            {% for member in members %}
+            <div class="detail-member-item">
+                <div class="detail-avatar-wrap">
+                    <div class="detail-avatar {{ member.color }}">{{ member.avatar }}</div>
+                    
+                    {% if member.is_host %}
+                    <div class="detail-crown-badge">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="detail-member-name">{{ member.nickname }}</div>
+            </div>
+            {% empty %}
+                <div style="font-size: 13px; color: #999; padding: 10px;">
+                    소속된 멤버가 없습니다.
+                </div>
+            {% endfor %}
+            
+        </div>
+    </div>
+
+    <div class="detail-divider"></div>
+
+    <div class="detail-section" style="padding-bottom: 20px;">
+        <h3 class="detail-section-title">질문 전적</h3>
+        <ul class="detail-q-list">
+            
+            {% for q in questions %}
+            <li class="detail-q-item">
+                <div class="detail-q-round">
+                    <span>R{{ q.round_num }}</span>
+                    <div class="detail-q-dot dot-{{ q.color }}"></div>
+                </div>
+                <div class="detail-q-text">
+                    {{ q.text }}
+                </div>
+            </li>
+            {% empty %}
+            <li class="detail-q-item" style="justify-content: center; color: #999; border: none;">
+                진행된 질문 전적이 없습니다.
+            </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+
+</div>
+{% endblock %}

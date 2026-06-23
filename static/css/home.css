@@ -1,0 +1,221 @@
+/* 홈 화면 배경 및 컨테이너 */
+@font-face {
+    font-family: 'KblJump';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/2601-5@1.0/KBLJump_RTTF.woff2') format('woff2');
+    font-weight: normal;
+    font-display: swap;
+}
+
+
+.home-container {
+    min-height: 100%; 
+    padding: 30px 20px;
+    font-family: 'Pretendard', sans-serif;
+    box-sizing: border-box;
+}
+
+/* 웰컴 박스 및 텍스트 */
+.welcome-box {
+    background-color: #ffffff; 
+    padding: 0px 20px;
+    border-radius: 24px; 
+    border: 1px solid #A8D832;
+    margin-bottom: 24px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02); 
+}
+.welcome-text {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 15px;
+}
+.welcome-text strong {
+    font-size: 45px;
+    padding: 30 10;
+}
+.nim-text {
+    font-size: 25px;
+    font-weight: 500;
+}
+
+/* 위굴이 캐릭터랑 말풍선 */
+.character-bubble {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    
+}
+.char-thumb {
+    width: 70px;
+    height: auto;
+}
+.bubble {
+    position: relative;
+    background-color: #F6FBEB;
+    padding: 12px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 700;
+    color: #333;
+    border: 1px solid #D9D9D9;
+    filter: drop-shadow(2px 2px 1px rgba(59, 76, 18, 0.20));
+    margin-bottom: 20px;
+}
+.bubble::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -8px;
+    transform: translateY(-50%);
+    border-style: solid;
+    border-width: 6px 8px 6px 0;
+    border-color: transparent #D9D9D9 transparent transparent;
+}
+.bubble::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: -7px;
+    transform: translateY(-50%);
+    border-style: solid;
+    border-width: 6px 8px 6px 0;
+    border-color: transparent #F6FBEB transparent transparent;
+}
+
+/* 방만들기 & 입장하기 버튼 */
+.action-grid {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 24px;
+}
+.btn-box {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px 24px;
+    border-radius: 20px;
+    border: none;
+    text-decoration: none;
+    color: #333;
+    font-weight: 700;
+    gap: 0;
+    min-height: 110px; 
+    gap: 20px; 
+}
+.btn-icon {
+    width: 64px; 
+    height: 64px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    padding: 8px;
+    object-fit: contain;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+}
+.text-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 4px;
+}
+
+.sub-text {
+    font-size: 13px;
+    color: #4B5E14;
+    font-weight: 600;
+}
+
+.main-text {
+    font-size: 30px;
+    font-weight: 600;
+    font-family: kblJump;
+    color: #3B4C12;
+    line-height: 1.1;
+    letter-spacing: 2px;
+    margin-top: 2px;
+}
+
+
+.btn-box.green { 
+    background-color: #A8D832; 
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.btn-box.yellow { 
+    background-color: var(--Foundation-Yellow-Normal, #FFD94A );
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    color: #333; }
+
+
+/* 나의 방 리스트 */
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.list-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 800;
+    margin-left: 5px;
+}
+.list-header h3 span { color: #21D06C; }
+.view-all {
+    color: #444;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.room-item {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #E0E0E0;
+}
+.room-title {
+    font-size: 16px;
+    font-weight: 800;
+    color: #333;
+}
+.member-stack {
+    display: flex;
+}
+.member-stack img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid #fff;
+    margin-left: -10px;
+}
+.member-stack img:first-child { margin-left: 0; }
+
+.room-empty {
+    justify-content: center;
+    color: #999;
+    font-size: 14px;
+    font-weight: 600;
+    
+}
+.room-empty p {
+    margin: 0;
+    margin-top: 25px;
+    margin-left: 5px;
+    font-weight: 500;
+}
+
+.room-list {
+    background-color: #f6faef;
+    border-radius: 16px;
+    padding: 16px;
+    flex-grow: 1;
+    margin-bottom: 20px;
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}

@@ -1,0 +1,183 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WE, SIDE! - 회원가입</title>
+    <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+</head>
+
+<body>
+    <div class="app-container">
+        <header class="page-header">
+            <a href="javascript:history.back()" class="back-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </a>
+            <h2>회원가입</h2>
+        </header>
+
+        <form action="{% url 'signup' %}" method="POST" class="auth-form signup-form">
+            {% csrf_token %}
+
+            <div class="input-group">
+                <label for="username">아이디</label>
+                <input type="text" id="username" name="username" placeholder="사용하실 ID를 입력하세요..." required>
+            </div>
+
+            <div class="input-group">
+                <label for="password">비밀번호</label>
+                <input type="password" id="password" name="password" placeholder="사용하실 Password를 입력하세요..." required>
+            </div>
+
+            <div class="input-group">
+                <label for="nickname">닉네임</label>
+                <input type="text" id="nickname" name="nickname" placeholder="사용하실 닉네임을 입력하세요..." required>
+                <div class="help-text">
+                    <ul class="rules">
+                        <li>• 2~15자 내외</li>
+                        <li>• 특수문자 사용 불가</li>
+                    </ul>
+                    <span class="notice">닉네임은 모든 방에서 동일하게 적용됩니다.</span>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>프로필</label>
+                <div class="profile-box">
+
+                    <div class="avatar-preview">
+                        <div class="avatar-circle bg-red" id="avatarPreview">
+                            <img id="previewImg" src="{% static 'images/wigul_1.png' %}" alt="위굴이">
+                        </div>
+                    </div>
+                    
+                    <div class="setting-group">
+                        <p class="setting-title">배경 색상</p>
+                        <div class="color-palette">
+                            <button type="button" class="color-btn bg-red active" data-color="bg-red"></button>
+                            <button type="button" class="color-btn bg-orange" data-color="bg-orange"></button>
+                            <button type="button" class="color-btn bg-yellow" data-color="bg-yellow"></button>
+                            <button type="button" class="color-btn bg-green" data-color="bg-green"></button>
+                            <button type="button" class="color-btn bg-blue" data-color="bg-blue"></button>
+                            <button type="button" class="color-btn bg-purple" data-color="bg-purple"></button>
+                            <button type="button" class="color-btn bg-gray" data-color="bg-gray"></button>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <p class="setting-title">위굴이</p>
+                        <div class="character-grid">
+                            <div class="char-item active" data-img="{% static 'images/wigul_1.png' %}"><img src="{% static 'images/wigul_1.png' %}" alt="위굴이1"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_2.png' %}"><img src="{% static 'images/wigul_2.png' %}" alt="위굴이2"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_3.png' %}"><img src="{% static 'images/wigul_3.png' %}" alt="위굴이3"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_4.png' %}"><img src="{% static 'images/wigul_4.png' %}" alt="위굴이4"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_5.png' %}"><img src="{% static 'images/wigul_5.png' %}" alt="위굴이5"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_6.png' %}"><img src="{% static 'images/wigul_6.png' %}" alt="위굴이6"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_7.png' %}"><img src="{% static 'images/wigul_7.png' %}" alt="위굴이7"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_8.png' %}"><img src="{% static 'images/wigul_8.png' %}" alt="위굴이8"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_9.png' %}"><img src="{% static 'images/wigul_9.png' %}" alt="위굴이9"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_10.png' %}"><img src="{% static 'images/wigul_10.png' %}" alt="위굴이10"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_11.png' %}"><img src="{% static 'images/wigul_11.png' %}" alt="위굴이11"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_12.png' %}"><img src="{% static 'images/wigul_12.png' %}" alt="위굴이12"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_13.png' %}"><img src="{% static 'images/wigul_13.png' %}" alt="위굴이13"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_14.png' %}"><img src="{% static 'images/wigul_14.png' %}" alt="위굴이14"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_15.png' %}"><img src="{% static 'images/wigul_15.png' %}" alt="위굴이15"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_16.png' %}"><img src="{% static 'images/wigul_16.png' %}" alt="위굴이16"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_17.png' %}"><img src="{% static 'images/wigul_17.png' %}" alt="위굴이17"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_18.png' %}"><img src="{% static 'images/wigul_18.png' %}" alt="위굴이18"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_19.png' %}"><img src="{% static 'images/wigul_19.png' %}" alt="위굴이19"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_20.png' %}"><img src="{% static 'images/wigul_20.png' %}" alt="위굴이20"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_21.png' %}"><img src="{% static 'images/wigul_21.png' %}" alt="위굴이21"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_22.png' %}"><img src="{% static 'images/wigul_22.png' %}" alt="위굴이22"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_23.png' %}"><img src="{% static 'images/wigul_23.png' %}" alt="위굴이23"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_24.png' %}"><img src="{% static 'images/wigul_24.png' %}" alt="위굴이24"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_25.png' %}"><img src="{% static 'images/wigul_25.png' %}" alt="위굴이25"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_26.png' %}"><img src="{% static 'images/wigul_26.png' %}" alt="위굴이26"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_27.png' %}"><img src="{% static 'images/wigul_27.png' %}" alt="위굴이27"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_28.png' %}"><img src="{% static 'images/wigul_28.png' %}" alt="위굴이28"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_29.png' %}"><img src="{% static 'images/wigul_29.png' %}" alt="위굴이29"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_30.png' %}"><img src="{% static 'images/wigul_30.png' %}" alt="위굴이30"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_31.png' %}"><img src="{% static 'images/wigul_31.png' %}" alt="위굴이31"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_32.png' %}"><img src="{% static 'images/wigul_32.png' %}" alt="위굴이32"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_33.png' %}"><img src="{% static 'images/wigul_33.png' %}" alt="위굴이33"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_34.png' %}"><img src="{% static 'images/wigul_34.png' %}" alt="위굴이34"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_35.png' %}"><img src="{% static 'images/wigul_35.png' %}" alt="위굴이35"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_36.png' %}"><img src="{% static 'images/wigul_36.png' %}" alt="위굴이36"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_37.png' %}"><img src="{% static 'images/wigul_37.png' %}" alt="위굴이37"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_38.png' %}"><img src="{% static 'images/wigul_38.png' %}" alt="위굴이38"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_39.png' %}"><img src="{% static 'images/wigul_39.png' %}" alt="위굴이39"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_40.png' %}"><img src="{% static 'images/wigul_40.png' %}" alt="위굴이40"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_41.png' %}"><img src="{% static 'images/wigul_41.png' %}" alt="위굴이41"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_42.png' %}"><img src="{% static 'images/wigul_42.png' %}" alt="위굴이42"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_43.png' %}"><img src="{% static 'images/wigul_43.png' %}" alt="위굴이43"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_44.png' %}"><img src="{% static 'images/wigul_44.png' %}" alt="위굴이44"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_45.png' %}"><img src="{% static 'images/wigul_45.png' %}" alt="위굴이45"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_46.png' %}"><img src="{% static 'images/wigul_46.png' %}" alt="위굴이46"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_47.png' %}"><img src="{% static 'images/wigul_47.png' %}" alt="위굴이47"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_48.png' %}"><img src="{% static 'images/wigul_48.png' %}" alt="위굴이48"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_49.png' %}"><img src="{% static 'images/wigul_49.png' %}" alt="위굴이49"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_50.png' %}"><img src="{% static 'images/wigul_50.png' %}" alt="위굴이50"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_51.png' %}"><img src="{% static 'images/wigul_51.png' %}" alt="위굴이51"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_52.png' %}"><img src="{% static 'images/wigul_52.png' %}" alt="위굴이52"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_53.png' %}"><img src="{% static 'images/wigul_53.png' %}" alt="위굴이53"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_54.png' %}"><img src="{% static 'images/wigul_54.png' %}" alt="위굴이54"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_55.png' %}"><img src="{% static 'images/wigul_55.png' %}" alt="위굴이55"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_56.png' %}"><img src="{% static 'images/wigul_56.png' %}" alt="위굴이56"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_57.png' %}"><img src="{% static 'images/wigul_57.png' %}" alt="위굴이57"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_58.png' %}"><img src="{% static 'images/wigul_58.png' %}" alt="위굴이58"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_59.png' %}"><img src="{% static 'images/wigul_59.png' %}" alt="위굴이59"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_60.png' %}"><img src="{% static 'images/wigul_60.png' %}" alt="위굴이60"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_61.png' %}"><img src="{% static 'images/wigul_61.png' %}" alt="위굴이61"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_62.png' %}"><img src="{% static 'images/wigul_62.png' %}" alt="위굴이62"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_63.png' %}"><img src="{% static 'images/wigul_63.png' %}" alt="위굴이63"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_64.png' %}"><img src="{% static 'images/wigul_64.png' %}" alt="위굴이64"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_65.png' %}"><img src="{% static 'images/wigul_65.png' %}" alt="위굴이65"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_66.png' %}"><img src="{% static 'images/wigul_66.png' %}" alt="위굴이66"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_67.png' %}"><img src="{% static 'images/wigul_67.png' %}" alt="위굴이67"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_68.png' %}"><img src="{% static 'images/wigul_68.png' %}" alt="위굴이68"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_69.png' %}"><img src="{% static 'images/wigul_69.png' %}" alt="위굴이69"></div>
+                            <div class="char-item" data-img="{% static 'images/wigul_70.png' %}"><img src="{% static 'images/wigul_70.png' %}" alt="위굴이70"></div>
+                        </div>
+                    </div>
+
+            <input type="hidden" name="profile_color" id="selectedColor" value="bg-red">
+                    <input type="hidden" name="profile_character" id="selectedCharacter" value="{% static 'images/wigul_1.png' %}">
+ 
+            <button type="submit" class="primary-btn">설정 완료</button>
+        </form>
+    </div>
+    <script>
+// 색상 버튼
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+ 
+                const colorClass = btn.dataset.color;
+                const preview = document.getElementById('avatarPreview');
+ 
+                // 기존 색상 클래스 제거 후 새 클래스 추가
+                preview.className = 'avatar-circle ' + colorClass;
+                document.getElementById('selectedColor').value = colorClass;
+            });
+        });
+ 
+        // 캐릭터 선택
+        document.querySelectorAll('.char-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.char-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+ 
+                document.getElementById('previewImg').src = item.dataset.img;
+                document.getElementById('selectedCharacter').value = item.dataset.img;
+            });
+        });
+    </script>
+</body>
+ 
+</html>

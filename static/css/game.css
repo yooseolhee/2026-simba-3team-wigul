@@ -1,0 +1,764 @@
+@font-face {
+    font-family: "KBL Jump TTF";
+    src: url("../fonts/KBLJump_B.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.body{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.room-info{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.room-name{
+    display: flex;
+    width: 332px;
+    height: 70px;
+    padding: 10px 149px 10px 16px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    color: var(---, #444);
+
+    /* 위사이드/KBO 제목 */
+    font-family: "KBL Jump TTF", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 120% */
+    letter-spacing: 0.6px;
+
+    border-radius: 10px;
+    border: 2px solid var(--Foundation-Green-Normal, #A8D832);
+    background: #FFF;
+    box-shadow: 1px 1px 4px 0 rgba(168, 216, 50, 0.50);
+}
+
+.room-temp{
+    width: 332px;
+    height: 70px;
+    border-radius: 10px;
+    background: #EEE;
+
+    padding: 10px;
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.room-temp-title{
+    color: var(---, #444);
+    text-align: start;
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    position: relative;
+}
+
+.fa-circle-info{
+    cursor: pointer;
+}
+
+/* 팝업 창 기본 컨테이너 조정 */
+.temp-info-popup {
+    position: absolute;
+    top: 40px;
+    right: -65px;
+    width: 440px; /* 게이지바 영역 확보를 위해 너비 확장 */
+    padding: 24px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    display: none;
+    z-index: 100;
+    box-sizing: border-box;
+}
+
+.temp-info-popup.active {
+    display: block;
+}
+
+/* 팝업 타이틀 */
+.temp-popup-title {
+    font-family: Pretendard, sans-serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #222;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+/* 헤더 구조 (온도 구간 / 온도 범위 / 질문별 출현율) */
+.popup-header {
+    display: flex;
+    border-bottom: 1.5px solid #444444;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.header-col {
+    font-family: Pretendard, sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: #444444;
+    text-align: center;
+}
+.header-col:nth-child(1) { width: 32%; }
+.header-col:nth-child(2) { width: 25%; }
+.header-col:nth-child(3) { width: 43%; }
+
+/* 콘텐츠 각 행(Row) */
+.popup-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 14px;
+}
+.popup-row:last-child {
+    margin-bottom: 0;
+}
+
+/* 공통 박스 스타일 스타일 (그림자 및 라운드) */
+.level-box, .range-box {
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    box-shadow: inset 0 -3px 0 rgba(0,0,0,0.05), 0 2px 5px rgba(0,0,0,0.06);
+    font-family: Pretendard, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* 1열: 온도 구간 */
+.level-box {
+    width: 32%;
+    margin-right: 3%;
+    gap: 8px;
+}
+/* 2열: 온도 범위 */
+.range-box {
+    width: 25%;
+    margin-right: 3%;
+}
+
+/* 각 레벨별 고유 배경 및 글자색 */
+.box-green { background-color: #F9FDF0; color: #3B5C12; }
+.box-yellow { background-color: #FCFBEF; color: #5C4E1A; }
+.box-pink { background-color: #FFF5F5; color: #613434; }
+
+/* 큰 원 입체감 구현 */
+.dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    box-shadow: inset 0 -2px 4px rgba(0,0,0,0.2), 0 2px 4px rgba(0,0,0,0.15);
+}
+.dot-green { background: radial-gradient(circle at 35% 35%, #E6FFA3, #A5DC25); }
+.dot-yellow { background: radial-gradient(circle at 35% 35%, #FFF0A3, #FCD13B); }
+.dot-pink { background: radial-gradient(circle at 35% 35%, #FFA8A8, #E28484); }
+
+/* 3열: 질문별 출현율 (오른쪽 게이지 영역) */
+.rate-box {
+    width: 43%;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.rate-item {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* 작은 입체감 원 */
+.mini-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 8px;
+    flex-shrink: 0;
+    box-shadow: inset 0 -1px 2px rgba(0,0,0,0.2), 0 1px 2px rgba(0,0,0,0.15);
+}
+.mini-green { background: radial-gradient(circle, #E6FFA3, #A5DC25); }
+.mini-yellow { background: radial-gradient(circle, #FFF0A3, #FCD13B); }
+.mini-pink { background: radial-gradient(circle, #FFA8A8, #E28484); }
+
+/* 프로그레스 바 배경 트랙 */
+.progress-bar {
+    flex-grow: 1;
+    height: 8px;
+    background-color: #E2E2E2;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+/* 실제 게이지 바 */
+.progress {
+    height: 100%;
+    border-radius: 999px;
+}
+.progress-green { background-color: #D6FFA6; }
+.progress-yellow { background-color: #FCE89C; }
+.progress-pink { background-color: #EFA0A0; }
+
+/* 퍼센트 텍스트 수치 */
+.percent {
+    width: 32px;
+    text-align: right;
+    font-family: Pretendard, sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: #444444;
+    flex-shrink: 0;
+}
+
+.room-temp-content{
+    text-align: end;
+}
+
+.room-temp-subtitle{
+    color: var(---, #444);
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.36px;
+}
+
+.room-temp-detail{
+    color: var(---, #CDFF52);
+    text-align: center;
+
+    /* 위사이드/작은 텍스트 그림자 */
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.10);
+    -webkit-text-stroke-width: 0.5px;
+    -webkit-text-stroke-color: var(--foundation-green-normal-hover, #97C22D);
+    font-family: "KBL Jump TTF";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.9px;
+}
+
+.line{
+    width: 332px;
+height: 1px;
+border: none;
+background: #D3D3D3;
+margin: 0;
+}
+
+.game{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.round{
+    color: #444;
+    text-align: center;
+
+    /* 위사이드/KBO 대제목 */
+    font-family: "KBL Jump TTF";
+    font-size: 24px;
+    font-style:normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.72px;
+}
+
+.game-body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    width: 332px;
+    height: 200px;
+    border-radius: 10px;
+    background: #EEE;
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    position: relative;
+}
+.game-body::before {
+    content: "";
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #FFE88A;
+
+    top: 30px;
+    left: 30px;
+
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.30));
+}
+
+.game-subject{
+    color: #444;
+    text-align: center;
+
+    /* 위사이드/KBO 제목 */
+    font-family: "KBL Jump TTF";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 120% */
+    letter-spacing: 0.6px;
+}
+
+.game-subject-detail{
+    color: var(---, #444);
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 18px; /* 128.571% */
+    letter-spacing: 0.14px;
+    padding-bottom: 10px;
+}
+
+.game-balance{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.game-balance-a{
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 312px;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    background: var(--Foundation-Green-Normal, #A8D832);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    cursor: pointer;
+}
+
+.game-balance-b{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 312px;
+    height: 35px;
+    border-radius: 10px;
+    border: none;
+    background: var(--Foundation-Yellow-Normal, #FFD94A);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    cursor: pointer;
+}
+
+.game-balance-side{
+    position: absolute;
+    left: 15px;
+
+    color: var(--Foundation-Green-Light, #F6FBEB);
+    text-align: center;
+
+    /* 위사이드/띄움 */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    font-family: "KBL Jump TTF";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.48px;
+}
+
+.game-balance-detail{
+    width: 100%;
+
+    color: var(--Foundation-Green-Darker, #3B4C12);
+    text-align: center;
+
+    /* 위사이드/띄움 */
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.25);
+    font-family: "KBL Jump TTF";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.42px;
+}
+
+.game-timer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 332px;
+    height: 171px;
+    border-radius: 10px;
+    background: #EEE;
+    gap: 20px;
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.game-time{
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.fa-alarm-clock{
+    font-size: 40px;
+    color: #444;
+}
+
+.game-time-detail{
+    color: var(---, #444);
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 36px;
+    font-style:normal;
+    font-weight: 900;
+    line-height: normal;
+    letter-spacing: 0.36px;
+}
+
+.game-time-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.game-time-vote{
+    width: 134px;
+    height: 64px;
+    border-radius: 10px;
+    background: var(--Foundation-Green-Normal, #A8D832);
+    color: #FFF;
+    text-align: right;
+
+    /* 위사이드/프 박스 16 세미볼드 */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 125% */
+    letter-spacing: 0.16px;
+}
+
+.game-time-extention{
+    width: 134px;
+    height: 64px;
+    border-radius: 10px;
+    background: #D9D9D9;
+    color: #969696;
+    text-align: right;
+
+    /* 위사이드/프 박스 16 세미볼드 */
+    font-family: Pretendard;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px; /* 125% */
+    letter-spacing: 0.16px;
+}
+
+.game-time-vote, .game-time-extention{
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.current-side{
+    width: 332px;
+    border-radius: 10px;
+    background: #EEE;
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+.current-side-detail{
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+
+    transition: max-height 0.4s ease;
+
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.current-side.active .current-side-detail{
+    max-height: 500px; /* 충분히 큰 값 */
+    padding: 20px;
+}
+
+.game_profile_me{
+    display: flex;
+    align-items: center;
+
+    width: 315px;
+    height: 70px;
+    padding: 11px 14px;
+    box-sizing: border-box;
+
+    border-radius: 10px;
+    background: var(--foundation-green-light-hover, #F2F9E0);
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.game_profile{
+    display: flex;
+    align-items: center;
+
+    width: 315px;
+    height: 70px;
+    padding: 11px 14px;
+    box-sizing: border-box;
+
+    border-radius: 10px;
+    background: #fff;
+
+    /* 위사이드/박스 그림자 */
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+}
+
+.game_profile_img{
+    width: 48px;
+    height: 48px;
+    padding: 5px;
+    border-radius: 50%;
+    background-color: rgba(247, 9, 9, 0.40);
+
+    flex-shrink: 0;
+}
+
+.game_profile_name{
+    margin-left: 10px;
+
+    color: var(--Foundation-Green-Darker, #3B4C12);
+    font-family: "KBL Jump TTF";
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: 0.14px;
+}
+
+.game_profile_side-A{
+    margin-left: auto; /* 오른쪽 끝으로 밀기 */
+
+    color: var(--Foundation-Green-Normal, #A8D832);
+    font-family: Pretendard;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.6px;
+}
+
+.game_profile_side-B{
+    margin-left: auto; /* 오른쪽 끝으로 밀기 */
+
+    color: var(--Foundation-Yellow-Normal, #FFD94A);
+    font-family: Pretendard;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 24px;
+    letter-spacing: 0.6px;
+}
+
+.current-mem-num{
+    align-self: flex-end;
+    color: #444;
+    text-align: center;
+
+    /* 위사이드/프 12 텍스트 */
+    font-family: Pretendard;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 300;
+    line-height: 15px; /* 125% */
+    letter-spacing: 0.12px;
+    margin: 10px;
+}
+
+.current-side-dsc{
+    color: var(---, #444);
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 18px; /* 128.571% */
+    letter-spacing: 0.14px;
+}
+
+.side-a-score{
+    color: var(--Foundation-Green-Normal, #A8D832);
+    text-align: center;
+    font-family: "KBL Jump TTF";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.9px;
+}
+.side-colon{
+    color: var(---, #444);
+    font-family: "KBL Jump TTF";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.9px;
+}
+
+.side-b-score{
+    color: var(--Foundation-Yellow-Normal, #FFD94A);
+    font-family: "KBL Jump TTF";
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.9px;
+}
+
+.current-side-more{
+    margin-top: auto;
+    align-self: flex-end;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    color: var(---, #444);
+    text-align: center;
+    font-family: Pretendard;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.3px;
+
+    cursor: pointer;
+}
+
+.my-side{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 332px;
+height: 141px;
+border-radius: 10px;
+border: 2px solid var(--Foundation-Green-Normal, #A8D832);
+background: #FFF;
+box-shadow: 0 1px 4px 0 #A8D832;
+}
+
+.my-side-dsc{
+    color: var(---, #444);
+text-align: center;
+
+/* 위사이드/작은 텍스트 그림자 */
+text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.10);
+
+/* 위사이드/KBO 대제목 */
+font-family: "KBL Jump TTF";
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0.72px;
+}
+
+.my-side-toggle-wrapper{
+    position: relative;
+    width: 200px;
+    margin-top: 30px;
+}
+
+/* 개구리 */
+.frog{
+    position: absolute;
+    width: 30px;
+    left: 35px;
+    top: -25px;
+    transition: .5s;
+    z-index: 10;
+}
+
+/* 실제 checkbox 숨기기 */
+.my-side-toggle-input{
+    display: none;
+}
+
+.my-side-toggle{
+    display: block;
+    width: 200px;
+    height: 40px;
+    background: #d9d9d9;
+    border-radius: 999px;
+    position: relative;
+    overflow: hidden;
+}
+
+/* 움직이는 부분 */
+.slider{
+    width: 100px;
+    height: 40px;
+    background: #c8d59a;
+    border-radius: 999px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: white;
+    font-size: 30px;
+    font-weight: 700;
+
+    transition: .5s;
+
+    cursor: pointer;
+}
+
+.my-side-toggle-input:checked + .slider{
+    transform: translateX(100px);
+}
+
+.slider-text{
+    transition: .5s;
+}
