@@ -51,7 +51,7 @@
             </div>
             <div class="game-time-btn">
                 <button class="game-time-vote" id="voteNowBtn">바로 투표하기</button>
-                <button class="game-time-extention">5분 연장하기</button>
+                <button class="game-time-extention" id="extendBtn">5분 연장하기</button>
             </div>
         </div>
 
@@ -83,12 +83,12 @@
             <div class="my-side-dsc">당신은 {{ my_side|default:'A' }} SIDE!</div>
             <div class="my-side-toggle-wrapper">
                 <img src="{% static 'images/logo_wigul.png' %}" alt="" class="frog" id="frog"
-                    data-sit="{% static 'images/logo_wigul.png' %}"
-                    data-jump="{% static 'images/logo_wigul.png' %}"
-                    data-land="{% static 'images/logo_wigul.png' %}">
+                     data-sit="{% static 'images/logo_wigul.png' %}"
+                     data-jump="{% static 'images/logo_wigul.png' %}"
+                     data-land="{% static 'images/logo_wigul.png' %}">
                 <label class="my-side-toggle">
                     <input class="my-side-toggle-input" id="toggle" type="checkbox"
-                        {% if my_side == 'B' %}checked{% endif %}>
+                           {% if my_side == 'B' %}checked{% endif %}>
                     <span class="slider">
                         <span class="slider-text" id="slider-text">{{ my_side|default:'A' }}</span>
                     </span>
@@ -97,7 +97,6 @@
         </div>
     </div>
 
-    
     {% include 'main/game/final_vote.html' %}
 </div>
 
@@ -108,53 +107,84 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const expiresAtStr = "{{ expires_at_iso }}";
     const timerDisplay = document.getElementById('timer-display');
     const finalModal = document.getElementById('finalModal');
     const voteNowBtn = document.getElementById('voteNowBtn');
+    const extendBtn = document.getElementById('extendBtn');
+
+    let targetTime = new Date("{{ expires_at_iso }}").getTime();
+    let countdownInterval = null;
 
     function openFinalModal() {
-        if (finalModal) {
-            finalModal.style.display = 'flex';  // CSS에 맞게 'block'일 수도 있음
-        }
+        if (finalModal) finalModal.style.display = 'flex';
     }
-
-    // 트리거 1: 바로 투표하기 클릭
-    if (voteNowBtn) {
-        voteNowBtn.addEventListener('click', openFinalModal);
-    }
-
-    // 카운트다운
-    if (!expiresAtStr) {
-        timerDisplay.textContent = "05:00";
-        return;
-    }
-
-    const targetTime = new Date(expiresAtStr).getTime();
-    let countdownInterval;
 
     function runCountdown() {
-        const now = new Date().getTime();
-        const gap = targetTime - now;
+        const gap = targetTime - new Date().getTime();
 
         if (gap <= 0) {
             timerDisplay.textContent = "00:00";
             clearInterval(countdownInterval);
-            openFinalModal();   // 트리거 2: 타이머 종료
+            openFinalModal();
             return;
         }
 
         const minutes = Math.floor((gap % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((gap % (1000 * 60)) / 1000);
-
-        const formatMin = minutes < 10 ? '0' + minutes : minutes;
-        const formatSec = seconds < 10 ? '0' + seconds : seconds;
-
-        timerDisplay.textContent = formatMin + ":" + formatSec;
+        timerDisplay.textContent =
+            (minutes < 10 ? '0' + minutes : minutes) + ":" +
+            (seconds < 10 ? '0' + seconds : seconds);
     }
 
-    runCountdown();
-    countdownInterval = setInterval(runCountdown, 1000);
+    function startCountdown() {
+        if (countdownInterval) clearInterval(countdownInterval);
+        runCountdown();
+        countdownInterval = setInterval(runCountdown, 1000);
+    }
+
+    if ("{{ expires_at_iso }}") {
+        startCountdown();
+    } else {
+        timerDisplay.textContent = "05:00";
+    }
+
+    // 바로 투표하기
+    if (voteNowBtn) {
+        voteNowBtn.addEventListener('click', openFinalModal);
+    }
+
+    // 5분 연장하기
+    if (extendBtn) {
+        extendBtn.addEventListener('click', function() {
+            fetch("{% url 'extend_timer' room.id current_round.round_number %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": getCookie('csrftoken'),
+                },
+            })
+            .then(res => res.json())
+            .then(data => {
+                targetTime = new Date(data.expires_at).getTime();
+                startCountdown();
+            })
+            .catch(err => console.error('연장 실패:', err));
+        });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 });
 </script>
 {% endblock content %}

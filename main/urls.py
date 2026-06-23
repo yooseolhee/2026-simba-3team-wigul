@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import create_room_view, game_view, home_view, intro_view ,subject_select_modal_view, result_view
+from .views import create_room_view, game_view, home_view, intro_view ,subject_select_modal_view, result_view,extend_timer_view
 from users import views as user_views
 from . import views
 
@@ -11,6 +11,7 @@ urlpatterns = [
     path('game/<str:room_id>/', game_view, name='game'),
     path('subject-select/<uuid:room_id>/', subject_select_modal_view, name='subject_select'),
     path('result/<uuid:room_id>/<int:round_number>/', result_view, name='result'),
+    path('extend/<uuid:room_id>/<int:round_number>/', extend_timer_view, name='extend_timer'),
 
 
 
