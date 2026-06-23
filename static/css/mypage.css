@@ -67,22 +67,30 @@
 
 .profile-actions {
     display: flex;
-    gap: 12px;
+    gap: 30px;
     width: 100%;
     justify-content: center;
 }
 
 .btn-outline {
-    flex: 1;
-    max-width: 120px;
-    padding: 12px 0;
-    border: 1px solid #e0e0e0;
-    border-radius: 12px;
-    background-color: #f8f8f8;
-    font-size: 13px;
-    font-weight: 600;
-    color: #666;
-    cursor: pointer;
+    border-radius: 10px;
+border: 0.5px solid #717171;
+background: #EEE;
+width: 98px;
+height: 35px;
+color: #444;
+text-align: center;
+font-family: Pretendard;
+font-size: 12px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+letter-spacing: 0.12px;
+
+display: flex;
+justify-content: center;
+align-items: center;
+text-decoration: none;
 }
 
 /* =========================================
@@ -164,44 +172,86 @@
     color: #999;
 }
 
+
+
 .history-list {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    padding: 0;
 }
 
 .history-item {
-    border-radius: 12px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
+    height: 64px;
+    border-radius: 10px;
+    background: #EEE;
+    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
+    overflow: hidden;
 }
 
-/* 온도 뱃지 색상 */
-.temp-badge {
+.history-link{
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 0 14px;
+
+    text-decoration: none;
+    color: inherit;
+}
+
+.temp-badge{
     padding: 8px 12px;
     border-radius: 8px;
+    min-width: 65px;
+
+    text-align: center;
+
     font-size: 14px;
     font-weight: 800;
     color: #333;
-    min-width: 65px;
-    text-align: center;
 }
-.bg-red { background-color: #ffd6d6; }
-.bg-yellow { background-color: #fef5d4; }
-.bg-green { background-color: #dcf2b5; }
 
-.room-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: #333;
-    flex-grow: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis; /* 긴 글자 ... 처리 */
+.bg-red{
+    background-color:#ffd6d6;
 }
+
+.bg-yellow{
+    background-color:#fef5d4;
+}
+
+.bg-green{
+    background-color:#dcf2b5;
+}
+
+.room-name{
+    flex:1;
+
+    color:#333;
+    font-size:15px;
+    font-weight:600;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+
+.chevron-icon{
+    color:#999;
+    font-size:14px;
+}
+
+.empty-history{
+    justify-content:center;
+    color:#999;
+    display:flex;
+    align-items:center;
+}
+
 
 /* =========================================
    4. 설정 섹션
@@ -220,7 +270,7 @@
     display: flex;
     align-items: center;
     padding: 18px 0;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #EFEFEF;
     font-size: 15px;
     font-weight: 600;
     color: #555;

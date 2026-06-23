@@ -8,26 +8,41 @@
     <h1 class="page-title">나의 방 히스토리</h1>
 
     <ul class="history-full-list">
+
         {% for history in history_list %}
-        <li class="history-list-item">
-            
-            <span class="temp-badge 
-                {% if history.temp >= 67 %}bg-red
-                {% elif history.temp >= 34 %}bg-yellow
-                {% else %}bg-green{% endif %}
-            ">
-                {{ history.temp }}°C
-            </span>
-            
-            <span class="room-name">{{ history.name }}</span>
-            
-            <i class="fa-solid fa-chevron-right chevron-icon"></i>
+        <li class="history-item">
+
+            <a href="{% url 'room_history_detail' history.id %}"
+            class="history-link">
+
+                <span class="temp-badge
+                    {% if history.temperature >= 67 %}
+                        bg-red
+                    {% elif history.temperature >= 34 %}
+                        bg-yellow
+                    {% else %}
+                        bg-green
+                    {% endif %}
+                ">
+                    {{ history.temperature }}°C
+                </span>
+
+                <span class="room-name">
+                    {{ history.title }}
+                </span>
+
+                <i class="fa-solid fa-chevron-right chevron-icon"></i>
+
+            </a>
+
         </li>
+
         {% empty %}
-        <li class="history-list-item" style="justify-content: center; color: #999;">
+        <li class="history-item empty-history">
             참여한 방 히스토리가 없습니다.
         </li>
         {% endfor %}
+
     </ul>
 </div>
 {% endblock %}

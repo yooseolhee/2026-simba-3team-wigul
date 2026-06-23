@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'css/room_history_detail.css' %}">
+<link rel="stylesheet" href="{% static 'css/room_history.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 
@@ -11,15 +11,21 @@
 
     <div class="detail-header-card">
         <div class="detail-temp-box">
-            <span class="detail-temp-num">{{ room.temp }}</span>
+            <span class="detail-temp-num">{{ room.temperature }}</span>
             <span class="detail-temp-unit">°C</span>
         </div>
-        
+
         <div class="detail-room-info">
-            <h2 class="detail-room-name">{{ room.name }}</h2>
+            <h2 class="detail-room-name">{{ room.title }}</h2>
+
             <div class="detail-badges">
-                <span class="detail-badge-item">{{ room.rounds }}라운드</span>
-                <span class="detail-badge-item">멤버 {{ members|length }}명</span>
+                <span class="detail-badge-item">
+                    {{ summary.total_rounds }}라운드
+                </span>
+
+                <span class="detail-badge-item">
+                    멤버 {{ members|length }}명
+                </span>
             </div>
         </div>
     </div>

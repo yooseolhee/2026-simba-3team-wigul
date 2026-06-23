@@ -49,26 +49,48 @@
     <div class="section-divider"></div>
 
     <div class="history-section">
-        <div class="section-header-flex">
-            <h3 class="section-title">내 방 히스토리 ({{ history_list|length }})</h3>
+        <a href="{% url 'room_history' %}"
+        class="section-header-flex"
+        style="text-decoration:none;color:inherit;">
+
+            <h3 class="section-title">
+                내 방 히스토리 ({{ history_list|length }})
+            </h3>
+
             <i class="fa-solid fa-chevron-right"></i>
-        </div>
+
+        </a>
+
         
         <ul class="history-list">
             {% for history in history_list %}
             <li class="history-item">
-                <span class="temp-badge 
-                    {% if history.temp >= 67 %}bg-red
-                    {% elif history.temp >= 34 %}bg-yellow
-                    {% else %}bg-green{% endif %}
-                ">
-                    {{ history.temp }}°C
-                </span>
-                
-                <span class="room-name">{{ history.name }}</span>
+                <a href="{% url 'room_history_detail' history.room.id %}"
+                class="history-link">
+
+                    <span class="temp-badge
+                        {% if history.room.temperature >= 67 %}
+                            bg-red
+                        {% elif history.room.temperature >= 34 %}
+                            bg-yellow
+                        {% else %}
+                            bg-green
+                        {% endif %}
+                    ">
+                        {{ history.room.temperature }}°C
+                    </span>
+
+                    <span class="room-name">
+                        {{ history.room.title }}
+                    </span>
+
+                    <i class="fa-solid fa-chevron-right chevron-icon"></i>
+
+                </a>
             </li>
+
             {% empty %}
-            <li class="history-item" style="justify-content: center; color: #999;">
+            <li class="history-item empty-history">
                 최근 참여한 방이 없습니다.
             </li>
             {% endfor %}

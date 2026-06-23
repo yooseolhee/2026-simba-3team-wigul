@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 
 from accounts.models import UserProfile
-from main.models import Room, RoomMember, Inquiry
+from main.models import GameRound, Room, RoomMember, Inquiry
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils.safestring import mark_safe # 💡 텍스트를 HTML 태그로 안전하게 변환해주는 장치
@@ -25,15 +25,20 @@ def mypage_view(request):
     user_rooms = RoomMember.objects.filter(user=user)
     
     # 전적 통계 집계
+    # 전적 통계 집계
     total_rooms_count = user_rooms.count()
     highest_temp = 36.5
-    total_rounds = 0
+
+    # 사용자가 참여했던 모든 방의 실제 진행 라운드 수
+    total_rounds = GameRound.objects.filter(
+        room__members__user=user
+    ).count()
+
     for member in user_rooms:
         room = member.room
+
         if room.temperature > highest_temp:
             highest_temp = room.temperature
-        if hasattr(room, 'total_rounds'):
-            total_rounds += room.total_rounds
 
     db_color = getattr(profile, 'background_color', 'bg-red')
     db_avatar_file = getattr(profile, 'profile_character', 'wigul_1.png')
@@ -52,7 +57,12 @@ def mypage_view(request):
             'room_count': total_rooms_count,
         },
         'history_list': [
-            {'temp': member.room.temperature, 'name': member.room.title} for member in user_rooms
+            {
+                'room': member.room,
+                'temp': member.room.temperature,
+                'name': member.room.title,
+            }
+            for member in user_rooms
         ]
     }
     return render(request, 'main/mypage/mypage.html', context)
@@ -160,33 +170,93 @@ def logout_view(request):
 
 
 def room_history_view(request):
-    """
-    6. 내 방 히스토리 전체 리스트 (room_history.html)
-    """
     if not request.user.is_authenticated:
         return redirect('login')
-        
-    room_history = RoomMember.objects.filter(user=request.user).order_by('-id')
-    return render(request, 'main/mypage/room_history.html', {'room_history': room_history})
 
+    rooms = Room.objects.filter(
+        members__user=request.user
+    ).distinct().order_by('-created_at')
+
+    return render(
+        request,
+        'main/mypage/room_history.html',
+        {
+            'history_list': rooms
+        }
+    )
+
+from django.utils.safestring import mark_safe
 
 def room_history_detail_view(request, room_id):
-    """
-    7. 내 방 히스토리 상세 (room_history_detail.html)
-    - 소속 멤버 목록, 질문 전적(활동 요약) 조회
-    """
+
     if not request.user.is_authenticated:
         return redirect('login')
-        
-    room = get_object_or_404(Room, id=room_id)
-    room_members = RoomMember.objects.filter(room=room)
-    
-    context = {
-        'room': room,
-        'room_members': room_members,
-    }
-    return render(request, 'main/mypage/room_history_detail.html', context)
 
+    room = get_object_or_404(Room, id=room_id)
+
+    room_members = RoomMember.objects.filter(room=room)
+
+    members = []
+
+    for m in room_members:
+
+        profile = m.user.userprofile
+
+        avatar_html = mark_safe(
+            f'<img src="/static/images/{profile.profile_character}" '
+            f'style="width:100%;height:100%;object-fit:contain;">'
+        )
+
+        members.append({
+            "nickname": profile.nickname,
+            "avatar": avatar_html,
+            "color": profile.background_color,
+            "is_host": m.is_host,
+        })
+
+    rounds = GameRound.objects.filter(room=room)
+
+    summary = {
+        "total_rounds": rounds.count(),
+        "votes": sum(r.extensions for r in rounds),
+        "avg_change":
+            round(
+                sum(r.change_rate for r in rounds) / rounds.count(),
+                1
+            ) if rounds.exists() else 0
+    }
+
+    questions = []
+
+    for r in rounds:
+
+        if r.question_zone == "GREEN":
+            color = "green"
+
+        elif r.question_zone == "YELLOW":
+            color = "yellow"
+
+        else:
+            color = "pink"
+
+        questions.append({
+            "round_num": r.round_number,
+            "text": r.question_text,
+            "color": color
+        })
+
+    context = {
+        "room": room,
+        "members": members,
+        "summary": summary,
+        "questions": questions
+    }
+
+    return render(
+        request,
+        "main/mypage/room_history_detail.html",
+        context
+    )
 
 def contact_us_view(request):
     """

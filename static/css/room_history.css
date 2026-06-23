@@ -28,21 +28,50 @@
     gap: 12px;
 }
 
-.history-list-item {
+.history-full-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 0;
+}
+
+.history-item {
     background-color: #f4f4f4;
     border: 1px solid #eef0eb;
     border-radius: 12px;
-    padding: 14px 16px;
+    transition: background-color 0.2s;
+    overflow: hidden;
+}
+
+.history-item:hover,
+.history-item:active {
+    background-color: #ebebeb;
+}
+
+.history-link {
+    width: 100%;
+    min-height: 64px;
+
     display: flex;
     align-items: center;
     gap: 14px;
-    cursor: pointer;
-    transition: background-color 0.2s;
+
+    padding: 14px 16px;
+
+    text-decoration: none;
+    color: inherit;
 }
 
-.history-list-item:active, 
-.history-list-item:hover {
-    background-color: #ebebeb;
+.empty-history {
+    min-height: 64px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    color: #999;
+    font-size: 14px;
 }
 
 .temp-badge {
