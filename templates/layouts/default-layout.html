@@ -22,27 +22,27 @@
             {% endblock %}
         </main>
 
-        <nav class="bottom-tab-bar">
-            <a href="/home" class="tab-item active">
-                <i class="fa-solid fa-house"></i>
-                <span>HOME</span>
-            </a>
+<nav class="bottom-tab-bar">
+    <a href="/home" class="tab-item {% if '/home' in request.path %}active{% endif %}">
+        <i class="fa-solid fa-house"></i>
+        <span>HOME</span>
+    </a>
 
-            <a href="/room" class="tab-item">
-                <i class="fa-solid fa-cubes"></i>
-                <span>MY ROOM</span>
-            </a>
+    <a href="/room" class="tab-item {% if '/room' in request.path %}active{% endif %}">
+        <i class="fa-solid fa-cubes"></i>
+        <span>MY ROOM</span>
+    </a>
 
-            <a href="/ranking" class="tab-item">
-                <i class="fa-solid fa-trophy"></i>
-                <span>RANKING</span>
-            </a>
+    <a href="/ranking" class="tab-item {% if '/ranking' in request.path %}active{% endif %}">
+        <i class="fa-solid fa-trophy"></i>
+        <span>RANKING</span>
+    </a>
 
-            <a href="/mypage" class="tab-item">
-                <i class="fa-solid fa-user"></i>
-                <span>MY PAGE</span>
-            </a>
-        </nav>
+    <a href="/mypage" class="tab-item {% if '/mypage' in request.path %}active{% endif %}">
+        <i class="fa-solid fa-user"></i>
+        <span>MY PAGE</span>
+    </a>
+</nav>
     </div>
 
 </body>
