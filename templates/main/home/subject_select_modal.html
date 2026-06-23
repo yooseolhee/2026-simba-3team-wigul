@@ -1,8 +1,10 @@
+{% extends 'layouts/default-layout.html' %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/subject_select_modal.css' %}">
-<script src="https://kit.fontawesome.com/f7691a6795.js" crossorigin="anonymous"></script>
+{% block content %}
 
-<div class="select-modal" id="subjectSelectModal">
+<link rel="stylesheet" href="{% static 'css/subject_select_modal.css' %}">
+
+<div class="select-modal" id="subjectSelectModal" style="display:flex;">
     <div class="select-content">
         {% if current_round %}
         <div class="select-title">1라운드 주제</div>
@@ -21,16 +23,19 @@
 
             <div class="select-subject-detail">{{ current_round.question_text }}</div>
 
-            <div class="select-game-balance">
-                <a href="{% url 'game' room.id %}" class="select-game-balance-a">
+            <form method="post"
+                action="{% url 'subject_select' room.id %}"
+                class="select-game-balance">
+                {% csrf_token %}
+                <button type="submit" name="side" value="A" class="select-game-balance-a">
                     <span class="select-game-balance-side">A</span>
                     <span class="select-game-balance-detail">{{ current_round.option_a }}</span>
-                </a>
-                <a href="{% url 'game' room.id %}" class="select-game-balance-b">
+                </button>
+                <button type="submit" name="side" value="B" class="select-game-balance-b">
                     <span class="select-game-balance-side">B</span>
                     <span class="select-game-balance-detail">{{ current_round.option_b }}</span>
-                </a>
-            </div>
+                </button>
+            </form>
         </div>
         {% else %}
         <div class="select-title">질문을 불러올 수 없어요</div>
@@ -38,3 +43,5 @@
         {% endif %}
     </div>
 </div>
+
+{% endblock %}

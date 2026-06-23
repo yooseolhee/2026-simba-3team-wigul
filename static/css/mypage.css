@@ -172,14 +172,11 @@
 }
 
 .history-item {
-    background-color: #f4f4f4;
     border-radius: 12px;
     padding: 14px 16px;
     display: flex;
     align-items: center;
     gap: 14px;
-    box-shadow: 2px 2px 1px 0 rgba(59, 76, 18, 0.20);
-
 }
 
 /* 온도 뱃지 색상 */

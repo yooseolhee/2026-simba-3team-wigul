@@ -146,12 +146,11 @@
                     </div>
 
             <input type="hidden" name="profile_color" id="selectedColor" value="bg-red">
-                    <input type="hidden" name="profile_character" id="selectedCharacter" value="basic">
+                    <input type="hidden" name="profile_character" id="selectedCharacter" value="{% static 'images/wigul_1.png' %}">
  
- 
+            <button type="submit" class="primary-btn">설정 완료</button>
         </form>
     </div>
- <button type="submit" class="primary-btn">설정 완료</button>
     <script>
 // 색상 버튼
         document.querySelectorAll('.color-btn').forEach(btn => {
@@ -175,11 +174,10 @@
                 item.classList.add('active');
  
                 document.getElementById('previewImg').src = item.dataset.img;
-                document.getElementById('selectedCharacter').value = item.dataset.value;
+                document.getElementById('selectedCharacter').value = item.dataset.img;
             });
         });
     </script>
 </body>
  
 </html>
- 
