@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from .models import Room, RoomMember, GameRound, Question, TempEngine
 
+
 def intro_view(request):
     if request.user.is_authenticated:
         return redirect('home')
@@ -180,3 +181,24 @@ def game_view(request, room_id):
     }
     
     return render(request, 'main/game/game.html', context)
+
+@login_required
+def ranking_list(request):
+    sort_by = request.GET.get('sort', 'temperature')
+    
+    if sort_by == 'rounds':
+        rooms = Room.objects.all().order_by('-rounds', '-temperature')
+        active_filter = 'rounds'
+    elif sort_by == 'change_rate':
+        rooms = Room.objects.all().order_by('-change_rate', '-temperature')
+        active_filter = 'change_rate'
+    else:
+        rooms = Room.objects.all().order_by('-temperature', '-created_at')
+        active_filter = 'temperature'
+        
+    context = {
+        'rooms': rooms,
+        'active_filter': active_filter,
+    }
+
+    return render(request, 'main/ranking/ranking.html', context)

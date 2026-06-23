@@ -1,0 +1,59 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/final_vote.css' %}">
+
+<div class="final-body" id="finalModal">
+    <div class="final-content">
+        <div class="final-title">최종 투표</div>
+        <div class="final-subtitle">당신의 SIDE를 정해주세요!</div>
+        <div class="final-dsc">위굴이와 함께 당신의 SIDE를<br>표현해보세요!</div>
+        <div class="final-subject">
+            <div class="final-subject-title">사랑과 연애</div>
+            <div class="final-subject-detail">연인과의 만남 횟수로 고민하는 당신,<br>더 선호하는 것은?</div>
+            <div class="final-game-balance">
+                <a class="final-game-balance-a">
+                    <span class="final-game-balance-side">A</span>
+                    <span class="final-game-balance-detail">
+                        일주일에 5번 만나자는 연인
+                    </span>
+                </a>
+
+                <a class="final-game-balance-b">
+                    <span class="final-game-balance-side">B</span>
+                    <span class="final-game-balance-detail">
+                        한 달에 한 번 만날 수 있는 연인
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="my-side toggle-container">
+            <div class="my-side-dsc">당신은 A SIDE!</div>
+            <div class="my-side-toggle-wrapper">
+
+                <!-- 캐릭터 -->
+                <img
+                    src="{% static 'images/logo_wigul.png' %}"
+                    alt=""
+                    class="frog"
+
+                    data-sit="{% static 'images/logo_wigul.png' %}"
+                    data-jump="{% static 'images/logo_wigul.png' %}"
+                    data-land="{% static 'images/logo_wigul.png' %}"
+                >
+
+                <label class="my-side-toggle">
+                    <input
+                        class="my-side-toggle-input"
+                        type="checkbox"
+                    >
+                    <span class="slider">
+                        <span class="slider-text" id="slider-text">A</span>
+                    </span>
+                </label>
+            </div>
+        </div>
+        <a href="/game" class="final-check">확인하기</a>
+    </div>
+</div>
+
+<script src="{% static 'js/game_toggle.js' %}"></script>
