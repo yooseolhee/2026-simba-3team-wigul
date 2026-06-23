@@ -6,9 +6,9 @@
 }
 
 .modal{
-    width: 450px;
     position: fixed;
     inset: 0;
+    z-index: 9999;
 
     background: rgba(128, 128, 128, 0.5);
 
@@ -16,10 +16,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    justify-self: center;
     gap: 15px;
 }
-
 .content{
     display: flex;
     flex-direction: column;

@@ -437,7 +437,7 @@ letter-spacing: 0.9px;
 .result-next-btn,
 .result-exit-btn {
     flex: 1;
-    max-width: 200px;
+    width: 100px;
     padding: 14px 0;
     border-radius: 12px;
     text-align: center;
