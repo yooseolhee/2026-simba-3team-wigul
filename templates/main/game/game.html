@@ -87,23 +87,6 @@
                 {% endfor %}
             </div>
         </div>
-
-        <div class="my-side toggle-container">
-            <div class="my-side-dsc">당신은 {{ my_side|default:'A' }} SIDE!</div>
-            <div class="my-side-toggle-wrapper">
-                <img src="{% static 'images/logo_wigul.png' %}" alt="" class="frog" id="frog"
-                     data-sit="{% static 'images/logo_wigul.png' %}"
-                     data-jump="{% static 'images/logo_wigul.png' %}"
-                     data-land="{% static 'images/logo_wigul.png' %}">
-                <label class="my-side-toggle">
-                    <input class="my-side-toggle-input" id="toggle" type="checkbox"
-                           {% if my_side == 'B' %}checked{% endif %}>
-                    <span class="slider">
-                        <span class="slider-text" id="slider-text">{{ my_side|default:'A' }}</span>
-                    </span>
-                </label>
-            </div>
-        </div>
     </div>
 
     {% include 'main/game/final_vote.html' %}

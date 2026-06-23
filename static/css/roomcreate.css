@@ -251,18 +251,14 @@
 /* 모달 */
 
 .room-modal-overlay {
-    position: fixed;
-    top:0;
-    left:0;
-    right:0;
-    bottom:70px;
+    position: absolute;
+    inset: 0;
     background: rgba(0,0,0,0.35);
     display:flex;
     justify-content:center;
     align-items:flex-end;
-    z-index:100;
+    z-index:1000;
 }
-
 
 .room-create-modal {
 
