@@ -109,6 +109,11 @@ def subject_select_modal_view(request, room_id):
                 phase=phase,
                 defaults={'side': side},
             )
+
+            # FINAL이면 결과 페이지로, INITIAL이면 game으로
+            if phase == Vote.Phase.FINAL:
+                return redirect('result', room_id=room.id,
+                                round_number=current_round.round_number)
             return redirect('game', room_id=room.id)
 
     # GET: 이미 INITIAL 투표한 사람은 select 모달 건너뛰고 game으로
@@ -225,6 +230,68 @@ def game_view(request, room_id):
     }
 
     return render(request, 'main/game/game.html', context)
+
+
+@login_required
+def result_view(request, room_id, round_number):
+    if not request.user.is_authenticated:
+        return redirect('intro')
+
+    room = get_object_or_404(Room, id=room_id)
+    game_round = get_object_or_404(GameRound, room=room, round_number=round_number)
+
+    room_members = room.members.all()
+    member_count = room_members.count()
+
+    # FINAL 기준 점수 집계
+    final_votes = game_round.votes.filter(phase=Vote.Phase.FINAL)
+    score_a = final_votes.filter(side=Vote.Side.A).count()
+    score_b = final_votes.filter(side=Vote.Side.B).count()
+
+    # 의견 변화 횟수 (models.py 헬퍼: INITIAL→FINAL 비교)
+    changes = game_round.count_changes()
+
+    # 온도 계산
+    temp_before = game_round.temp_before
+    rise = TempEngine.round_rise(num_changes=changes, num_extensions=game_round.extensions)
+    temp_after = round(min(TempEngine.MAX, temp_before + rise), 1)
+
+    # 라운드 결과 확정 (PENDING일 때 한 번만)
+    if game_round.result_status == 'PENDING':
+        game_round.changes = changes
+        game_round.rise = rise
+        game_round.temp_after = temp_after
+        game_round.change_rate = game_round.compute_change_rate(member_count)
+        game_round.result_status = game_round.compute_result_status(member_count)
+        game_round.save()
+
+        # 방 온도 갱신
+        room.temperature = temp_after
+        room.save()
+
+    # 멤버별 최종 사이드를 멤버 객체에 직접 붙이기 (템플릿에서 dict 조회 회피)
+    final_map = {v.member_id: v.side for v in final_votes}
+    members_with_side = []
+    for m in room_members:
+        m.final_side = final_map.get(m.id, '-')
+        members_with_side.append(m)
+
+    context = {
+        'room': room,
+        'current_round': game_round,
+        'room_members': members_with_side,
+        'member_count': member_count,
+        'score_a': score_a,
+        'score_b': score_b,
+        'changes': changes,
+        'extensions': game_round.extensions,
+        'temp_before': temp_before,
+        'temp_after': temp_after,
+        'rise': rise,
+    }
+
+    return render(request, 'main/game/result.html', context)
+
 
 @login_required
 def ranking_list(request):
