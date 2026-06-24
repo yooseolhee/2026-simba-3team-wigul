@@ -59,31 +59,31 @@ python manage.py runserver
 ## 📁 프로젝트 구조
 
 ```
-📦 2026-simba-3te...
-├── 📂 accounts          # 사용자 인증 앱
-├── 📂 config            # Django 설정 (settings, urls 등)
-├── 📂 main              # 메인 앱 (게임 로직 등)
-├── 📂 static
-│   ├── 📂 css           # 스타일시트
-│   ├── 📂 fonts         # 폰트 파일
-│   ├── 📂 images        # 이미지 파일
-│   └── 📂 js            # JavaScript 파일
-├── 📂 templates
-│   ├── 📂 layouts       # 공통 레이아웃 템플릿
-│   ├── 📂 main
-│   │   ├── 📂 game      # 게임 화면 템플릿
-│   │   ├── 📂 home      # 홈 화면 템플릿
-│   │   ├── 📂 mypage    # 마이페이지 템플릿
-│   │   ├── 📂 myroom    # 마이룸 템플릿
-│   │   ├── 📂 ranking   # 랭킹 화면 템플릿
-│   │   └── 📄 first_loading.html
-│   ├── 📂 shared        # 공유 컴포넌트 템플릿
-│   ├── 📄 base.html     # 베이스 템플릿
-│   └── 📄 main.html
-├── 📂 users             # 유저 관련 앱
-├── 📄 .gitignore
-├── 📄 db.sqlite3        # 개발용 SQLite DB
-└── 📄 manage.py         # Django 관리 스크립트
+2026-simba-3te.../
+├── accounts/            # 사용자 인증 앱
+├── config/              # Django 설정 (settings, urls 등)
+├── main/                # 메인 앱 (게임 로직 등)
+├── static/
+│   ├── css/             # 스타일시트
+│   ├── fonts/           # 폰트 파일
+│   ├── images/          # 이미지 파일
+│   └── js/              # JavaScript 파일
+├── templates/
+│   ├── layouts/         # 공통 레이아웃 템플릿
+│   ├── main/
+│   │   ├── game/        # 게임 화면 템플릿
+│   │   ├── home/        # 홈 화면 템플릿
+│   │   ├── mypage/      # 마이페이지 템플릿
+│   │   ├── myroom/      # 마이룸 템플릿
+│   │   ├── ranking/     # 랭킹 화면 템플릿
+│   │   └── first_loading.html
+│   ├── shared/          # 공유 컴포넌트 템플릿
+│   ├── base.html        # 베이스 템플릿
+│   └── main.html
+├── users/               # 유저 관련 앱
+├── .gitignore
+├── db.sqlite3           # 개발용 SQLite DB
+└── manage.py            # Django 관리 스크립트
 ```
 
 ---
