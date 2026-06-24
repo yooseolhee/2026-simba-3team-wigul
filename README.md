@@ -117,5 +117,3 @@ python manage.py runserver
 | 🔀 최고 변화 횟수 | SIDE를 가장 많이 바꾼 방 |
 
 ---
-
-<p align="center">Made with ❤️ for 20s</p>
