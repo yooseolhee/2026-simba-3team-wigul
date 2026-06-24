@@ -24,14 +24,12 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02); 
 }
 .welcome-text {
-    font-size: 15px;
+    font-size: 22px;
     color: #333;
     margin-bottom: 15px;
-    display: flex;
-    align-items: center;
 }
 .welcome-text strong {
-    font-size: 30px;
+    font-size: 45px;
     padding: 30 10;
 }
 .nim-text {
@@ -44,7 +42,6 @@
     display: flex;
     align-items: center;
     gap: 15px;
-    font-size: 15px;
     
 }
 .char-thumb {
@@ -132,7 +129,7 @@
 
 .main-text {
     font-size: 30px;
-    font-weight: 600;
+    font-weight: 500;
     font-family: kblJump;
     color: #3B4C12;
     line-height: 1.1;
