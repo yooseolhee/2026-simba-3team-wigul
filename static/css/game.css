@@ -42,6 +42,8 @@
     border: 2px solid var(--Foundation-Green-Normal, #A8D832);
     background: #FFF;
     box-shadow: 1px 1px 4px 0 rgba(168, 216, 50, 0.50);
+
+    margin-top: 10px;
 }
 
 .room-temp{
