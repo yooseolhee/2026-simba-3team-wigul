@@ -3,6 +3,7 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/mypage.css' %}">
+<link rel="stylesheet" href="{% static 'css/profile_edit.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 <div class="mypage-container">
@@ -70,11 +71,11 @@
 
                     <span class="temp-badge
                         {% if history.room.temperature >= 67 %}
-                            bg-red
+                            temp-bg-red
                         {% elif history.room.temperature >= 34 %}
-                            bg-yellow
+                            temp-bg-yellow
                         {% else %}
-                            bg-green
+                            temp-bg-green
                         {% endif %}
                     ">
                         {{ history.room.temperature }}°C

@@ -23,24 +23,24 @@
         <label class="section-label">프로필</label>
         
         <div class="profile-selection-box">
-            <input type="hidden" name="profile_color" id="selectedColor" value="bg-red">
+            <input type="hidden" name="profile_color" id="selectedColor" value="{{ profile.background_color }}">
             <input type="hidden" name="profile_image" id="selectedCharacter" value="{% static 'images/wigul_1.png' %}">
 
             <div class="preview-container">
-                <div class="avatar-preview bg-red" id="avatarPreview">
+                <div class="avatar-preview {{ profile.background_color }}" id="avatarPreview">
                     <img src="{% static 'images/wigul_1.png' %}" alt="현재 캐릭터" id="previewImg">
                 </div>
             </div>
 
             <label class="sub-label">배경 색상</label>
             <div class="color-palette">
-                <button type="button" class="color-btn bg-red active" data-color="bg-red"></button>
-                <button type="button" class="color-btn bg-orange" data-color="bg-orange"></button>
-                <button type="button" class="color-btn bg-yellow" data-color="bg-yellow"></button>
-                <button type="button" class="color-btn bg-green" data-color="bg-green"></button>
-                <button type="button" class="color-btn bg-blue" data-color="bg-blue"></button>
-                <button type="button" class="color-btn bg-purple" data-color="bg-purple"></button>
-                <button type="button" class="color-btn bg-gray" data-color="bg-gray"></button>
+                <button type="button" class="color-btn bg-red {% if profile.background_color == 'bg-red' %}active{% endif %}" data-color="bg-red"></button>
+                <button type="button" class="color-btn bg-orange {% if profile.background_color == 'bg-orange' %}active{% endif %}" data-color="bg-orange"></button>
+                <button type="button" class="color-btn bg-yellow {% if profile.background_color == 'bg-yellow' %}active{% endif %}" data-color="bg-yellow"></button>
+                <button type="button" class="color-btn bg-green {% if profile.background_color == 'bg-green' %}active{% endif %}" data-color="bg-green"></button>
+                <button type="button" class="color-btn bg-blue {% if profile.background_color == 'bg-blue' %}active{% endif %}" data-color="bg-blue"></button>
+                <button type="button" class="color-btn bg-purple {% if profile.background_color == 'bg-purple' %}active{% endif %}" data-color="bg-purple"></button>
+                <button type="button" class="color-btn bg-gray {% if profile.background_color == 'bg-gray' %}active{% endif %}" data-color="bg-gray"></button>
             </div>
 
             <label class="sub-label">위굴이 캐릭터</label>
